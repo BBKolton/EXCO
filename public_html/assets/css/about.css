@@ -1,0 +1,27 @@
+.img {
+	min-height: 250px;
+	background: url("../img/AboutUs.jpg");
+	background-position: 50% 30%;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+#subtitle {
+	font-size: 20px;
+	padding-top: 170px;
+	margin-bottom: 4px;
+}
+
+.img * {
+	color: #FFFFFF;
+	margin-top: 0px;
+}
+
+ul {
+	list-style-type: none;
+	padding-left: 3px;	
+}
+
+.page li {
+	margin-bottom: 7px;
+}

@@ -1,0 +1,40 @@
+/*.jumbotron {
+	background-color: #47008F;
+	background-size: 100% auto;
+	background-position: center center;
+}
+
+.jumbotron h1, .jumbotron p {
+	color: white
+}*/
+
+/*carousel stuff*/
+
+.main-text
+{
+    position: absolute;
+    top: 50px;
+    width: 96.66666666666666%;
+    color: #FFF;
+    font-size: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.carousel {
+	background-color: #666666;
+}
+
+.explanation {
+	background-color: #121212;
+	color: white;
+}
+
+.banner-two {
+	background-color: #999999;
+}
+
+
+/*.navbar {
+	margin-bottom: 20px;
+}*/

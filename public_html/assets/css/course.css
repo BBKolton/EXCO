@@ -1,0 +1,30 @@
+.title {
+	background-position: 100% auto;
+	background-size: 100% auto;
+	background-repeat: no-repeat;
+	min-height: 250px;
+	color: white;
+}
+
+.wrapper {
+	background-color: #CCCCCC;
+	margin: 15px;
+	padding: 4px;
+	overflow: hidden;
+}
+
+.wrapper > h3{
+	margin-top: 5px;
+}
+
+form {
+	float: right;
+}
+
+.status-1 {
+	background-color: #80CC80;
+}
+
+.status-2 {
+	background-color: #FF9999;
+}
