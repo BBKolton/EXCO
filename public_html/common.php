@@ -99,12 +99,7 @@
 	function head($extra = " ", $ckEditor = 0, $datePicker = 0) { 
 		require("config.php"); //to get $MINDATE and $MAXDATE
 		session_start(); 
-		//brings the directory up if we're in a folder
-		$branch = "";
-		$count = substr_count(substr(getcwd(), strpos(getcwd(), "asuwecwb")), "/");
-		for ($i = 0; $i < $count; $i++) {
-			$branch = $branch . "../";
-		} ?>
+		?>
 
 		<!DOCTYPE html>
 		<html>
@@ -116,26 +111,26 @@
 				
 				<title>Experimental College</title>
 				<link href="LINKHEREBOZO" type="image/SOMETHING" rel="shortcut icon" />
-				<link href="<?= $branch ?>assets/css/bootstrap.css" type="text/css" rel="stylesheet" />
-				<link href="<?= $branch ?>assets/css/bootstrap-theme.css" type="text/css" rel="stylesheet" />
-				<link href="<?= $branch ?>assets/css/EXCO.css" type="text/css" rel="stylesheet" />
-				<script type="text/javascript" src="<?= $branch ?>assets/js/jquery-1.11.3.min.js"></script>
-				<script type="text/javascript" src="<?= $branch ?>assets/js/bootstrap.min.js"></script>
+				<link href="/asuwecwb/assets/css/bootstrap.css" type="text/css" rel="stylesheet" />
+				<link href="/asuwecwb/assets/css/bootstrap-theme.css" type="text/css" rel="stylesheet" />
+				<link href="/asuwecwb/assets/css/EXCO.css" type="text/css" rel="stylesheet" />
+				<script type="text/javascript" src="/asuwecwb/assets/js/jquery-1.11.3.min.js"></script>
+				<script type="text/javascript" src="/asuwecwb/assets/js/bootstrap.min.js"></script>
 				<?= $extra ?>
 				
 				<?php //these provide the WYSIWYG editor and datepicker for things that need them
 					if ($ckEditor) { ?>
-						<link rel="stylesheet" href="<?= $branch ?>assets/plugins/jquery-ui/jquery-ui.min.css">
-						<script src="<?= $branch ?>assets/plugins/jquery-ui/jquery-ui.min.js"></script>
-						<script src="<?= $branch ?>assets/plugins/ckeditor/ckeditor.js"></script>
-						<script src="<?= $branch ?>assets/plugins/ckeditor/ckeditorReplace.js"></script>
+						<link rel="stylesheet" href="/asuwecwb/assets/plugins/jquery-ui/jquery-ui.min.css">
+						<script src="/asuwecwb/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+						<script src="/asuwecwb/assets/plugins/ckeditor/ckeditor.js"></script>
+						<script src="/asuwecwb/assets/plugins/ckeditor/ckeditorReplace.js"></script>
 					<?php } if ($datePicker) { 
 						//labelled as js cause thats all the file has 
 						include($branch . 'assets/js/rif.php'); ?>
-						<link rel="stylesheet" href="<?= $branch ?>assets/plugins/jquery-ui/jquery-ui.min.css">
-						<link rel="stylesheet" href="<?= $branch ?>assets/css/datepicker.css">
+						<link rel="stylesheet" href="/asuwecwb/assets/plugins/jquery-ui/jquery-ui.min.css">
+						<link rel="stylesheet" href="/asuwecwb/assets/css/datepicker.css">
 						<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script><!--multidatespicker dependency -->
-						<script src="<?= $branch ?>assets/plugins/multidatepicker/multidatespicker.js"></script>
+						<script src="/asuwecwb/assets/plugins/multidatepicker/multidatespicker.js"></script>
 						<?php datePickerConfig($MINDATE, $MAXDATE); //this function lives in the above include branch
 					 } 
 				?>
@@ -152,15 +147,15 @@
 								<span class="icon-bar"></span>
 								<span class="icon-bar"></span>
 							</button>
-							<a class="navbar-brand" href="<?= $branch ?>index.php">ExCo</a>
+							<a class="navbar-brand" href="/asuwecwb/index.php">ExCo</a>
 						</div>
 						<div id="navbar" class="navbar-collapse collapse">
 							<ul class="nav navbar-nav">
-								<li><a href="<?= $branch ?>classes.php">Classes</a></li>
-								<li><a href="<?= $branch ?>assets/docs/Catalog.pdf">Catalog</a></li>
+								<li><a href="/asuwecwb/classes.php">Classes</a></li>
+								<li><a href="/asuwecwb/assets/docs/Catalog.pdf">Catalog</a></li>
 								<li><a href="!!">Teach</a></li>
 								<li><a href="!!">Help</a></li>
-								<li><a href="<?= $branch ?>about.php">About</a></li>
+								<li><a href="/asuwecwb/about.php">About</a></li>
 							</ul>
 							<ul class="nav navbar-nav navbar-right">
 								
@@ -168,19 +163,19 @@
 									<li class="dropdown">
 										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $_SESSION["name"] ?><span class="caret"></span></a>
 										<ul class="dropdown-menu">
-											<li><a href="<?= $branch ?>myclasses.php">My Classes</a></li>
-											<li><a href="<?= $branch ?>cart.php">Cart</a></li>
+											<li><a href="/asuwecwb/myclasses.php">My Classes</a></li>
+											<li><a href="/asuwecwb/cart.php">Cart</a></li>
 											<?php if($_SESSION["permissions"] > 1) { ?>
-												<li><a href="<?= $branch ?>instructors/rif.php">Rifs</a></li>
+												<li><a href="/asuwecwb/instructors/rif.php">Rifs</a></li>
 											<?php } ?>
 											<li role="separator" class="divider"></li>
 											<li class="dropdown-header">Account</li>
 											<li><a href="#">Preferences</a></li>
-											<li><a href="<?= $branch ?>logout.php">Logout</a></li>
+											<li><a href="/asuwecwb/logout.php">Logout</a></li>
 										</ul>
 									</li>
 								<?php } else { ?>
-									<li><a id="login-link" href="<?= $branch ?>login.php">Login</a></li>
+									<li><a id="login-link" href="/asuwecwb/login.php">Login</a></li>
 								<?php } ?>
 
 							</ul>

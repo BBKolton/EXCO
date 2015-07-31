@@ -24,9 +24,14 @@
 	} else */
 
 	if (empty($user[0])) {
-		error("Unknown Email", "The email " . $email . " does not exisst!");
+		page();
+		error("Unknown Email", "The email " . $email . " does not exist!");
 	} else if (!password_verify($pass, $user[0]["password"])){
+		page();
 		error("Wrong Password", "The pass you supplied is incorrect!");
+	} else if ($user[0]["activation"] !== "1") {
+		page();
+		error("Unactivated Account", "You have not yet verified your email address.");
 	} else {
 		session_start();
 		$_SESSION["name"] = $user[0]["first_name"] . " " . $user[0]["last_name"];
@@ -37,7 +42,8 @@
 	}
 
 	function page() { 
-		head(); ?>
+		head(); 
+		?>
 
 		<section class="login">
 			<div class="container">
@@ -49,8 +55,11 @@
 				</form>
 				<form action="registeruser.php" method="post">
 					<h3>Register User</h3>
+					<p>NOTICE: If you are a member of the University of Washington and
+						have a valid NetID email address, use it here to receive student
+						pricing.</p>
 					<input type="text" name="email" placeholder="email" /><br />
-					<input type="password" name="password" placeholder="password"/><br />
+					<input type="password" name="password" placeholder="password"/> Must be longer than 8 characters<br />
 					<input type="text" name="first-name" placeholder="first name" /><br />
 					<input type="text" name="last-name" placeholder="last name" /><br />
 					<input type="text" name="phone" placeholder="phone" /><br />

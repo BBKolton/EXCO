@@ -1,5 +1,5 @@
 <?php 
-	//if a user is logged in, adds the section to teh users cart and brings them there,
+	//if a user is logged in, adds the section to the users cart and brings them there,
 	//otherwise, prompts the user for a login.
 	require("common.php");
 	session_start();

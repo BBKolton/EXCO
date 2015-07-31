@@ -3,6 +3,7 @@
 	background-size: 100% auto;
 	background-repeat: no-repeat;
 	min-height: 250px;
+	background-color: black;
 	color: white;
 }
 
@@ -21,10 +22,26 @@ form {
 	float: right;
 }
 
-.status-1 {
+.status-1, .status-2 {
+	background-color: #DDDDDD;
+	padding: 5px;
+}
+
+.status-1 h3 {
 	background-color: #80CC80;
 }
 
-.status-2 {
+.status-2 h3 {
 	background-color: #FF9999;
+}
+
+.status-1 h3, .status-2 h3 {
+	border-radius: 4px;
+	padding: 5px;
+}
+
+.no-style {
+	list-style-type: none;
+	padding-left: 0px;
+	margin-bottom: 3px;
 }

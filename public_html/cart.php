@@ -94,7 +94,8 @@
 					</tr>				
 				</table>
 				<form action="cartsubmit.php">
-					<button action="submit">Sign Up</button>
+					<input type="text"
+					<button action="submit">Register Now!</button>
 				</form>
 			</div>
 		</section>

@@ -31,7 +31,7 @@
 			WHERE courses.id = " . $db -> quote($courseID));
 	?>
 
-	<section class="title" style="background: url('assets/img/classes/<?= $courseID ?>.jpg'), black;">
+	<section class="title" style="background-image: url('assets/img/classes/<?= $courseID ?>.jpg');">
 		<div class="container">
 			<!--<p><?= print_r($sections) ?></p>-->
 			<h1><?= $sections[0]["name"]?></h1>
@@ -54,12 +54,14 @@
 				<div class="section col-md-4 col-sm-6 col-xs-12 ">
 					<div class="wrapper status-<?= $sections[$i]["status"] ?>">
 						<h3>Section <?= $i + 1 ?></h3>
-						<p>Time: <?= $sections[$i]["times"] ?></p>
-						<p>Dates: <?= $sections[$i]["days"] ?></p>
-						<p>Size: <?= $sections[$i]["size"] ?></p>
-						<p>General Fee: $<?= $sections[$i]["fee_gen"] ?></p>
-						<p>UW Fee: $<?= $sections[$i]["fee_uw"] ?></p>
-						<p>Location: <?= $sections[$i]["location"] ?></p>
+						<ul class="no-style">
+							<li>Time: <?= $sections[$i]["times"] ?></li>
+							<li>Dates: <?= $sections[$i]["days"] ?></li>
+							<li>Size: <?= $sections[$i]["size"] ?></li>
+							<li>General Fee: $<?= $sections[$i]["fee_gen"] ?></li>
+							<li>UW Fee: $<?= $sections[$i]["fee_uw"] ?></li>
+							<li>Location: <?= $sections[$i]["location"] ?></li>
+						</ul>
 						
 						<?php if($sections[$i]["status"] === "1") { ?>
 							<form action="signupsubmit.php">
