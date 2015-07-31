@@ -151,7 +151,7 @@
 						</div>
 						<div id="navbar" class="navbar-collapse collapse">
 							<ul class="nav navbar-nav">
-								<li><a href="/asuwecwb/classes.php">Classes</a></li>
+								<li><a href="/asuwecwb/courses.php">Classes</a></li>
 								<li><a href="/asuwecwb/assets/docs/Catalog.pdf">Catalog</a></li>
 								<li><a href="!!">Teach</a></li>
 								<li><a href="!!">Help</a></li>
@@ -163,7 +163,7 @@
 									<li class="dropdown">
 										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $_SESSION["name"] ?><span class="caret"></span></a>
 										<ul class="dropdown-menu">
-											<li><a href="/asuwecwb/myclasses.php">My Classes</a></li>
+											<li><a href="/asuwecwb/mycourses.php">My Classes</a></li>
 											<li><a href="/asuwecwb/cart.php">Cart</a></li>
 											<?php if($_SESSION["permissions"] > 1) { ?>
 												<li><a href="/asuwecwb/instructors/rif.php">Rifs</a></li>

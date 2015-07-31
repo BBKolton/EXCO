@@ -22,7 +22,7 @@
 		<section class="confirmation">
 			<div class="container">
 				<h1>Registration Sucessful!</h1>
-				<p>Head over to <a href="myclasses.php">My Classes!</a>
+				<p>Head over to <a href="mycourses.php">My Classes!</a>
 			</div>
 		</section>
 	<?php tail();

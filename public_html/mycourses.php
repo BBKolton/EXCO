@@ -64,7 +64,7 @@
 			if (empty($courses) && $_SESSION["permissions"] != 2) { ?>
 
 				<h1>Nothing Here Yet!</h1>
-				<p>You have not yet signed up for a class with the Experimetal College. <a href="classes.php">Find something awesome!</a></p>
+				<p>You have not yet signed up for a class with the Experimetal College. <a href="courses.php">Find something awesome!</a></p>
 				
 			<?php } else if (!empty($courses)) { ?>
 				
