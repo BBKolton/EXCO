@@ -9,16 +9,19 @@
 		header("Location: login.php");
 	}
 
-	//get info from teh class and section requested
+	//bad data sent? send them to the bad person zone! also die.
+	if (empty($_GET["id"]) || empty($_GET["section"])) {
+		error("Unknown Signup", "You did not specify a section or class to signup for!");
+	}
+
+	//get info from the class and section requested
 	$db = new DB();
 	$section = $db -> select("SELECT * FROM " . $DATABASE . ".sections
 	                         WHERE course_id = " . $db->quote($_GET["id"]) . 
 	                       " AND section = " . $db->quote($_GET["section"]));
 
-	//bad data sent? send them to the bad person zone! also die.
-	if (empty($_GET["id"]) || empty($_GET["section"]) ||
-	    empty($section[0]) || $section[0]['status'] !== "1") {
-		error("Unknown Signup", "You did not specify a valid section or class to signup for, or the class is closed!");
+	if (empty($section[0]) || $section[0]['status'] !== "1") {
+		error("Invalid Signup", "Your specified class or section does not exist or is not taking registrations!");
 	}
 
 	//If first item in cart, make a new array and put the class in there

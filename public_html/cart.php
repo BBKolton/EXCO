@@ -93,8 +93,14 @@
 						<td>$<?= $totalClassFee ?></td>
 					</tr>				
 				</table>
-				<form action="cartsubmit.php">
-					<input type="text"
+				<h2>Credit Card Information</h2>
+				<form action="cartsubmit.php" method="post">
+					<input type="text" name="card" placeholder="Credit card number" /><br />
+					<input type="text" name="exp" placeholder="Expiration MMYYY" /><br />
+					<input type="text" name="cvc" placeholder="Security code" /><br />
+					<input type="text" name="phone" placeholder="Phone Number" /><br />
+					<p>This information is used only for charging your card, and is not
+						saved by the Experimental College</p>
 					<button action="submit">Register Now!</button>
 				</form>
 			</div>

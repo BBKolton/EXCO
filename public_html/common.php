@@ -175,7 +175,7 @@
 										</ul>
 									</li>
 								<?php } else { ?>
-									<li><a id="login-link" href="/asuwecwb/login.php">Login</a></li>
+									<li><a id="login-link" href="/asuwecwb/login.php">Login/Register</a></li>
 								<?php } ?>
 
 							</ul>

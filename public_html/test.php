@@ -1,17 +1,19 @@
 <?php
-	function randomString($length = 20) {
-		$chars = 'abcdefghijklmnopqrstuvwxyz1234567890-';
-		$charsLeng = strlen($chars);
-		$result = '';
-		for ($i = 0; $i < $length; $i++) {
-			$result = $result . $chars[rand(0, $charsLeng - 1)];
-		}
-		return $result;
+	session_start();
+	$charge = 5;
+	if ($user[0]["type"] == "general") {
+		$charge = 12;
 	}
 
-	echo randomString();
-	echo '<br>';
-	if (1 === "1") {
-		echo 'fuck me';
+	$charge = $charge * (count($_SESSION["cart"]) / 2);
+	echo count($_SESSION["cart"]) . "<br>";
+	echo "<pre>" . print_r($_SESSION['cart'], true) . "</pre>";
+	if (isset($_SESSION)) {
+		echo "fucking php says its here fuck php";
+	} else {
+		echo "session is missing?????????";
 	}
+	echo "<br>";
+	echo $charge;
+
 ?>
