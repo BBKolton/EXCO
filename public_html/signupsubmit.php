@@ -7,6 +7,7 @@
 	//redirect user with no login
 	if (empty($_SESSION["name"])) {
 		header("Location: login.php");
+		die();
 	}
 
 	//bad data sent? send them to the bad person zone! also die.
