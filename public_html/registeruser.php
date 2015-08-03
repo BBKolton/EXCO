@@ -11,13 +11,16 @@
 	//if any of these are not set, the page will die
 	if (empty($_POST["email"]) || 
 	    empty($_POST["password"]) || 
+	    empty($_POST["password2"]) ||
 	    empty($_POST["first-name"]) || 
 	    empty($_POST["last-name"]) || 
 	    empty($_POST["phone"])) {
 		error("Missing Field", "You tried to register without completing a required field");
 	}
 
-	if (!validEmail($_POST["email"])) {
+	if ($_POST["password"] !== $_POST["password2"]) {
+		error("Passwords Don't Match", "Your passwords did not match");
+	} if (!validEmail($_POST["email"])) {
 		error("Invalid Email", "Your email " . $_POST["email"] . " is invalid");
 	} if (!validPassword($_POST["password"])) {
 		error("Invalid Password", "Your password must be longer than 8 characters in length");

@@ -60,6 +60,7 @@
 						pricing.</p>
 					<input type="text" name="email" placeholder="email" /><br />
 					<input type="password" name="password" placeholder="password"/> Must be longer than 8 characters<br />
+					<input type="password" name="password2" placeholder="verify password"/><br />
 					<input type="text" name="first-name" placeholder="first name" /><br />
 					<input type="text" name="last-name" placeholder="last name" /><br />
 					<input type="text" name="phone" placeholder="phone" /><br />

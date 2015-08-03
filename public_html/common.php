@@ -78,6 +78,7 @@
 			<div class="container">
 				<h1><?= $type ?></h1>
 				<p><?= $message ?></p>
+				<img style="" src="/asuwecwb/assets/img/errorzebra.png" alt="error zebra" />
 			</div>
 		</section>
 
