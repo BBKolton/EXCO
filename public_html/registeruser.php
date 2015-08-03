@@ -8,6 +8,7 @@
 		die();
 	}
 
+	//TODO: Refactor this section
 	//if any of these are not set, the page will die
 	if (empty($_POST["email"]) || 
 	    empty($_POST["password"]) || 

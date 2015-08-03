@@ -45,11 +45,12 @@
 			//display classes for users. If a user is an instructor, they will not see an error for
 			//no found classes. However, if they're enrolled in a class, they will see it.
 			$courses = $db -> select("SELECT courses.name,
+			                                 courses.id,
 			                                 sec.fee_gen,
 			                                 sec.fee_uw,
 			                                 sec.times,
 			                                 sec.days,
-			                                 sec.location,
+			                                 sec.location_spec,
 			                                 sec.section
 			                          FROM " . $DATABASE . ".courses
 			                          JOIN " . $DATABASE . ".sections sec
@@ -87,11 +88,11 @@
 						} ?>
 						<tr>
 							<td><img src="http://placehold.it/20x20" /></td>
-							<td><?= $courses[$i]["name"] ?></td>
+							<td><a href="/asuwecwb/course.php?id=<?= $courses[$i]['id'] ?>"><?= $courses[$i]["name"] ?></a></td>
 							<td><?= $courses[$i]["section"] ?></td>
 							<td><?= $courses[$i]["days"] ?></td>
 							<td><?= $courses[$i]["times"] ?></td>
-							<td><?= $courses[$i]["location"] ?></td>
+							<td><?= $courses[$i]["location_spec"] ?></td>
 							<td>$<?= $fee ?></td>
 						</tr>
 					<?php } ?>

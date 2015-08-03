@@ -20,7 +20,7 @@
 			sec.size,
 			sec.fee_gen,
 			sec.fee_uw,
-			sec.location,
+			sec.location_gen,
 			sec.section,
 			sec.status,
 			users.first_name,
@@ -60,7 +60,7 @@
 							<li>Size: <?= $sections[$i]["size"] ?></li>
 							<li>General Fee: $<?= $sections[$i]["fee_gen"] ?></li>
 							<li>UW Fee: $<?= $sections[$i]["fee_uw"] ?></li>
-							<li>Location: <?= $sections[$i]["location"] ?></li>
+							<li>Location: <?= $sections[$i]["location_gen"] ?></li>
 						</ul>
 						
 						<?php if($sections[$i]["status"] === "1") { ?>
