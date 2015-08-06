@@ -45,3 +45,7 @@ form {
 	padding-left: 0px;
 	margin-bottom: 3px;
 }
+
+a {
+	cursor: pointer;
+}

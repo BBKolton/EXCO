@@ -1,0 +1,18 @@
+Array
+(
+    [0] => Array
+        (
+            [email] => test@test.com
+        )
+
+    [1] => Array
+        (
+            [email] => bbkolton@uw.edu
+        )
+
+    [2] => Array
+        (
+            [email] => brycekolton@live.com
+        )
+
+)

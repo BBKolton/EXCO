@@ -20,7 +20,7 @@
 		public function connect() {
 			require("config.php"); //to get the $DATABASE
 			if(!isset(self::$connection)) {
-				self::$connection = new MySQLi($DBLOCATION, $DBUSER, $DBPASS, $DBDATABASE, 64124);
+				self::$connection = new MySQLi($DBLOCATION, $DBUSER, $DBPASS, $DATABASE, 64124);
 			}
 
 			if (self::$connection === false) {
@@ -74,6 +74,23 @@
 			return "'" . $connection->real_escape_string($value) . "'";
 		}
 
+	}
+
+	function verifyAdminOrClassInstructor($courseID) {
+		if ($_SESSION["permissions"] >= 3) {
+			return true;
+		} 
+		if ($_SESSION["permissions"] == 2) {
+			$db = new DB();
+			$user = $db -> select("SELECT users.id 
+			                       FROM " . $DATABASE . ".users 
+			                       JOIN " . $DATABASE . ".courses ON users.id = courses.instructor_id 
+			                       WHERE courses.id = " . $db->quote($courseID));
+			if ($user[0]["id"] == $_SESSION["id"]) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	//An easy way to throw errors with logins. 

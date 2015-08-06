@@ -21,7 +21,7 @@
 
 	//Ask the database for the user
 	$db = new DB();
-	$user = $db -> select("SELECT id, password, first_name, last_name, activation, permissions, type
+	$user = $db -> select("SELECT id, email, password, first_name, last_name, activation, permissions, type
 	                       FROM " . $DATABASE . ".users 
 	                       WHERE email = " . $db -> quote($email));
 
@@ -40,6 +40,7 @@
 		page();
 		error("Unactivated Account", "You have not yet verified your email address.");
 	} else {
+		$_SESSION["email"] = $user[0]["email"];
 		$_SESSION["name"] = $user[0]["first_name"] . " " . $user[0]["last_name"];
 		$_SESSION["permissions"] = $user[0]["permissions"];
 		$_SESSION["type"] = $user[0]["type"];

@@ -2,14 +2,54 @@
 	require("common.php");
 
 	//redirect anyone who got here by accident without a course ID
-	if (!isset($_GET['id'])) {
-		header('Location: index.php');
+	if (empty($_GET['id'])) {
+		header('Location: courses.php');
 		die();
 	} 
 
-	$courseID = $_GET['id'];
-	head("<link href='assets/css/course.css' type='text/css' rel='stylesheet'>");
+
+	session_start();
 	$db = new DB();
+	if (!empty($_POST["editDesc"]) && verifyAdminOrClassInstructor($_GET["id"])) {
+		$db -> query("UPDATE " . $DATABASE . ".courses 
+		              SET description = " . $db->quote($_POST["editDesc"]) . 
+		            " WHERE id = " . $db->quote($_GET["id"]));
+		die();
+	} if (!empty($_POST["sendAll"]) && verifyAdminOrClassInstructor($_GET["id"])) {
+		$students = $db -> select("SELECT DISTINCT users.email FROM " . $DATABASE . ".users 
+		                           JOIN " . $DATABASE . ".registrations reg ON reg.user_id = users.id
+		                           JOIN " . $DATABASE . ".courses co ON reg.course_id = co.id
+		                           WHERE co.id = " . $db->quote($_GET["id"]));	
+
+		if (!empty($students) && !empty($_POST["subject"]) && !empty($_POST["text"])) {
+			emailUsers($students, $_POST["subject"], $_POST["text"]);	
+			die();
+		}
+	} if ($_POST["sendSecs"]) {
+		$students = $db -> select("SELECT DISTINCT users.email FROM " . $DATABASE . ".users 
+		                           JOIN " . $DATABASE . ".registrations reg ON reg.user_id = users.id
+		                           JOIN " . $DATABASE . ".courses co ON reg.course_id = co.id
+		                           JOIN " . $DATABASE . ".sections sec ON reg.section_id
+		                           WHERE co.id = " . $db->quote($_GET["id"]) . " AND 
+		                           sec.id = " . $db->quote($_POST["sendSecs"]));	
+
+		if (!empty($students) && !empty($_POST["subject"]) && !empty($_POST["text"])) {
+			emailUsers($students, $_POST["subject"], $_POST["text"]);	
+			die();
+		}
+	}
+
+
+
+	$courseID = $_GET['id'];
+	head("<link href='assets/css/course.css' type='text/css' rel='stylesheet'>" . 
+	     "<script type='text/javascript' src='/asuwecwb/assets/js/course.js'></script>");
+
+	if (isset($_GET["email"]) && !empty($_GET["section"]) &&
+			verifyAdminOrClassInstructor($_GET["id"])) {
+		//sendSectionEmail
+	}
+
 	$sections = $db -> select("SELECT courses.name,
 			courses.description,
 			courses.num_sections,
@@ -29,6 +69,11 @@
 			JOIN " . $DATABASE . ".sections sec ON sec.course_id = courses.id
 			JOIN " . $DATABASE . ".users users ON courses.instructor_id = users.id
 			WHERE courses.id = " . $db -> quote($courseID));
+
+	if (empty($sections[0])) {
+		error("Specified Class Not Found", "The course you're looking for was not found");
+	}
+
 	?>
 
 	<section class="title" style="background-image: url('assets/img/classes/<?= $courseID ?>.jpg');">
@@ -41,7 +86,7 @@
 	<section class="description">
 		<div class="container">
 			<h2>About the Class</h2>
-			<p><?= $sections[0]["description"] ?></p>
+			<p id="description"><?= $sections[0]["description"] ?></p>
 		</div>
 	</section>
 	<section class="times">
@@ -93,11 +138,15 @@
 	<?php 
 	//The administration and user view section. Accessible only by the instructor of the class
 	//and any admins who are singed in
-	if ($sections[0]["instructor_id"] == $_SESSION["id"] || $_SESSION["permissions"] == 3 ) { ?>
+	if (verifyAdminOrClassInstructor($_GET["id"])) { ?>
 		<section class="administration">
 			<div class="container">
 				<h1>Admin Panel</h1>
-				<p>This area shows all students signed up for your course, by section. It is invisible to others.</p>
+				<p>Edit information, send emails, and view registrants for your course and section</p>
+				<div><a id="editDesc">Edit Description</a></div>
+				<div><a id="sendAll">Send Email to All Sections</a></div> 
+
+
 				<?php for ($i = 0; $i < $sections[0]["num_sections"]; $i++) { ?>
 					<h2>Section <?= $i + 1 ?></h2>
 					<?php
@@ -111,7 +160,8 @@
 					if (empty($section)) { ?>
 						<p>There is no one yet signed up for this section</p>
 					<?php } else { ?>
-					
+
+					<div id="sec<?= $i + 1 ?>"><a class="sendSecs">Email this section</a></div>
 					<table>
 						<tr>
 							<th></th>
@@ -137,4 +187,27 @@
 	<?php }
 
 	tail();
+
+	function emailUsers($users, $subject, $text) {
+		require("modules/PHPMailer/PHPMailerAutoload.php");
+
+		$mail = new PHPMailer(true);
+		$mail->AddAddress($_SESSION["email"]);
+		foreach ($users as $user) {
+			$mail->AddBCC($user["email"]);
+		}
+		$mail->SetFrom($_SESSION["email"]);
+		$mail->Subject = $subject;
+		$mail->AddReplyTo($_SESSION["email"], $_SESSION["name"]);
+		$mail->SetFrom("noreply@exco.org", "ASUW Experimental College");
+		$mail->Body = $text;
+		try {
+			$mail->Send();
+			echo "success";
+		} catch (Exception $e) {
+			//error("Email Failure", $mail->ErrorInfo);
+			echo "didnt work <br>";
+			file_put_contents("email.txt", $mail->ErrorInfo);
+		}
+	}
 ?>
