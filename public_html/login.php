@@ -1,7 +1,14 @@
 <?php
 	require("common.php");
+	session_start();
 
-	//If theres no email or password supplied, redirect to the homepage
+
+	//if we're already logged in, redirect away
+	if (!empty($_SESSION["id"])) {
+		header("location: index.php");
+	}
+
+	//If theres no email or password supplied, display thr login
 	if (empty($_POST["email"]) || empty($_POST["password"])) {
 		page();
 		die();
@@ -33,7 +40,6 @@
 		page();
 		error("Unactivated Account", "You have not yet verified your email address.");
 	} else {
-		session_start();
 		$_SESSION["name"] = $user[0]["first_name"] . " " . $user[0]["last_name"];
 		$_SESSION["permissions"] = $user[0]["permissions"];
 		$_SESSION["type"] = $user[0]["type"];

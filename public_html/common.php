@@ -4,6 +4,12 @@
 	//head to config.php
 	require("config.php");
 
+	//require https on all pages
+	if ($_SERVER["SERVER_PORT"] !== 443 && (empty($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] == "off")) {
+		header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+		die();
+	}
+
 	//creates, maintains, and contains several functions for connections to the database
 	class DB {
 
@@ -148,11 +154,11 @@
 								<span class="icon-bar"></span>
 								<span class="icon-bar"></span>
 							</button>
-							<a class="navbar-brand" href="/asuwecwb/index.php">ExCo</a>
+							<a class="navbar-brand" href="/asuwecwb/index.php">EXCO</a>
 						</div>
 						<div id="navbar" class="navbar-collapse collapse">
 							<ul class="nav navbar-nav">
-								<li><a href="/asuwecwb/courses.php">Classes</a></li>
+								<li><a href="/asuwecwb/courses.php">Courses</a></li>
 								<li><a href="/asuwecwb/assets/docs/Catalog.pdf">Catalog</a></li>
 								<li><a href="!!">Teach</a></li>
 								<li><a href="!!">Help</a></li>
@@ -164,7 +170,7 @@
 									<li class="dropdown">
 										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $_SESSION["name"] ?><span class="caret"></span></a>
 										<ul class="dropdown-menu">
-											<li><a href="/asuwecwb/mycourses.php">My Classes</a></li>
+											<li><a href="/asuwecwb/mycourses.php">My Courses</a></li>
 											<li><a href="/asuwecwb/cart.php">Cart</a></li>
 											<?php if($_SESSION["permissions"] > 1) { ?>
 												<li><a href="/asuwecwb/instructors/rif.php">Rifs</a></li>
@@ -176,7 +182,7 @@
 										</ul>
 									</li>
 								<?php } else { ?>
-									<li><a id="login-link" href="/asuwecwb/login.php">Login/Register</a></li>
+									<li><a id="login-link" href="/asuwecwb/login.php">Login / Register</a></li>
 								<?php } ?>
 
 							</ul>

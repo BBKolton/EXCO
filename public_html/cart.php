@@ -1,5 +1,5 @@
 <?php
-
+	//TODO make sure the userknows that they can ad dmore classes
 	//Remove a class from the cart
 	if ($_GET["remove"] == 1) {
 		session_start();
