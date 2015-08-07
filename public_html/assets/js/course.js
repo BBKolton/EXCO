@@ -1,21 +1,21 @@
 "use strict";
 
-//TODO refator EVERYTHING to make it simpler
-//too much copy pasta
-/*
+//TODO maybe refactor the two sets of functions together
+
 (function(){
-*/
+
 	var ADDRESS = window.location.href;
 
 	window.addEventListener("load", function() {
 		document.getElementById("editDesc").onclick = descriptionEdit;
-		document.getElementById("sendAll").onclick = courseWriteEmail;
+		document.getElementById("sendAll").onclick = writeEmail;
 		var elems = document.getElementsByClassName("sendSecs");
 		for (var i = 0; i < elems.length; i++) { 
-			elems[i].onclick = sectionWriteEmail(elems[i].id);
+			elems[i].onclick = writeEmail;
 		}
 	});
 
+	//creates the textbox and submit and cancel buttons
 	function descriptionEdit() {
 		var desc = document.getElementById("description");
 		var edit = document.getElementById("editDesc");
@@ -30,7 +30,7 @@
 		submit.onclick = descriptionSubmit;
 		cancel.innerHTML = "Cancel";
 		cancel.setAttribute("type", "button");
-		cancel.onclick = descriptionReturnStart;
+		cancel.onclick = descriptionReset;
 		text.id = "editDesc";
 				
 		area.replaceChild(text, edit);
@@ -39,6 +39,7 @@
 		
 	}
 
+	//submits the description to the server
 	function descriptionSubmit() {
 		var value = document.getElementById("editDesc").value;
 		var ajax = new XMLHttpRequest();
@@ -48,17 +49,19 @@
 		ajax.send("editDesc=" + value);
 	}
 
+	//gives the response from teh server
 	function descriptionApproved() {
 		if (this.status != 200) {
 			elert("The edit failed to reach the server. Please try again or make sure you're connected to the internet");
 		} else {
 			document.getElementById("description").innerHTML = document.getElementById("editDesc").value;
 			alert("Edit successful!");
-			descriptionReturnStart();
+			descriptionReset();
 		}
 	}
 
-	function descriptionReturnStart() {
+	//reset the description area
+	function descriptionReset() {
 		var editDesc = document.createElement("a");
 		editDesc.innerHTML = "Edit Description";
 		editDesc.onclick = descriptionEdit;
@@ -71,72 +74,11 @@
 		area.appendChild(editDesc);
 	}
 
-	function courseWriteEmail() {
-		var edit = document.getElementById("sendAll");
-		var text = document.createElement("textarea");
-		var subject = document.createElement("input");
-		var description = document.createElement("p");
-		var area = edit.parentNode;
-		var submit = document.createElement("button");
-		var cancel = document.createElement("button");
-
-		description.innerHTML = "Send an email to the entire course. Your email will be displayed as the reply-to"
-		subject.setAttribute("type", "text");
-		subject.setAttribute("placeholder", "Subject");
-		subject.id = "sendAllSubject"
-		submit.innerHTML = "Submit";
-		submit.setAttribute("type", "button");
-		submit.onclick = courseEmail;
-		cancel.innerHTML = "Cancel";
-		cancel.setAttribute("type", "button");
-		cancel.onclick = courseReturnStart;
-		text.id = "sendAll";
-		text.setAttribute("placeholder", "Your message here");
 
 
-		area.replaceChild(text, edit);
-		area.insertBefore(description, text);
-		area.insertBefore(subject, text);
-		area.insertBefore(cancel, text.nextSibling);
-		area.insertBefore(submit, text.nextSibling);
-	}
-
-	function courseEmail() {
-		var desc = document.getElementById("sendAllSubject").value;
-		var text = document.getElementById("sendAll").value
-		var ajax = new XMLHttpRequest();
-		ajax.onload = courseApproved;
-		ajax.open("POST", ADDRESS, true);
-		ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-		ajax.send("sendAll=true&subject=" + desc + "&text=" + text);
-	}
-
-	function courseApproved() {
-		if (this.status != 200) {
-			elert("The email was not sent. Make sure you're connected to the internet");
-		} else {
-			alert(this.responseText);
-			alert(this.status);
-			courseReturnStart();
-		}
-	}
-
-	function courseReturnStart() {
-		var sendAll = document.createElement("a");
-		sendAll.innerHTML = "Send Email to All Sections";
-		sendAll.onclick = courseWriteEmail;
-		sendAll.id = "sendAll";
-		var text = document.getElementById("sendAll");
-		var area = text.parentNode;
-		while (area.firstChild) {
-			area.removeChild(area.firstChild);
-		}
-		area.appendChild(sendAll);
-	}
-
-	function sectionWriteEmail(sectionNum) {
+	//create sthe text areas and submit and cancel buttons
+	function writeEmail() {
 		var edit = this;
-		alert(this);
 		var text = document.createElement("textarea");
 		var subject = document.createElement("input");
 		var description = document.createElement("p");
@@ -144,19 +86,16 @@
 		var submit = document.createElement("button");
 		var cancel = document.createElement("button");
 
-		description.innerHTML = "Send an email to this section only. Your email will be displayed as the reply-to"
+		description.innerHTML = "Send an email to the section or course. Your email will be displayed as the reply-to"
 		subject.setAttribute("type", "text");
 		subject.setAttribute("placeholder", "Subject");
-		subject.id = "sendSectionSubject"
-		submit.innerHTML = "Submit";
+		submit.innerHTML = "Send";
 		submit.setAttribute("type", "button");
-		submit.onclick = sectionEmail(sectionNum);
+		submit.onclick = function() {sendEmail.call(submit); reset.call(submit);};
 		cancel.innerHTML = "Cancel";
 		cancel.setAttribute("type", "button");
-		cancel.onclick = sectionReturnStart(sectionNum);
-		text.id = "sec" + sectionNum;
+		cancel.onclick = reset;
 		text.setAttribute("placeholder", "Your message here");
-
 
 		area.replaceChild(text, edit);
 		area.insertBefore(description, text);
@@ -165,38 +104,41 @@
 		area.insertBefore(submit, text.nextSibling);
 	}
 
-	function sectionEmail() {
-		var desc = document.getElementById("sendAllSubject").value;
-		var text = document.getElementById("sendAll").value
+	//sends the email
+	function sendEmail() {
+		var desc = this.parentNode.getElementsByTagName("input")[0].value;
+		var text = this.parentNode.getElementsByTagName("textarea")[0].value;
 		var ajax = new XMLHttpRequest();
-		ajax.onload = sectionApproved(sectionNum);
+		ajax.onload = requestResponse;
 		ajax.open("POST", ADDRESS, true);
 		ajax.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-		ajax.send("sendAll=true&subject=" + desc + "&text=" + text);
+		ajax.send("type=" + this.parentNode.id + "&subject=" + desc + "&text=" + text);
 	}
 
-	function sectionApproved(sectionNum) {
+	//gives the response to the email request
+	function requestResponse() {
 		if (this.status != 200) {
 			elert("The email was not sent. Make sure you're connected to the internet");
 		} else {
-
 			alert(this.responseText);
-			alert(this.status);
-			sectionReturnStart(sectionNum);
 		}
 	}
 
-	function sectionReturnStart() {
+	//resets teh areas to before the emails were sent
+	function reset() {
 		var sendSec = document.createElement("a");
-		sendSec.innerHTML = "Email this section";
-		sendSec.onclick = sectionWriteEmail;
-		sendAll.id = "sec" + sectionNum;
-		var text = document.getElementById("sendAll");
-		var area = text.parentNode;
+		if (this.parentNode.className == "all") {
+			sendSec.innerHTML = "Send an email to all students";
+		} else {
+			sendSec.innerHTML = "Email this section";
+		}
+		sendSec.onclick = writeEmail;
+		var text = this;
+		var area = this.parentNode;
 		while (area.firstChild) {
 			area.removeChild(area.firstChild);
 		}
 		area.appendChild(sendSec);
 	}
-/*
-})();*/
+
+})();

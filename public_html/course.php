@@ -10,35 +10,41 @@
 
 	session_start();
 	$db = new DB();
-	if (!empty($_POST["editDesc"]) && verifyAdminOrClassInstructor($_GET["id"])) {
-		$db -> query("UPDATE " . $DATABASE . ".courses 
-		              SET description = " . $db->quote($_POST["editDesc"]) . 
-		            " WHERE id = " . $db->quote($_GET["id"]));
+
+	//if We're changing data or sending emails
+	if (!empty($_POST) && verifyAdminOrClassInstructor($_GET["id"])) {
+		//update the database with the  course's new description
+		if (!empty($_POST["editDesc"])) {
+			$db -> query("UPDATE " . $DATABASE . ".courses 
+			              SET description = " . $db->quote($_POST["editDesc"]) . 
+			            " WHERE id = " . $db->quote($_GET["id"]));
+		} 
+
+		//send an email to the course or section
+		if (!empty($_POST["type"])) {
+			if (empty($_POST["subject"]) || empty($_POST["text"])) {
+				echo "You forgot to specify a subject or message";
+			} else {
+				$students;
+				//send an email to the class
+				if ($_POST["type"] == 0) {
+					$students = $db -> select("SELECT DISTINCT users.email FROM " . $DATABASE . ".users 
+					                           JOIN " . $DATABASE . ".registrations reg ON reg.user_id = users.id
+					                           JOIN " . $DATABASE . ".courses co ON reg.course_id = co.id
+					                           WHERE co.id = " . $db->quote($_GET["id"]));	
+				} else { //send an email to a section
+					$students = $db -> select("SELECT DISTINCT users.email FROM " . $DATABASE . ".users 
+					                           JOIN " . $DATABASE . ".registrations reg ON reg.user_id = users.id
+					                           JOIN " . $DATABASE . ".courses co ON reg.course_id = co.id
+					                           JOIN " . $DATABASE . ".sections sec ON reg.course_section
+					                           WHERE co.id = " . $db->quote($_GET["id"]) . " AND 
+					                           sec.id = " . $db->quote($_POST["type"]));	
+				}
+				emailUsers($students, $_POST["subject"], $_POST["text"]);	
+			}
+		} 
 		die();
-	} if (!empty($_POST["sendAll"]) && verifyAdminOrClassInstructor($_GET["id"])) {
-		$students = $db -> select("SELECT DISTINCT users.email FROM " . $DATABASE . ".users 
-		                           JOIN " . $DATABASE . ".registrations reg ON reg.user_id = users.id
-		                           JOIN " . $DATABASE . ".courses co ON reg.course_id = co.id
-		                           WHERE co.id = " . $db->quote($_GET["id"]));	
-
-		if (!empty($students) && !empty($_POST["subject"]) && !empty($_POST["text"])) {
-			emailUsers($students, $_POST["subject"], $_POST["text"]);	
-			die();
-		}
-	} if ($_POST["sendSecs"]) {
-		$students = $db -> select("SELECT DISTINCT users.email FROM " . $DATABASE . ".users 
-		                           JOIN " . $DATABASE . ".registrations reg ON reg.user_id = users.id
-		                           JOIN " . $DATABASE . ".courses co ON reg.course_id = co.id
-		                           JOIN " . $DATABASE . ".sections sec ON reg.section_id
-		                           WHERE co.id = " . $db->quote($_GET["id"]) . " AND 
-		                           sec.id = " . $db->quote($_POST["sendSecs"]));	
-
-		if (!empty($students) && !empty($_POST["subject"]) && !empty($_POST["text"])) {
-			emailUsers($students, $_POST["subject"], $_POST["text"]);	
-			die();
-		}
 	}
-
 
 
 	$courseID = $_GET['id'];
@@ -144,7 +150,7 @@
 				<h1>Admin Panel</h1>
 				<p>Edit information, send emails, and view registrants for your course and section</p>
 				<div><a id="editDesc">Edit Description</a></div>
-				<div><a id="sendAll">Send Email to All Sections</a></div> 
+				<div class="all" id="true"><a id="sendAll">Send an email to all students</a></div> 
 
 
 				<?php for ($i = 0; $i < $sections[0]["num_sections"]; $i++) { ?>
@@ -161,7 +167,7 @@
 						<p>There is no one yet signed up for this section</p>
 					<?php } else { ?>
 
-					<div id="sec<?= $i + 1 ?>"><a class="sendSecs">Email this section</a></div>
+					<div class="sec" id="<?= $i + 1 ?>"><a class="sendSecs">Email this section</a></div>
 					<table>
 						<tr>
 							<th></th>
@@ -188,7 +194,12 @@
 
 	tail();
 
+	//email all users in the users list as BCC's the subject and message
 	function emailUsers($users, $subject, $text) {
+		if (empty($users)) {
+			echo "Failed to find any students!";
+			die();
+		}
 		require("modules/PHPMailer/PHPMailerAutoload.php");
 
 		$mail = new PHPMailer(true);
@@ -203,11 +214,10 @@
 		$mail->Body = $text;
 		try {
 			$mail->Send();
-			echo "success";
+			echo "Success!";
 		} catch (Exception $e) {
-			//error("Email Failure", $mail->ErrorInfo);
-			echo "didnt work <br>";
-			file_put_contents("email.txt", $mail->ErrorInfo);
+			echo "Error Sending Email";
+			file_put_contents("EMAILERROR.txt", $mail->ErrorInfo);
 		}
 	}
 ?>
