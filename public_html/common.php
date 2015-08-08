@@ -171,7 +171,7 @@
 								<span class="icon-bar"></span>
 								<span class="icon-bar"></span>
 							</button>
-							<a class="navbar-brand" href="/asuwecwb/index.php">EXCO</a>
+							<a class="navbar-brand" href="/asuwecwb/index.php"><img height="150%" src="/asuwecwb/assets/img/logo.png" /></a>
 						</div>
 						<div id="navbar" class="navbar-collapse collapse">
 							<ul class="nav navbar-nav">
@@ -180,6 +180,7 @@
 								<li><a href="!!">Teach</a></li>
 								<li><a href="!!">Help</a></li>
 								<li><a href="/asuwecwb/about.php">About</a></li>
+								<li><a href="/asuwecwb/feedback.php">Feedback</a></li>
 							</ul>
 							<ul class="nav navbar-nav navbar-right">
 								
