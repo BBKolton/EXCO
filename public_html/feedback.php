@@ -15,7 +15,7 @@
 			<p>Have something you want to say about the website, a class, or the Experimental
 			College in general? This is the place! Share your thoughts with us to help ExCo grow.</p>
 			<p><em>Please note that unless you choose, your feedback is completely anonymous</em></p>
-			<form action="feedback.php" method="post">
+			<form action="/asuwecwb/feedback.php" method="post">
 				<p>What are you giving feedback about?</p>
 				<select name="type">
 					<option value="website">The Website</option>

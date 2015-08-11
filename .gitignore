@@ -1,2 +1,6 @@
 public_html/config.php
 public_html/modules
+public_html/.assets/img
+public_html/.assets/plugins
+public_html/.assets/docs
+public_html/.assets/fonts

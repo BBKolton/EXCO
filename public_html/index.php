@@ -1,7 +1,7 @@
 <?php 
 	require("common.php");
 
-	head("<link href='assets/css/index.css' type='text/css' rel='stylesheet'>"); ?>
+	head("<link href='/asuwecwb/.assets/css/index.css' type='text/css' rel='stylesheet'>"); ?>
 
 	<!--CAUROSEL AREA-->
 	<section class="carousel" role="main">
@@ -12,7 +12,7 @@
 
 					<?php 
 						$firstImg = true;
-						foreach (glob("assets/img/carousel/*.*") as $file) { 
+						foreach (glob(".assets/img/carousel/*.*") as $file) { 
 					?>
 
 					<div class="item 
@@ -56,7 +56,7 @@
 					$courses = $db -> select("SELECT id, name FROM " . $DATABASE . ".courses");
 					for ($i = 0; $i < count($courses); $i++) { ?>
 
-						<li><a href="course.php?id=<?= $courses[$i]['id'] ?>"><?= $courses[$i]["name"]?></a></li>
+						<li><a href="/asuwecwb/courses/course.php?id=<?= $courses[$i]['id'] ?>"><?= $courses[$i]["name"]?></a></li>
 
 					<?php }
 				?> 

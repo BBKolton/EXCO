@@ -1,6 +1,6 @@
 <?php 
 	require("common.php");
-	head('<link href="assets/css/about.css" type="text/css" rel="stylesheet" />');
+	head('<link href=".assets/css/about.css" type="text/css" rel="stylesheet" />');
 	?>
 	<section class="img">
 		<div class="container">

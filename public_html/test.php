@@ -1,42 +1,19 @@
-<?php
-session_start();
-require("common.php");
-$db = new DB();
-		$students = $db -> select("SELECT DISTINCT users.email FROM " . $DATABASE . ".users 
-		                           JOIN " . $DATABASE . ".registrations reg ON reg.user_id = users.id
-		                           JOIN " . $DATABASE . ".courses co ON reg.course_id = co.id
-		                           WHERE co.id = " . $db->quote($_GET["id"]));	
+<?php 
 
-		foreach ($students as $user) {
-		echo "<br>";
-			print($user["email"]);
-		}
+print("foo" == true);
+echo "foo" == 0;
+echo true == 0; 
 
-mailUsers($students, "test subject", "test message");
+echo "<br>";
 
+echo "6" == 6;
+echo "123" == "0123";
+echo "123" == "123bar";
 
+echo "<br>";
 
-	function mailUsers($users, $subject, $text) {
-		require("modules/PHPMailer/PHPMailerAutoload.php");
-
-		$mail = new PHPMailer(true);
-		$mail->AddAddress($_SESSION["email"]);
-		foreach ($users as $user) {
-			$mail->AddBCC($user["email"]);
-		}
-		$mail->SetFrom($_SESSION["email"]);
-		$mail->Subject = $subject;
-		$mail->AddReplyTo($_SESSION["email"], $_SESSION["name"]);
-		$mail->SetFrom("noreply@exco.org", "ASUW Experimental College");
-		$mail->Body = $text;
-		try {
-			$mail->Send();
-			echo "success";
-		} catch (Exception $e) {
-			//error("Email Failure", $mail->ErrorInfo);
-			echo "didnt work <br>";
-			echo $mail->ErrorInfo;
-		}
-	}
+echo "1e3" == "1000";
+echo 0133 == 133;
+echo "04.20" == 4.2;
 
 ?>

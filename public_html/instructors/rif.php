@@ -1,9 +1,9 @@
 <?php
 	require("../common.php");
-	head('<script type="text/javascript" src="../assets/js/rif.js"></script>' . 
-		 '<link rel="stylesheet" href="../assets/css/rif.css">', 1, 1);
+	head('<script type="text/javascript" src="../.assets/js/rif.js"></script>' . 
+		 '<link rel="stylesheet" href="../.assets/css/rif.css">', 1, 1);
 ?>	
-<form action="rifsubmit.php" method="POST">
+<form action="/asuwecwb/instructors/rifsubmit.php" method="POST">
 	<input name="id" type="hidden" value="<? $_GET['id'] ?>" />
 	<section class="title">
 		<div class="container">
