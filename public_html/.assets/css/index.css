@@ -10,28 +10,32 @@
 
 /*carousel stuff*/
 
-.main-text
-{
-    position: absolute;
-    top: 50px;
-    width: 96.66666666666666%;
-    color: #FFF;
-    font-size: 90%;
-    margin-left: auto;
-    margin-right: auto;
+.jumbotron h1, .jumbotron p {
+	color: white;
+	text-align: center;
 }
 
-.carousel {
-	background-color: #666666;
+.jumbotron {
+	background-image: url("/asuwecwb/.assets/img/index-2.jpg");
+	background-repeat: none;
+	background-position: 50% 0%;
+	background-size: cover;
+	min-height: 600px;
+	margin: 0px;
 }
 
 .explanation {
-	background-color: #121212;
+	background-color: #8b2900;
 	color: white;
 }
 
-.banner-two {
-	background-color: #999999;
+.about {
+	padding-top: 10px;
+}
+
+.find-a-class {
+	background-color: #dddddd;
+	border-radius: 4px;
 }
 
 

@@ -4,38 +4,10 @@
 	head("<link href='/asuwecwb/.assets/css/index.css' type='text/css' rel='stylesheet'>"); ?>
 
 	<!--CAUROSEL AREA-->
-	<section class="carousel" role="main">
-		<div class="container">
-			<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-				<!-- Wrapper for slides -->
-				<div class="carousel-inner">
-
-					<?php 
-						$firstImg = true;
-						foreach (glob(".assets/img/carousel/*.*") as $file) { 
-					?>
-
-					<div class="item 
-						<?php if ($firstImg) { ?> 
-							active 
-							<?php $firstImg = false; } 
-						?>">
-						<img src=" <?= ($file) ?> " alt="...">
-					</div>
-					<?php } ?>
-
-					<!-- Controls DELETE-->
-					<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-						<span class="glyphicon glyphicon-chevron-left"></span>
-					</a>
-					<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-						<span class="glyphicon glyphicon-chevron-right"></span>
-					</a>
-				</div> <!-- Carousel -->
-				<div class="main-text text-center" >
-					<h1>Experimental College</h1>
-					<p>A really cool slogan/motto here</p>
-				</div>
+	<section role="main">
+		<div class="jumbotron">
+			<div class="container">
+				<h1>ASUW Experimental College</h1>
 			</div>
 		</div>
 	</section>
@@ -45,31 +17,26 @@
 			<p>Welcome to the new Experimental College webpage. There's a lot of construction going on, so sit tight as things can change day by day. If you're looking for the live site, head <a href="exco.org">here</a>. Questions? Email webmaster at exco dot org</p>
 		</div>
 	</section>
-	<section class="courses-list">
+
+	<section class="about">
 		<div class="container">
-		<h1>Classes</h1>
-			<ul>
+			<div class="row">
+				<div class="col-md-8 col-xs-12">
+				<h1>What is EXCO?</h1>
+					<p>The Experimental College is a group of students that teach classes a bit 'out there.' We go beyond the 
+					traditional classes one would expect, to fill in the gaps that others left behind. Check out our
+					<a href="/asuwecwb/about.php"> About </a> page for more info.</p>
+				</div>
+				<div class="col-md-4 col-xs-12 find-a-class">
+					<h2>Find a class!</h2>
+					<p>Our vetted instructors teach everything from "How to Talk to Girls" to "Introduction to Meditation." 
+					<a href="/asuwecwb/courses/courses.php">Come see what we can offer you!</a></p>
+				</div>
 
-				<?php 
-					//get a database connection
-					$db = new DB();
-					$courses = $db -> select("SELECT id, name FROM " . $DATABASE . ".courses");
-					for ($i = 0; $i < count($courses); $i++) { ?>
-
-						<li><a href="/asuwecwb/courses/course.php?id=<?= $courses[$i]['id'] ?>"><?= $courses[$i]["name"]?></a></li>
-
-					<?php }
-				?> 
-
-			</ul>
-		</div>
-	</secton>
-
-	<section class="banner-two">
-		<div class="container">
-			<div  style="height: 2000px;">ahhh </div>
+			</div>
 		</div>
 	</section>
+
 
 	<?php tail(); 
 ?>
