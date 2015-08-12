@@ -72,9 +72,9 @@
 			"ssl_amount"=>urlencode($charge),
 			"ssl_salestax"=>"0",
 			"ssl_invoice_number"=>urlencode($invoice),
-			"ssl_first_name"=>urlencode($user[0]["first_name"]),
-			"ssl_last_name"=>urlencode($user[0]["last_name"]),
-			"ssl_email"=>urlencode($user[0]["email"]),
+			"ssl_first_name"=>urlencode($_POST["first-name"]),
+			"ssl_last_name"=>urlencode($_POST["last-name"]),
+			"ssl_email"=>urlencode($_POST["email"]),
 			'ssl_avs_address'=>'NONE',
 			'ssl_avs_zip'=>'NONE',
 			"ssl_result_format"=>"ASCII"

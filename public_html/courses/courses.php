@@ -25,7 +25,7 @@
 								<a href="/asuwecwb/courses/course.php?id=<?= $classes[$i]['id'] ?>">
 									<div class="class-wrap col-lg-4 col-sm-6 col-xs-12">
 										<div class="class" style="background-image: url('/asuwecwb/.assets/img/classes/<?= $classes[$i]['id'] ?>.jpg'), url('/asuwecwb/.assets/img/classes/fallback.jpg'); background-size: cover;">
-											<h3><?= $classes[$i]["name"] ?></h3>
+											<h3><?= htmlspecialchars($classes[$i]["name"]) ?></h3>
 										</div>
 									</div>
 								</a>
@@ -39,7 +39,7 @@
 						<ul>
 							<?php for ($i = 0; $i < count($types); $i++) { 
 								$type = $GENRES[$types[$i]["type"]] ?>
-								<li><a class="sidebar-links" href="#<?= $type ?>"><?= $type ?></a></li>
+								<li><a class="sidebar-links" href="#<?= htmlspecialchars($type) ?>"><?= $type ?></a></li>
 							<?php } ?>
 						</ul>
 					</nav>

@@ -197,7 +197,7 @@
 								
 								<?php if(isset($_SESSION["name"])) { ?>
 									<li class="dropdown">
-										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $_SESSION["name"] ?><span class="caret"></span></a>
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= htmlspecialchars($_SESSION["name"]) ?><span class="caret"></span></a>
 										<ul class="dropdown-menu">
 											<li><a href="/asuwecwb/users/mycourses.php">My Courses</a></li>
 											<li><a href="/asuwecwb/users/cart.php">Cart</a></li>

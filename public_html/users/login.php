@@ -25,23 +25,22 @@
 	                       FROM " . $DATABASE . ".users 
 	                       WHERE email = " . $db -> quote($email));
 
-	//if no user was found, throw an error
-/*	if ($user === FALSE) {
-		error("Unknown email", "The email address could not be found!");
-	} else */
-
-	if (empty($user[0])) {
+	
+	if (empty($user[0])) { //if no user was found, throw an error
 		page();
 		error("Unknown Email", "The email " . $email . " does not exist!");
-	} else if (!password_verify($pass, $user[0]["password"])){
+	} else if (!password_verify($pass, $user[0]["password"])){ //If the pass is wrong, throw and error
 		page();
 		error("Wrong Password", "The pass you supplied is incorrect!");
-	} else if ($user[0]["activation"] !== "1") {
+	} else if ($user[0]["activation"] !== "1") { //if the user isnt authenticated, throw and error
 		page();
 		error("Unactivated Account", "You have not yet verified your email address.");
-	} else { //this is a real user with ability to sign in
+	} else { //this is a real user with ability to sign in, do so!
 		$_SESSION["email"] = $user[0]["email"];
+		$_SESSION["first_name"] = $user[0]["first_name"];
+		$_SESSION["last_name"] = $user[0]["last_name"];
 		$_SESSION["name"] = $user[0]["first_name"] . " " . $user[0]["last_name"];
+		$_SESSION["phone"] = $user[0]["phone"];
 		$_SESSION["permissions"] = $user[0]["permissions"];
 		$_SESSION["type"] = $user[0]["type"];
 		$_SESSION["id"] = $user[0]["id"];

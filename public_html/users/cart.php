@@ -66,15 +66,16 @@
 							?>
 							<tr>
 								<td><a href="/asuwecwb/users/cart.php?remove=1&cart=<?= $i ?>"><img src="http://placehold.it/20x20" /></td>
-								<td><?= $courses[0]["name"] ?></td>
+								<td><?= htmlspecialchars($courses[0]["name"]) ?></td>
 								<td><?= $section ?></td>
-								<td><?= $courses[0]["days"] ?></td>
-								<td><?= $courses[0]["times"] ?></td>
+								<td><?= htmlspecialchars($courses[0]["days"]) ?></td>
+								<td><?= htmlspecialchars($courses[0]["times"]) ?></td>
 								<td>$<?= $costClass ?></td>
 								<td>$<?= $costExCo ?></td>
 							</tr>
 						<?php } ?>
 				</table>
+				<p><a href="/asuwecwb/courses/courses.php">Add another class</a></p> 
 			<?php } ?>
 		</div>
 	</section>
@@ -95,10 +96,13 @@
 				</table>
 				<h2>Credit Card Information</h2>
 				<form action="/asuwecwb/users/cartsubmit.php" method="post">
-					<input type="text" name="card" placeholder="Credit card number" /><br />
-					<input type="text" name="exp" placeholder="Expiration MMYY" /><br />
-					<input type="text" name="cvc" placeholder="Security code" /><br />
-					<input type="text" name="phone" placeholder="Phone Number" /><br />
+					<p>First Name</p><input type="text" name="first-name" value="<?= htmlspecialchars($_SESSION['first_name']) ?>">
+					<p>Last Name</p><input type="text" name="last-name" value="<?= htmlspecialchars($_SESSION['last_name']) ?>">
+					<p>Email Address</p><input type="text" name="email" value="<?= htmlspecialchars($_SESSION['email']) ?>">
+					<p>Card Number (no dashes or spaces)</p><input type="text" name="card" >
+					<p>Expiration Date (in form MMYY)</p><input type="text" name="exp" >
+					<p>CVC/CVV code (three digits on back of card)</p><input type="text" name="cvc" >
+					<p>Phone Number</p><input type="text" name="phone" value="<?= htmlspecialchars($_SESSION['phone']) ?>">
 					<p>This information is used only for this transaction. It is not
 						saved by the Experimental College</p>
 					<button action="submit">Register Now!</button>

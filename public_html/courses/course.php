@@ -85,8 +85,8 @@
 	<section class="title" style="background-image: url('/asuwecwb/.assets/img/classes/<?= $courseID ?>.jpg');">
 		<div class="container">
 			<!--<p><?= print_r($sections) ?></p>-->
-			<h1><?= $sections[0]["name"]?></h1>
-			<p><?= $sections[0]["first_name"] . " " . $sections[0]["last_name"] ?></p>
+			<h1><?= htmlspecialchars($sections[0]["name"]) ?></h1>
+			<p><?= htmlspecialchars($sections[0]["first_name"]) . " " . htmlspecialchars($sections[0]["last_name"]) ?></p>
 		</div>
 	</section>
 	<section class="description">
@@ -106,12 +106,12 @@
 					<div class="wrapper status-<?= $sections[$i]["status"] ?>">
 						<h3>Section <?= $i + 1 ?></h3>
 						<ul class="no-style">
-							<li>Time: <?= $sections[$i]["times"] ?></li>
-							<li>Dates: <?= $sections[$i]["days"] ?></li>
-							<li>Size: <?= $sections[$i]["size"] ?></li>
-							<li>General Fee: $<?= $sections[$i]["fee_gen"] ?></li>
-							<li>UW Fee: $<?= $sections[$i]["fee_uw"] ?></li>
-							<li>Location: <?= $sections[$i]["location_gen"] ?></li>
+							<li>Time: <?= htmlspecialchars($sections[$i]["times"]) ?></li>
+							<li>Dates: <?= htmlspecialchars($sections[$i]["days"]) ?></li>
+							<li>Size: <?= htmlspecialchars($sections[$i]["size"]) ?></li>
+							<li>General Fee: $<?= htmlspecialchars($sections[$i]["fee_gen"]) ?></li>
+							<li>UW Fee: $<?= htmlspecialchars($sections[$i]["fee_uw"]) ?></li>
+							<li>Location: <?= htmlspecialchars($sections[$i]["location_gen"]) ?></li>
 						</ul>
 						
 						<?php if($sections[$i]["status"] === "1") { ?>
@@ -178,8 +178,8 @@
 							<?php for ($j = 0; $j < count($section); $j++) { ?>
 								<tr>
 									<td></td>
-									<td><?= $section[$j]["first_name"] ?></td>
-									<td><?= $section[$j]["last_name"] ?></td>
+									<td><?= htmlspecialchars($section[$j]["first_name"]) ?></td>
+									<td><?= htmlspecialchars($section[$j]["last_name"]) ?></td>
 								</tr>
 							<?php } ?>
 						</tr>
@@ -203,7 +203,7 @@
 		require("modules/PHPMailer/PHPMailerAutoload.php");
 
 		$mail = new PHPMailer(true);
-		$mail->AddAddress($_SESSION["email"]);
+		$mail->AddAddress(htmlspecialchars($_SESSION["email"]));
 		foreach ($users as $user) {
 			$mail->AddBCC($user["email"]);
 		}
