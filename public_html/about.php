@@ -2,13 +2,15 @@
 	require("common.php");
 	head('<link href=".assets/css/about.css" type="text/css" rel="stylesheet" />');
 	?>
-	<section class="img">
-		<div class="container">
-			<p id="subtitle">The Associated Students of the University of Washington's </p>
-			<h1>Experimental College</h1>
+	<section class="title">
+		<div class="jumbotron">
+			<div class="container">
+				<p id="subtitle">The Associated Students of the University of Washington's </p>
+				<h1>Experimental College</h1>
+			</div>
 		</div>
 	</section>
-	<section class="about">
+	<section class="content">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-9 col-xs-12">

@@ -1,6 +1,6 @@
-.img {
+.jumbotron {
 	min-height: 250px;
-	background: url("../img/AboutUs.jpg");
+	background-image: url("/asuwecwb/.assets/img/about.jpg");
 	background-position: 50% 30%;
 	background-size: cover;
 	background-repeat: no-repeat;
