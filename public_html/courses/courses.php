@@ -4,14 +4,23 @@
 	require("../common.php");
 	$db = new DB();
 	$types = $db -> select("SELECT DISTINCT type from " . $DATABASE . ".courses ORDER BY type");
-	head("<link href='/asuwecwb/.assets/css/classes.css' type='text/css' rel='stylesheet' />" . 
-	     "<script type='text/javascript' src='/asuwecwb/.assets/js/classes.js'></script>"); ?>
+	head("<link href='/asuwecwb/.assets/css/courses.css' type='text/css' rel='stylesheet' />" . 
+	     "<script type='text/javascript' src='/asuwecwb/.assets/js/courses.js'></script>"); ?>
+
+
+
+	<section class="title">
+		<div class="jumbotron">
+			<div class="container">
+				<h1><?= $QUARTER ?> Classes</h1>
+			</div>
+		</div>
+	</section>
 
 	<section class="classes">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-10">
-					<h1><?= $QUARTER ?> Classes</h1>
 					<?php for ($j = 0; $j < count($types); $j++) { 
 						$type = $GENRES[$types[$j]["type"]]; ?>
 						<h2><a name="<?= $type ?>"><?= $type ?></h2>
@@ -34,15 +43,17 @@
 					<?php } ?>
 				</div>
 				<div class="col-md-2">
-					<nav class="sidebar hidden-print hidden-sm hidden-xs ">
-						<h1>Categories</h1>
-						<ul>
-							<?php for ($i = 0; $i < count($types); $i++) { 
-								$type = $GENRES[$types[$i]["type"]] ?>
-								<li><a class="sidebar-links" href="#<?= htmlspecialchars($type) ?>"><?= $type ?></a></li>
-							<?php } ?>
-						</ul>
-					</nav>
+					<div class="sidebar-wrap">
+						<nav class="sidebar hidden-print hidden-sm hidden-xs ">
+							<h2>Genres</h2>
+							<ul>
+								<?php for ($i = 0; $i < count($types); $i++) { 
+									$type = $GENRES[$types[$i]["type"]] ?>
+									<li><a class="sidebar-links" href="#<?= htmlspecialchars($type) ?>"><?= $type ?></a></li>
+								<?php } ?>
+							</ul>
+						</nav>
+					</div>
 				</div>
 			</div>
 		</div>

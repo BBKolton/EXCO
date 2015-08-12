@@ -1,3 +1,7 @@
+body {
+	background-color: #DDDDDD;
+}
+
 h2 {
 	margin-top: 30px;
 }
@@ -9,6 +13,26 @@ h2 > a:hover {
 
 h2 > a {
 	color: #000000;
+}
+
+.jumbotron {
+	background-image: url("/asuwecwb/.assets/img/index-1.jpg");
+	background-repeat: none;
+	background-position: 50% 0%;
+	background-size: cover;
+	margin: 0px;
+}
+
+.title {
+	color: white;
+}
+
+.classes > .container {
+	border-radius: 7px;
+	background-color: white;
+	margin-top: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 .class-wrap {
@@ -36,6 +60,25 @@ h2 > a {
 	background-color: #000000;
 	color: #FFFFFF;
 
+}
+
+.col-md-10 > h2 {
+	margin-top: 15px;
+}
+
+.sidebar-wrap {
+	padding-top: 10px;
+}
+
+.sidebar {
+	background-color: #EEEEEE;
+	padding: 3px;
+	border-radius: 3px;
+	margin-top: 10px
+}
+
+.sidebar h2 {
+	margin-top: 5px;
 }
 
 .sidebar ul {
