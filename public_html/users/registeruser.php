@@ -100,14 +100,15 @@
 		if (empty($exists[0])) {
 			error("Invalid Verification", "Your verification is invalid. You might already be verified.");
 		} else {
-			if (preg_match("/(@uw\.edu)/i", $exists[0]["email"])) {
+			//TODO this is copied into preferences for updateing email
+			if (preg_match("/((@uw\.edu)|(@u\.washington\.edu))/i", $exists[0]["email"])) {
 				$netid = substr($exists[0]["email"], 0, strpos($exists[0]["email"], "@"));
 				$db -> query("UPDATE " . $DATABASE . ".users
 				              SET activation = '1', type = 'student', netid = " . $db->quote($netid) .
 				            " WHERE email = " . $db->quote($email));
 			} else {
 				$db -> query("UPDATE " . $DATABASE . ".users
-				              SET activation = '1'
+				              SET activation = '1', type = 'general', netid = NULL
 				              WHERE email = " . $db->quote($email));
 			}
 			
@@ -121,7 +122,6 @@
 			<?php
 			tail();
 		}
-
 	}
 
 	//mails the user with a verification email
@@ -157,17 +157,6 @@
 		}
 		error('Unexpected Error', 
 			'While attempting to validate your email, a crucial error occurred. Please notify the webadmin.');
-	}
-
-	//creates a random string
-	function randomString($length = 40) {
-		$chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-';
-		$charsLeng = strlen($chars);
-		$result = '';
-		for ($i = 0; $i < $length; $i++) {
-			$result = $result . $chars[rand(0, $charsLeng - 1)];
-		}
-		return $result;
 	}
 	
 	//makes sure a password has the correct requirements
