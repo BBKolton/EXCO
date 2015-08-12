@@ -3,8 +3,21 @@
 	background-color: #4b2e83;
 }*/
 
-.class {
-
-background-image: url('.assets/img/Spyglass.jpg'); 
-background-size: cover;
+body {
+	background-color: #DDDDDD;
 }
+
+.jumbotron {
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-color: black;
+	color: white;
+	margin: 0px;
+}
+
+.content > .container {
+	border-radius: 7px;
+	background-color: white;
+	margin-top: 10px;
+}
+

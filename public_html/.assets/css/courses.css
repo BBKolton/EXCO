@@ -1,7 +1,3 @@
-body {
-	background-color: #DDDDDD;
-}
-
 h2 {
 	margin-top: 30px;
 }
@@ -17,22 +13,8 @@ h2 > a {
 
 .jumbotron {
 	background-image: url("/asuwecwb/.assets/img/index-1.jpg");
-	background-repeat: none;
 	background-position: 50% 0%;
-	background-size: cover;
-	margin: 0px;
-}
-
-.title {
-	color: white;
-}
-
-.classes > .container {
-	border-radius: 7px;
-	background-color: white;
-	margin-top: 10px;
-	padding-left: 10px;
-	padding-right: 10px;
+	
 }
 
 .class-wrap {

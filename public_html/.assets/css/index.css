@@ -17,11 +17,8 @@
 
 .jumbotron {
 	background-image: url("/asuwecwb/.assets/img/index-2.jpg");
-	background-repeat: none;
 	background-position: 50% 0%;
-	background-size: cover;
 	min-height: 600px;
-	margin: 0px;
 }
 
 .explanation {
@@ -33,9 +30,14 @@
 	padding-top: 10px;
 }
 
+.content > .container {
+	padding-top: 0px;
+}
+
 .find-a-class {
-	background-color: #dddddd;
+	background-color: #EEEEEE;
 	border-radius: 4px;
+	padding: 10px;
 }
 
 

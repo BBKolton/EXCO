@@ -18,7 +18,7 @@
 		</div>
 	</section>
 
-	<section class="about">
+	<section class="content">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-8 col-xs-12">
@@ -27,12 +27,13 @@
 					traditional classes one would expect, to fill in the gaps that others left behind. Check out our
 					<a href="/asuwecwb/about.php"> About </a> page for more info.</p>
 				</div>
-				<div class="col-md-4 col-xs-12 find-a-class">
-					<h2>Find a class!</h2>
-					<p>Our vetted instructors teach everything from "How to Talk to Girls" to "Introduction to Meditation." 
-					<a href="/asuwecwb/courses/courses.php">Come see what we can offer you!</a></p>
+				<div class="col-md-4 col-xs-12 ">
+					<div class="find-a-class">
+						<h2>Find a class!</h2>
+						<p>Our vetted instructors teach everything from "How to Talk to Girls" to "Introduction to Meditation." 
+						<a href="/asuwecwb/courses/courses.php">Come see what we can offer you!</a></p>
+					</div>
 				</div>
-
 			</div>
 		</div>
 	</section>

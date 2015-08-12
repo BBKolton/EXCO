@@ -82,60 +82,60 @@
 
 	?>
 
-	<section class="title" style="background-image: url('/asuwecwb/.assets/img/classes/<?= $courseID ?>.jpg');">
-		<div class="container">
-			<!--<p><?= print_r($sections) ?></p>-->
-			<h1><?= htmlspecialchars($sections[0]["name"]) ?></h1>
-			<p><?= htmlspecialchars($sections[0]["first_name"]) . " " . htmlspecialchars($sections[0]["last_name"]) ?></p>
-		</div>
-	</section>
-	<section class="description">
-		<div class="container">
-			<h2>About the Class</h2>
-			<p id="description"><?= $sections[0]["description"] ?></p>
-		</div>
-	</section>
-	<section class="times">
-		<div class="container">
-			<div class="row col-md-10">
-
-				<?php
-					for ($i = 0; $i < $sections[0]['num_sections']; $i++) {
-				?>
-				<div class="section col-md-4 col-sm-6 col-xs-12 ">
-					<div class="wrapper status-<?= $sections[$i]["status"] ?>">
-						<h3>Section <?= $i + 1 ?></h3>
-						<ul class="no-style">
-							<li>Time: <?= htmlspecialchars($sections[$i]["times"]) ?></li>
-							<li>Dates: <?= htmlspecialchars($sections[$i]["days"]) ?></li>
-							<li>Size: <?= htmlspecialchars($sections[$i]["size"]) ?></li>
-							<li>General Fee: $<?= htmlspecialchars($sections[$i]["fee_gen"]) ?></li>
-							<li>UW Fee: $<?= htmlspecialchars($sections[$i]["fee_uw"]) ?></li>
-							<li>Location: <?= htmlspecialchars($sections[$i]["location_gen"]) ?></li>
-						</ul>
-						
-						<?php if($sections[$i]["status"] === "1") { ?>
-							<form action="/asuwecwb/courses/signupsubmit.php">
-								<input type="hidden" name="id" value="<?= $courseID ?>" />
-								<input type="hidden" name="section" value="<?= $sections[$i]['section'] ?>" />
-								<button type="submit">Sign Up</button>
-							</form>
-						<?php } ?>
-
-					</div>
-				</div>
-				<?php 
-					}
-				?>
+	<section class="title" >
+		<div class="jumbotron" style="background-image: url('/asuwecwb/.assets/img/classes/<?= $courseID ?>.jpg');">
+			<div class="container">
+				<!--<p><?= print_r($sections) ?></p>-->
+				<h1><?= htmlspecialchars($sections[0]["name"]) ?></h1>
+				<p><?= htmlspecialchars($sections[0]["first_name"]) . " " . htmlspecialchars($sections[0]["last_name"]) ?></p>
 			</div>
+		</div>
+	</section>
+	<section class="content">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-9 col-xs-12">
+					<h2>About the Class</h2>
+					<p id="description"><?= $sections[0]["description"] ?></p>
 
-			<div class="col-md-2 col-xs-12">
-				<ul>
-					<li>something</li>
-					<li>Soemthing else</li>
-					<li>Maybe some cool info about the teacher</li>
-				</ul>
+					<?php
+						for ($i = 0; $i < $sections[0]['num_sections']; $i++) {
+					?>
+					<div class="section col-md-4 col-sm-6 col-xs-12 ">
+						<div class="wrapper status-<?= $sections[$i]["status"] ?>">
+							<h3>Section <?= $i + 1 ?></h3>
+							<ul class="no-style">
+								<li>Time: <?= htmlspecialchars($sections[$i]["times"]) ?></li>
+								<li>Dates: <?= htmlspecialchars($sections[$i]["days"]) ?></li>
+								<li>Size: <?= htmlspecialchars($sections[$i]["size"]) ?></li>
+								<li>General Fee: $<?= htmlspecialchars($sections[$i]["fee_gen"]) ?></li>
+								<li>UW Fee: $<?= htmlspecialchars($sections[$i]["fee_uw"]) ?></li>
+								<li>Location: <?= htmlspecialchars($sections[$i]["location_gen"]) ?></li>
+							</ul>
+							
+							<?php if($sections[$i]["status"] === "1") { ?>
+								<form action="/asuwecwb/courses/signupsubmit.php">
+									<input type="hidden" name="id" value="<?= $courseID ?>" />
+									<input type="hidden" name="section" value="<?= $sections[$i]['section'] ?>" />
+									<button type="submit">Sign Up</button>
+								</form>
+							<?php } ?>
 
+						</div>
+					</div>
+					<?php 
+						}
+					?>
+				</div>
+
+				<div class="col-md-3 col-xs-12">
+					<ul>
+						<li>something</li>
+						<li>Soemthing else</li>
+						<li>Maybe some cool info about the teacher</li>
+					</ul>
+
+				</div>
 			</div>
 		</div>
 	</section>
