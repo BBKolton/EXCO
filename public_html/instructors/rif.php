@@ -14,7 +14,7 @@
 
 
 
-	<section class="fees"> <!-- This section holds all the fee entrywork an instructor must do. It mostly does
+	<section class="content"> <!-- This section holds all the fee entrywork an instructor must do. It mostly does
 	                       math all by itself with javascript.  -->
 		<div class="container">
 			<fieldset>
@@ -91,7 +91,7 @@
 		</div>
 	</section>
 
-	<section class="times">
+	<section class="times"><!-- times section -->
 		<div class="container">
 			<fieldset>
 				<h2>Dates and Times</h2>
@@ -114,7 +114,7 @@
 		</div>
 	</section>
 
-	<section class="information"> <!-- This section holds all the nice descriptions and email messages -->
+	<section class="content"> <!-- Information This section holds all the nice descriptions and email messages -->
 		<div class="container">
 			<fieldset>
 				<h2>Course Information</h2>
@@ -171,7 +171,7 @@
 	</section>
 
 	<section>
-		<div class="container">
+		<div class="content">
 			<fieldset>
 				<input type="submit" value="Save" /><input type="submit" value="Review and Submit" />
 			</fieldset>

@@ -73,13 +73,13 @@
 		head();
 		?>
 
-
-		<div class="container">
-			<h1>Registration Successful!</h1>
-			<p>Please check your email for a verification message. You are not able to sign up
-			for classes until you have verified your email</p>
-		</div>
-
+		<ection class="content">
+			<div class="container">
+				<h1>Registration Successful!</h1>
+				<p>Please check your email for a verification message. You are not able to sign up
+				for classes until you have verified your email</p>
+			</div>
+		</ection>
 
 		<?php
 		tail();
@@ -114,11 +114,13 @@
 			
 			head();
 			?>
-			<div class="container">
-				<h1>Success!</h1>
-				<p>You are now verified with the Experimental College! 
-				Sign up for some classes!</p>
-			</div>
+			<section class="content">
+				<div class="container">
+					<h1>Success!</h1>
+					<p>You are now verified with the Experimental College! 
+					Sign up for some classes!</p>
+				</div>
+			</section>
 			<?php
 			tail();
 		}

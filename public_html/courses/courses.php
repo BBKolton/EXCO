@@ -58,8 +58,6 @@
 			</div>
 		</div>
 	</section>
-	<section style="height: 600px">
-	</section>
 
 	<?php tail();
 ?>

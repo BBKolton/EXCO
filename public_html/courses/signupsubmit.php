@@ -6,7 +6,7 @@
 	
 	//redirect user with no login
 	if (empty($_SESSION["name"])) {
-		header("Location: login.php");
+		header("Location: /asuwecwb/users/login.php");
 		die();
 	}
 

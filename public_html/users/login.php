@@ -51,14 +51,14 @@
 		head(); 
 		?>
 
-		<section class="login">
+		<section class="content">
 			<div class="container">
 				<form action="/asuwecwb/users/login.php" method="post">
 					<h3>Login</h3>
 					<input type="text" name="email" autofocus placeholder="email" />
 					<input type="password" name="password" />
 					<input type="submit" value="login" />
-					<p><a>Forgot Password?</a></p>
+					<p><a href="/asuwecwb/users/forgot.php">Forgot Password?</a></p>
 				</form>
 				<form action="/asuwecwb/users/registeruser.php" method="post">
 					<h3>Register User</h3>

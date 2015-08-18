@@ -7,7 +7,6 @@
 		die();
 	} 
 
-
 	session_start();
 	$db = new DB();
 
@@ -145,7 +144,7 @@
 	//The administration and user view section. Accessible only by the instructor of the class
 	//and any admins who are singed in
 	if (verifyAdminOrClassInstructor($_GET["id"])) { ?>
-		<section class="administration">
+		<section class="content">
 			<div class="container">
 				<h1>Admin Panel</h1>
 				<p>Edit information, send emails, and view registrants for your course and section</p>

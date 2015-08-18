@@ -108,7 +108,7 @@
 	function error($type = "Unknown", $message = "Please contact an administrator") {
 		head(); ?>
 		
-		<section class="error">
+		<section class="content">
 			<div class="container">
 				<h1><?= $type ?></h1>
 				<p><?= $message ?></p>

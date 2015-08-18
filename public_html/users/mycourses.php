@@ -11,7 +11,7 @@
 		header("Location: /asuwecwb/index.php");
 	} ?>
 
-	<section class="my-classes">
+	<section class="content">
 		<div class="container">
 
 		<?php 

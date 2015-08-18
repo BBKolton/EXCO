@@ -111,7 +111,7 @@
 	
 	head(); ?>
 
-	<section>
+	<section class="content">
 		<div class="container">
 			<h1>Preferences</h1>
 			<p>Update your password, email, or basic information. Please note that after updating one
