@@ -2,6 +2,6 @@
 
 require("common.php");
 
-echo var_dump(("#hello" == "#hello world"));
+echo var_dump(preg_match(pattern, subject) ("#hello" == "#hello world"));
 
 ?>

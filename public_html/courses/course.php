@@ -12,6 +12,7 @@
 
 	//if We're changing data or sending emails
 	if (!empty($_POST) && verifyAdminOrClassInstructor($_GET["id"])) {
+		
 		//update the database with the  course's new description
 		if (!empty($_POST["editDesc"])) {
 			$db -> query("UPDATE " . $DATABASE . ".courses 
@@ -42,6 +43,26 @@
 				emailUsers($students, $_POST["subject"], $_POST["text"]);	
 			}
 		} 
+
+		if (!empty($_POST["course-toggle"])) {
+			$active = $db->select("SELECT courses.status
+			                       FROM " . $DATABASE . ".courses
+			                       WHERE id = " . $db->quote($_GET["id"]))[0]["status"];
+			if ($active === "1") {
+				$active = 2;
+			} else {
+				$active = 1;
+			}
+
+			$db -> query("UPDATE " . $DATABASE . ".courses
+			              SET status = " . $db->quote($active) . " 
+			              WHERE id = " . $db->quote($_GET["id"]));
+
+			header("Refresh:0");
+
+		}
+
+
 		die();
 	}
 
@@ -55,7 +76,7 @@
 			courses.num_sections,
 			courses.instructor_id,
 			courses.id,
-			courses.status as courses_status,
+			courses.status as course_status,
 			sec.times,
 			sec.days,
 			sec.size,
@@ -90,7 +111,7 @@
 	<section class="content">
 		<div class="container">
 
-			<?php if ($sections[0]["courses_status"] == 2) { ?>
+			<?php if ($sections[0]["course_status"] == 2) { ?>
 				<div id="cancelled-course">
 					<h1>Course Cancelled</h1>
 					<p>This course has been cancelled. No sections will be held. 
@@ -154,45 +175,67 @@
 	if (verifyAdminOrClassInstructor($_GET["id"])) { ?>
 		<section class="content">
 			<div class="container">
-				<h1>Admin Panel</h1>
-				<p>Edit information, send emails, and view registrants for your course and section</p>
-				<div><a id="editDesc">Edit Description</a></div>
-				<div class="all" id="true"><a id="sendAll">Send an email to all students</a></div> 
+				<div class="row">
+					<div class="col-md-8 col-xs-12">
+						<h1>Admin Panel</h1>
+						<p>Edit information, send emails, and view registrants for your course and section</p>
+						<div><a id="editDesc">Edit Description</a></div>
+						<div class="all" id="true"><a id="sendAll">Send an email to all students</a></div> 
 
+						<?php for ($i = 0; $i < $sections[0]["num_sections"]; $i++) { ?>
+							<h2>Section <?= $i + 1 ?></h2>
+							<?php
+							$section = $db -> select("SELECT users.first_name,
+							                                 users.last_name,
+							                                 users.netid
+							                          FROM " . $DATABASE . ".users users
+							                          JOIN " . $DATABASE . ".registrations reg
+							                          ON reg.user_id = users.id 
+							                          WHERE reg.course_id = " . $db->quote($sections[0]["id"]) . "
+							                          AND reg.course_section = " . $db->quote($i + 1));
+							if (empty($section)) { ?>
+								<p>There is no one yet signed up for this section</p>
+							<?php } else { ?>
 
-				<?php for ($i = 0; $i < $sections[0]["num_sections"]; $i++) { ?>
-					<h2>Section <?= $i + 1 ?></h2>
-					<?php
-					$section = $db -> select("SELECT users.first_name,
-					                                 users.last_name
-					                          FROM " . $DATABASE . ".users users
-					                          JOIN " . $DATABASE . ".registrations reg
-					                          ON reg.user_id = users.id 
-					                          WHERE reg.course_id = " . $db->quote($sections[0]["id"]) . "
-					                          AND reg.course_section = " . $db->quote($i + 1));
-					if (empty($section)) { ?>
-						<p>There is no one yet signed up for this section</p>
-					<?php } else { ?>
-
-					<div class="sec" id="<?= $i + 1 ?>"><a class="sendSecs">Email this section</a></div>
-					<table>
-						<tr>
-							<th></th>
-							<th>First Name</th>
-							<th>Last Name</th>
-						</tr>
-						<tr>
-							<?php for ($j = 0; $j < count($section); $j++) { ?>
+							<div class="sec" id="<?= $i + 1 ?>"><a class="sendSecs">Email this section</a></div>
+							<table>
 								<tr>
-									<td></td>
-									<td><?= htmlspecialchars($section[$j]["first_name"]) ?></td>
-									<td><?= htmlspecialchars($section[$j]["last_name"]) ?></td>
+									<th></th>
+									<th>First Name</th>
+									<th>Last Name</th>
+									<th>Type</th>
 								</tr>
+								<tr>
+									<?php for ($j = 0; $j < count($section); $j++) { ?>
+										<tr>
+											<td></td>
+											<td><?= htmlspecialchars($section[$j]["first_name"]) ?></td>
+											<td><?= htmlspecialchars($section[$j]["last_name"]) ?></td>
+											<td>
+												<?php if ($section[$j]["netid"]) { ?>
+													Student
+												<?php } else { ?>
+													General
+												<?php } ?>
+											</td>
+										</tr>
+									<?php } ?>
+								</tr>
+							</table>
+						<?php }
+						} ?>
+					</div>
+					<div class="col-md-4 col-xs-12">
+						<h2>Course Controls</h2>
+						<form action="course.php?id=<?= $_GET["id"] ?>" method="post">
+							<?php if ($sections[0]["course_status"] == 1) { ?>
+								<button type="submit" name="course-toggle" value="toggle">Cancel Course</button>
+							<?php } else { ?>
+								<button type="submit" name="course-toggle" value="toggle">Reinstate Course</button>
 							<?php } ?>
-						</tr>
-					</table>
-				<?php }
-				} ?>
+						</form>
+					</div>
+				</div>
 			</div>
 		</section>
 

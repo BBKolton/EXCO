@@ -74,6 +74,12 @@
 			return "'" . $connection->real_escape_string($value) . "'";
 		}
 
+		//like aobve but does not surround with quotes
+		public function escape($value) {
+			$connection = $this->connect();
+			return $connection->real_escape_string($value);
+		}
+
 	}
 
 	function verifyAdminOrClassInstructor($courseID) {
@@ -202,9 +208,15 @@
 											<li><a href="/asuwecwb/users/mycourses.php">My Courses</a></li>
 											<li><a href="/asuwecwb/users/cart.php">Cart</a></li>
 											<?php if ($_SESSION["permissions"] > 1) { ?>
-												<li><a href="/asuwecwb/instructors/rif.php">Rifs</a></li>
-											<?php } if ($_SESSION["permissions"] > 2 ) { ?>
-												<li><a href="/asuwecwb/admin/admin.php">Admin Panel</a></li>
+												<li role="separator" class="divider"></li>
+												<li class="dropdown-header">Administration</li>
+												<?php if ($_SESSION["permissions"] > 1) { ?>
+													<li><a href="/asuwecwb/instructors/rif.php">Rifs</a></li>
+												<?php } if ($_SESSION["permissions"] > 2 ) { ?>
+													<li><a href="/asuwecwb/admin/admin.php">Admin Panel</a></li>
+												<?php } if ($_SESSION["permissions"] > 3 ) { ?>
+													<li><a href="/asuwecwb/admin/superadmin.php">Super Admin</a></li>
+												<?php } ?>
 											<?php } ?>
 											<li role="separator" class="divider"></li>
 											<li class="dropdown-header">Account</li>

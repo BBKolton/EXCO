@@ -22,7 +22,19 @@
 		}
 	}
 
+	$db = new DB();
 
+	if (!empty($_POST["email"]) && !empty($_POST["pass"])) {
+		$db->query("UPDATE " . $DATABASE . ".users 
+		            SET password = " . $db->quote(password_hash($_POST["pass"], PASSWORD_BCRYPT)) . " 
+		            WHERE email = " . $db->quote($_POST["email"]));
+	}
+
+	if (!empty($_POST["account-type"]) && !empty($_POST["email"])) {
+		$db->query("UPDATE " . $DATABASE . ".users 
+		            SET permissions = " . $db->quote($_POST["account-type"]) . " 
+		            WHERE email = " . $db->quote($_POST["email"]));
+	}
 
 
 	head("<link href='/asuwecwb/.assets/css/superadmin.css' type='text/css' rel='stylesheet'>"); ?>
@@ -57,6 +69,29 @@
 					<button type="submit" name="maintenance" value="toggle">Toggle Maintenance Mode</button>
 				</form>
 			</div>
+			<div>
+				<h2>Change User Password</h2>
+				<p>Manually change a user's password. You can change any account from here. Use this option only when "forgot a password" does not work for a user (which means their email system is blocking our recovery email). Good practice is setting their email to a generic password, and encouraging them to change it once they login.</p>
+				<form action="superadmin.php" method="post">
+					<input type="text" name="email" placeholder="email" />
+					<input type="text" name="pass" placeholder="password" />
+					<button type="submit">Change Account Password</button>
+				</form>
+			</div>
+			<div>
+				<h2>Change User Type</h2>
+				<p>Change a user's account type. The user in question will have to relog to view changes. ONLY THE WEBMASTER, DIRECTOR AND CO-DIRECTOR SHOULD BE SUPERADMINS</p>
+				<form action="superadmin.php" method="post">
+					<select name="account-type">
+						<option value="1">General/UW Student</option>
+						<option value="2">Instructor</option>
+						<option value="3">Administrator</option>
+						<option value="4">Super Administrator</option>
+					</select>
+					<input type="text" name="email" placeholder="email" />
+					<button type="submit">Change Account Type</button>
+				</form>
+			</div>
 		</div>
 	</section>
 
@@ -78,6 +113,7 @@ RewriteEngine On
 RewriteRule ^((?!(maintenancemode|login|logout|superadmin|\.assets)).)*$ /asuwecwb/maintenancemode.php [NE,R,L]
 
 #TOGGLE
+#Created by superadmin.php
 DATA;
 		}
 		$htaccess = file_put_contents("../.htaccess", $data);
@@ -85,4 +121,4 @@ DATA;
 	}
 
 
-?>set user passwords,
+?>
