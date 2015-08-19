@@ -126,7 +126,7 @@
 	function displayConfirmation($c, $DATABASE, $db) {
 		head(); ?>
 
-		<section class="confirmation">
+		<section class="content">
 			<div class="container">
 				<h1>Order Successful!</h1>
 				<p>Thank you for taking classes with the Experimental College!

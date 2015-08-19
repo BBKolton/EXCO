@@ -91,7 +91,7 @@
 		</div>
 	</section>
 
-	<section class="times"><!-- times section -->
+	<section class="content"><!-- times section -->
 		<div class="container">
 			<fieldset>
 				<h2>Dates and Times</h2>

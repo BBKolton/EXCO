@@ -13,7 +13,16 @@
 		for (var i = 0; i < elems.length; i++) { 
 			elems[i].onclick = writeEmail;
 		}
+/*		document.getElementById("course-status-toggle").onclick = confirmCourseStatusChange 
+*/
 	});
+
+/*	function confirmCourseStatusChange() {
+		var r = confirm("Are you sure you want to toggle the course status?");
+		if (r) {
+			window.location.replace(window.location.href + "&course-status-toggle");
+		}
+	}*/
 
 	//creates the textbox and submit and cancel buttons
 	function descriptionEdit() {

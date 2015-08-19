@@ -26,16 +26,23 @@
 						<h2><a name="<?= $type ?>"><?= $type ?></h2>
 						<div class="row">
 							<?php 
-							$classes = $db -> select("SELECT id, name, type 
-							                          FROM " . $DATABASE . ".courses
-							                          WHERE type = " . $db->quote($types[$j]['type']) . " 
-							                          AND status = '1' ");
+							$classes;
+							if ($_SESSION["permissions"] === '1') {
+								$classes = $db -> select("SELECT id, name, type, status 
+								                          FROM " . $DATABASE . ".courses
+								                          WHERE type = " . $db->quote($types[$j]['type']) . " 
+								                          AND status = '1' ");
+							} else {
+								$classes = $db -> select("SELECT id, name, type, status
+								                          FROM " . $DATABASE . ".courses
+								                          WHERE type = " . $db->quote($types[$j]['type']));
+							}
 							for ($i = 0; $i < count($classes); $i++) { 
 								?>
 								<a href="/asuwecwb/courses/course.php?id=<?= $classes[$i]['id'] ?>">
 									<div class="class-wrap col-lg-4 col-sm-6 col-xs-12">
 										<div class="class" style="background-image: url('/asuwecwb/.assets/img/classes/<?= $classes[$i]['id'] ?>.jpg'), url('/asuwecwb/.assets/img/classes/fallback.jpg'); background-size: cover;">
-											<h3><?= htmlspecialchars($classes[$i]["name"]) ?></h3>
+											<h3 class="status-<?= $classes[$i]['status']?>"><?= htmlspecialchars($classes[$i]["name"]) ?></h3>
 										</div>
 									</div>
 								</a>

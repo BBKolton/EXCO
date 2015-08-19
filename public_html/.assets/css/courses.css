@@ -16,6 +16,14 @@ h2 > a {
 	background-position: 50% 0%;
 }
 
+.status-1 {
+	background-color: #000000;
+}
+
+.status-2 {
+	background-color: #b41800;
+}
+
 .class-wrap {
 }
 
@@ -39,7 +47,6 @@ h2 > a {
 	margin: 0px;
 	padding: 5px;
 	width: 100%;
-	background-color: #000000;
 	color: #FFFFFF;
 
 }
