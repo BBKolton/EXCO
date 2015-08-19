@@ -1,0 +1,5 @@
+RewriteEngine On
+
+RewriteRule ^((?!(maintenancemode|login|superadmin|\.assets)).)*$ /asuwecwb/maintenancemode.php [NE,R,L]
+
+#TOGGLE
