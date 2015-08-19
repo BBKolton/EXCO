@@ -145,7 +145,7 @@
 				<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 				
 				<title>Experimental College</title>
-				<link href="LINKHEREBOZO" type="image/SOMETHING" rel="shortcut icon" />
+				<link href="/asuwecwb/.assets/img/logo.ico" type="image/icon" rel="shortcut icon" />
 				<link href="/asuwecwb/.assets/css/bootstrap.css" type="text/css" rel="stylesheet" />
 				<link href="/asuwecwb/.assets/css/bootstrap-theme.css" type="text/css" rel="stylesheet" />
 				<link href="/asuwecwb/.assets/css/EXCO.css" type="text/css" rel="stylesheet" />
@@ -201,8 +201,10 @@
 										<ul class="dropdown-menu">
 											<li><a href="/asuwecwb/users/mycourses.php">My Courses</a></li>
 											<li><a href="/asuwecwb/users/cart.php">Cart</a></li>
-											<?php if($_SESSION["permissions"] > 1) { ?>
+											<?php if ($_SESSION["permissions"] > 1) { ?>
 												<li><a href="/asuwecwb/instructors/rif.php">Rifs</a></li>
+											<?php } if ($_SESSION["permissions"] > 2 ) { ?>
+												<li><a href="/asuwecwb/admin/admin.php">Admin Panel</a></li>
 											<?php } ?>
 											<li role="separator" class="divider"></li>
 											<li class="dropdown-header">Account</li>

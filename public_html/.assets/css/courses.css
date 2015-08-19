@@ -14,7 +14,6 @@ h2 > a {
 .jumbotron {
 	background-image: url("/asuwecwb/.assets/img/index-1.jpg");
 	background-position: 50% 0%;
-	
 }
 
 .class-wrap {
@@ -32,6 +31,7 @@ h2 > a {
     background-color: -o-linear-gradient(right, #4700B2, #3366FF); /* For Opera 11.1 to 12.0 */
     background-color: -moz-linear-gradient(right, #4700B2, #3366FF); /* For Firefox 3.6 to 15 */
     background-color: linear-gradient(to right, #4700B2, #3366FF); /* Standard syntax (must be last) */
+    background-position: 50% 50%;
 }
 
 .class > h3 {

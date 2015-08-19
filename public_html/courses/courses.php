@@ -28,7 +28,8 @@
 							<?php 
 							$classes = $db -> select("SELECT id, name, type 
 							                          FROM " . $DATABASE . ".courses
-							                          WHERE type = " . $db->quote($types[$j]['type']));
+							                          WHERE type = " . $db->quote($types[$j]['type']) . " 
+							                          AND status = '1' ");
 							for ($i = 0; $i < count($classes); $i++) { 
 								?>
 								<a href="/asuwecwb/courses/course.php?id=<?= $classes[$i]['id'] ?>">

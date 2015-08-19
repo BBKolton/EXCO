@@ -9,7 +9,7 @@
 	head();
 
 	?>
-	<section>
+	<section class="content">
 		<div class="container">
 			<h1>Feedback</h1>
 			<p>Have something you want to say about the website, a class, or the Experimental

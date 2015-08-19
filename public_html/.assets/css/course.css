@@ -2,6 +2,13 @@
 	background-position: 50% 0%;
 }
 
+#cancelled-course {
+	background-color: #9c0000;
+	color: white;
+	padding: 10px;
+	border-radius: 6px;
+}
+
 .wrapper {
 	background-color: #CCCCCC;
 	margin: 15px;

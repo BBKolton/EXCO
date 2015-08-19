@@ -50,16 +50,12 @@
 	head("<link href='/asuwecwb/.assets/css/course.css' type='text/css' rel='stylesheet'>" . 
 	     "<script type='text/javascript' src='/asuwecwb/.assets/js/course.js'></script>");
 
-	if (isset($_GET["email"]) && !empty($_GET["section"]) &&
-			verifyAdminOrClassInstructor($_GET["id"])) {
-		//sendSectionEmail
-	}
-
 	$sections = $db -> select("SELECT courses.name,
 			courses.description,
 			courses.num_sections,
 			courses.instructor_id,
 			courses.id,
+			courses.status as courses_status,
 			sec.times,
 			sec.days,
 			sec.size,
@@ -79,6 +75,7 @@
 		error("Specified Class Not Found", "The course you're looking for was not found");
 	}
 
+
 	?>
 
 	<section class="title" >
@@ -92,6 +89,17 @@
 	</section>
 	<section class="content">
 		<div class="container">
+
+			<?php if ($sections[0]["courses_status"] == 2) { ?>
+				<div id="cancelled-course">
+					<h1>Course Cancelled</h1>
+					<p>This course has been cancelled. No sections will be held. 
+					If you were enrolled, you may request a refund from the college.
+					Please <a href="/asuwecwb/about.php">contact us</a> for more 
+					information. </p>
+				</div>
+			<?php } ?>
+
 			<div class="row">
 				<div class="col-md-9 col-xs-12">
 					<h2>About the Class</h2>

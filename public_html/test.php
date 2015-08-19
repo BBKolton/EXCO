@@ -4,11 +4,12 @@ require("common.php");
 
 $db = new DB();
 
-echo "SELECT courses.name,
+	$sections = $db -> select("SELECT courses.name,
 			courses.description,
 			courses.num_sections,
 			courses.instructor_id,
 			courses.id,
+			courses.status as courses_status,
 			sec.times,
 			sec.days,
 			sec.size,
@@ -22,8 +23,8 @@ echo "SELECT courses.name,
 			FROM " . $DATABASE . ".courses courses
 			JOIN " . $DATABASE . ".sections sec ON sec.course_id = courses.id
 			JOIN " . $DATABASE . ".users users ON courses.instructor_id = users.id
-			WHERE courses.id = " . $db -> quote($_GET["id"]);
+			WHERE courses.id = " . $db -> quote(8));
 
-	echo generate_salted_hash("temppass");
+	echo "hahaha " . print_r($sections[0]["courses_status"], true);
 
 ?>
