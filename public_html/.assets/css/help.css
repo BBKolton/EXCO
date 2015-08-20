@@ -1,0 +1,24 @@
+.jumbotron {
+	background-image: url("/asuwecwb/.assets/img/help.jpg");
+	background-position: 50% 20%;
+}
+
+p {
+	text-indent: 20px;
+	text-align: justify;
+}
+
+#sidenavbar {
+	background-color: #eeeeee; 
+	color: #4a2941;
+	height: 100%;
+}
+
+a {
+	color: inherit;
+}
+
+a:hover {
+	text-decoration: none;
+	color: inherit;
+}
