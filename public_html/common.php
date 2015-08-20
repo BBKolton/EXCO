@@ -194,7 +194,7 @@
 							<ul class="nav navbar-nav">
 								<li><a href="/asuwecwb/courses/courses.php">Courses</a></li>
 								<li><a href="/asuwecwb/.assets/docs/Catalog.pdf">Catalog</a></li>
-								<li><a href="!!">Teach</a></li>
+								<li><a href="/asuwecwb/teach.php">Teach</a></li>
 								<li><a href="!!">Help</a></li>
 								<li><a href="/asuwecwb/about.php">About</a></li>
 								<li><a href="/asuwecwb/feedback.php">Feedback</a></li>

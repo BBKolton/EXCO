@@ -1,0 +1,8 @@
+.jumbotron h1, .jumbotron p {
+	color: white;
+}
+
+.jumbotron {
+	background-image: url("/asuwecwb/.assets/img/teach.jpg");
+	background-position: 50% 20%;
+}

@@ -44,6 +44,7 @@
 			}
 		} 
 
+		//disable course
 		if (!empty($_POST["course-toggle"])) {
 			$active = $db->select("SELECT courses.status
 			                       FROM " . $DATABASE . ".courses
@@ -59,7 +60,6 @@
 			              WHERE id = " . $db->quote($_GET["id"]));
 
 			header("Refresh:0");
-
 		}
 
 
