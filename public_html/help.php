@@ -78,7 +78,7 @@
 	<section class="content">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-8">
+				<div class="col-md-8 faq">
 					<?php foreach ($faq as $q => $a) { ?>
 						<a name="<?= $q ?>"><h2><?= $q ?></h2></a>
 						<p><?= $a ?></p>

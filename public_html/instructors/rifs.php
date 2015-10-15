@@ -1,21 +1,63 @@
 <?php
-	//creates a page for viewing your RIFs if your an instructor, and
-	//all RIFS if youre an admin.
-	require("../common.php");
+require('../common.php');
 
-	session_start();
+session_start();
+if ($_SESSION['permissions'] < 3) {
+	error('Access Denied', 'You are not an administrator');
+}
 
-	//If the user isn't supposed to be here
-	if (empty($_SESSION["id"])) {
-		error("Denied", "You must be logged in and an instructor to view this page");
-	} if ($_SESSION["permissions"] < 2) {
-		error("Instructors Only", "You must be an instructor ar administrator to view this page");
-	}
+$db = new DB();
+$rifs = $db->select('SELECT r.id,
+                            r.name,
+                            u.first_name,
+                            u.last_name
+                     FROM rifs r
+                     JOIN users u ON r.instructor_id = u.id');
 
-	//user is supposed to be here, let's find out who they are and query the table for either
-	//all data for admins or just instructor's rifs if not.
-	$db = new DB();
-	if ($_SESSION["permissions"] == 2) { //I'm an instructor!
-		$id = $_SESSION0["id"];
-		$db -> select("SELECT ");
-	}
+head('<link href="/asuwecwb/.assets/css/rifs.css" rel="stylesheet" />', 0, 0, 1);
+?>
+
+<script>
+	$(document).ready(function() {
+		$('#dynatable').dynatable();
+	});
+</script>
+
+<section class='title'>
+	<div class='jumbotron'>
+		<div class='container'>
+			<h1>All Rifs</h1>
+		</div>
+	</div>
+</section>
+
+<section class='content'>
+	<div class='container'>
+		<table id='dynatable' class='table table-striped'>	
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Course Name</th>
+					<th>Instructor</th>
+				</tr>
+			</thead>
+			<tbody>
+				
+			<?php foreach($rifs as $rif) { ?>
+				<tr>
+					<td><?= $rif['id'] ?></td>
+					<td><a href='rif.php?id=<?= $rif["id"] ?>'><?= $rif['name'] ?></a></td>
+					<td><?= $rif['first_name'] . " " . $rif['last_name'] ?></td>
+				</tr>
+			<?php } ?>
+				
+			</tbody>
+		<table>
+	</div>
+</section>
+
+
+
+<?php
+tail();
+?>

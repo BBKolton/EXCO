@@ -27,7 +27,7 @@
 						<div class="row">
 							<?php 
 							$classes;
-							if ($_SESSION["permissions"] === '1') {
+							if (empty($_SESSION["permissions"]) || $_SESSION["permissions"] === '1') {
 								$classes = $db -> select("SELECT id, name, type, status 
 								                          FROM " . $DATABASE . ".courses
 								                          WHERE type = " . $db->quote($types[$j]['type']) . " 

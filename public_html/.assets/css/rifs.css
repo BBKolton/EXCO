@@ -1,0 +1,8 @@
+.jumbotron {
+	background-image: url("/asuwecwb/.assets/img/instructors.jpg");
+	background-position: 50% 20%;
+}
+
+.content > div {
+	padding: 10px;
+}

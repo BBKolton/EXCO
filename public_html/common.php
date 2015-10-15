@@ -137,7 +137,7 @@
 
 	//the begining of all documents. Includes head and relevant links. allows for any extra pages to be linked
 	//throught the use of $extra, and aditional commonly used resources are listed afterwards.
-	function head($extra = " ", $ckEditor = 0, $datePicker = 0) { 
+	function head($extra = " ", $ckEditor = 0, $datePicker = 0, $dynatable = 0) { 
 		require("config.php"); //to get $MINDATE and $MAXDATE
 		session_start(); 
 		?>
@@ -170,10 +170,13 @@
 						include($branch . '.assets/js/rif.php'); ?>
 						<link rel="stylesheet" href="/asuwecwb/.assets/plugins/jquery-ui/jquery-ui.min.css">
 						<link rel="stylesheet" href="/asuwecwb/.assets/css/datepicker.css">
-						<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script><!--multidatespicker dependency -->
+						<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script><!--multidatespicker dependency -->
 						<script src="/asuwecwb/.assets/plugins/multidatepicker/multidatespicker.js"></script>
 						<?php datePickerConfig($MINDATE, $MAXDATE); //this function lives in the above include branch
-					 } 
+					 } if ($dynatable) { ?>
+					 	<link rel='stylesheet' href='/asuwecwb/.assets/plugins/dynatable/dynatable.css' />
+					 	<script src='/asuwecwb/.assets/plugins/dynatable/dynatable.js'></script>
+					 <?php }
 				?>
 
 			</head>
@@ -194,13 +197,15 @@
 							<ul class="nav navbar-nav">
 								<li><a href="/asuwecwb/courses/courses.php">Courses</a></li>
 								<li><a href="/asuwecwb/.assets/docs/Catalog.pdf">Catalog</a></li>
-								<li><a href="/asuwecwb/teach.php">Teach</a></li>
+								<li><a href="/asuwecwb/teach/">Teach</a></li>
 								<li><a href="/asuwecwb/help.php">Help</a></li>
 								<li><a href="/asuwecwb/about.php">About</a></li>
 								<li><a href="/asuwecwb/feedback.php">Feedback</a></li>
 							</ul>
 							<ul class="nav navbar-nav navbar-right">
 								
+								<?php if ($_SESSION["permissions"] > 1) { ?>
+									<li><a href="/asuwecwb/instructors">Instructors</a></li>
 								<?php if(isset($_SESSION["name"])) { ?>
 									<li class="dropdown">
 										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= htmlspecialchars($_SESSION["name"]) ?><span class="caret"></span></a>
@@ -210,8 +215,6 @@
 											<?php if ($_SESSION["permissions"] > 1) { ?>
 												<li role="separator" class="divider"></li>
 												<li class="dropdown-header">Administration</li>
-												<?php if ($_SESSION["permissions"] > 1) { ?>
-													<li><a href="/asuwecwb/instructors/rif.php">Rifs</a></li>
 												<?php } if ($_SESSION["permissions"] > 2 ) { ?>
 													<li><a href="/asuwecwb/admin/admin.php">Admin Panel</a></li>
 												<?php } if ($_SESSION["permissions"] > 3 ) { ?>

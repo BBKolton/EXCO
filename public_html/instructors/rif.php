@@ -2,9 +2,25 @@
 	require("../common.php");
 	head('<script type="text/javascript" src="../.assets/js/rif.js"></script>' . 
 		 '<link rel="stylesheet" href="../.assets/css/rif.css">', 1, 1);
+
+	session_start();
+	if (!verifyAdminOrClassInstructor($_GET['id'])) {
+		error('Access Denied', 'You are not cleared to edit this page');
+	}
+
+	$c;
+	if (isset($_GET['id'])) {
+		$db = new DB();
+		$c = $db->select("SELECT * FROM rifs WHERE id = " . $db->quote($_GET['id']));
+		$c = $c[0];
+
+		if (!$c) {
+			error('No Rif Found', 'The ID specified does not correspond to an existing rif');
+		}
+	}
+
 ?>	
-<form action="/asuwecwb/instructors/rifsubmit.php" method="POST">
-	<input name="id" type="hidden" value="<? $_GET['id'] ?>" />
+<form action="/asuwecwb/instructors/rifsubmit.php?id=<?= $c['id'] ?>" method="POST">
 	<section class="title">
 		<div class="container">
 			<h1>Returning Instructor Form</h1>
@@ -47,11 +63,11 @@
 				<table id="rooms">
 					<tr>
 						<td>Room Rental Hourly Rate</td>
-						<td><input type="text" id="room-rate" size="6"/></td>
+						<td><input type="text" id="room-rate" name="room-rate" size="6" value='<?= $c["room_rate"] ?>'/></td>
 					</tr>
 					<tr>
 						<td>Instruction Hours</td>
-						<td><input type="text" id="room-hours" size="6"/></td>
+						<td><input type="text" id="room-hours" name="room-hours" size="6" value='<?= $c["room_hours"] ?>'/></td>
 					</tr>
 					<tr>
 						<td>Total Room Rental Fee</td>
@@ -73,18 +89,18 @@
 					</tr>
 					<tr>
 						<td>UW Student: </td>
-						<td id="fee-stu">$0</td>
+						<td id="fee-uw">$0</td>
 					</tr>
 				</table>
 				<p>Input your fee per student below. For affordability's sake, we urge you do not exceed the maximums set above. Fees that exceed the maximum may be rejected by the Experimental College</p>
 				<table>
 					<tr>
 						<td>General Public: </td>
-						<td><input name="fee-stu" type="text" size="6"/></td>
+						<td><input name="fee-uw" type="text" size="6" value='<?= $c["fee_uw"] ?>' /></td>
 					</tr>
 					<tr>
 						<td>UW Student: </td>
-						<td><input name="fee-gen" type="text" size="6"/></td>
+						<td><input name="fee-gen" type="text" size="6" value='<?= $c["fee_gen"] ?>' /></td>
 					</tr>
 				</table>			
 			</fieldset>
@@ -121,30 +137,45 @@
 				<h3>Basic Things</h3>
 				<table>
 					<tr>
+						<td>Name</td>
+						<td><input name="name" type="text" size="20" value='<?= $c["name"] ?>' /></td>
+					</tr>
+					<tr>
 						<td>Category</td>
 						<td><select name="info-cat">
 
 						<?php for($i = 0; $i < count($GENRES); $i++) { ?>
-							<option value="<? $i ?>"><?= $GENRES[$i] ?></option>
+							<option value="<?= $i ?>" <?= $c["category"] == $i ? "selected" : "" ?>><?= $GENRES[$i] ?></option>
 						<?php }	?>
 
 						</select></td>
 					</tr>
 					<tr>
 						<td>General Location</td>
-						<td><input name="genloc" type="text" size="12"/></td>
+						<td><input name="loc-gen" type="text" size="12" value='<?= $c["loc_gen"] ?>' /></td>
+					</tr>
+					<tr>
+						<td>Specific Location</td>
+						<td><input name="loc-spec" type="text" size="12" value='<?= $c["loc_spec"] ?>' /></td>
 					</tr>
 					<tr>
 						<td>Are you willing to accept students after the first day of class?</td>
-						<td><input type="radio" name="info-firstday" value="yes" /> Yes <input type="radio" name="info-firstday" value="no" /> No </td>
+						<td><select name='info-firstday'>
+							<option value='1' <?= $c['firstday'] ? 'selected' : '' ?>>Yes</option>
+							<option value='0' <?= !$c['firstday'] ? 'selected' : '' ?>>No</option>
+						</select></td>
 					</tr>
 					<tr>
 						<td>How many students are you willing to overload? Leave blank if you cannot</td>
-						<td><input name="info-overflow" type="text" size="4"/></td>
+						<td><input name="info-overload" type="text" size="4" value='<?= $c["overload"] ?>' /></td>
 					</tr>
 					<tr>
 						<td>Will you accept students under 18?</td>
-						<td><input type="radio" name="info-age" value="yes" /> Yes <input type="radio" name="info-age" value="no" /> No <input type="radio" name="info-age" value="adult" /> Yes, with adult </td>
+						<td><select name='info-age'>
+							<option value='1' <?= $c['underage'] == 1 ? 'selected' : '' ?>>Yes</option>
+							<option value='0' <?= $c['underage'] == 0 ? 'selected' : '' ?>>No</option>
+							<option value='2' <?= $c['underage'] == 2 ? 'selected' : '' ?>>Yes, if accompanied by adult</option>
+						</select></td>
 					</tr>
 				</table>
 
@@ -154,17 +185,18 @@
 				be included in this email (e.g. supplies that they will need, clothing they should wear, 
 				special directions to your class location, etc.) put it here and it will be included in 
 				their confirmation email</p>
-				<textarea name="info-email" rows="7" cols="60"></textarea>
+				<textarea name="info-email" rows="7" cols="60"><?= $c["text_email"] ?></textarea>
 				<h3>Course Descriptions</h3>
 				<h4>Short</h4>
 				<p>Enter a short course description here. This description will be used for the catalog, 
 				small blurbs, and any other length sensitive areas</p>
-				<textarea name="info-short" rows="7" cols="60"></textarea>
+				<textarea name="info-short" rows="7" cols="60"><?= $c["text_short"] ?></textarea>
 				<h4>Long</h4>
 				<p>Enter a full description for the course here. There is no limit to length. 
 				This description will be used primarily on digital devices, like your course description page, where length is not an issue.</p>
 				<p>If you leave this area blank, we will use the description above</p>
-				<textarea name="info-long" rows="7" cols="60"></textarea>
+				<textarea name="info-long" rows="7" cols="60"><?= $c["text_long"] ?></textarea>
+
 
 			</fieldset>
 		</div>
@@ -172,9 +204,11 @@
 
 	<section>
 		<div class="content">
-			<fieldset>
-				<input type="submit" value="Save" /><input type="submit" value="Review and Submit" />
-			</fieldset>
+			<div class='container'>
+				<fieldset>
+					<p id='submit-area'><input type="submit" value="Save" /><input type="submit" value="Review and Submit" /></p>
+				</fieldset>
+			</div>
 		</div>
 	</section>
 </form>

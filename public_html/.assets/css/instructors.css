@@ -1,0 +1,20 @@
+.jumbotron {
+	background-image: url("/asuwecwb/.assets/img/instructors.jpg");
+	background-position: 50% 20%;
+}
+
+.dates {
+	background-color: #bd3162;
+	border-radius: 5px;
+	color: white;
+	padding: 6px;
+}
+
+.dates > h2 {
+	margin-top: 0px;
+}
+
+.dates a {
+	color: white !important;
+	text-decoration: underline;
+}
