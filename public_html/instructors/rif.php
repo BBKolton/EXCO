@@ -29,6 +29,7 @@
 		<div class="container">
 			<h1>Returning Instructor Form</h1>
 			<p>Use this registration form to register for a returning class.</p>
+			<p><a href='rifs.php'>Return to Rifs</a></p>
 		</div>
 	</section>
 

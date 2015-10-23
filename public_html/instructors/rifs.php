@@ -13,7 +13,10 @@ if ($_SESSION['permissions'] > 2) {
 	$query = 'SELECT r.id,
 	                 r.name,
 	                 u.first_name,
-	                 u.last_name
+	                 u.last_name,
+	                 r.late,
+	                 r.paid,
+	                 r.facilities
 	          FROM rifs r
 	          JOIN users u ON r.instructor_id = u.id';
 
@@ -21,7 +24,10 @@ if ($_SESSION['permissions'] > 2) {
 	$query = 'SELECT r.id,
 	                 r.name,
 	                 u.first_name,
-	                 u.last_name
+	                 u.last_name,
+	                 r.late,
+	                 r.paid,
+	                 r.facilities
 	          FROM rifs r
 	          JOIN users u ON r.instructor_id = u.id
 	          WHERE u.id = ' . $db->quote($_SESSION['id']);
@@ -55,6 +61,9 @@ head('<link href="/asuwecwb/.assets/css/rifs.css" rel="stylesheet" />', 0, 0, 1)
 					<th>Id</th>
 					<th>Course Name</th>
 					<th>Instructor</th>
+					<th>Late</th>
+					<th>Paid</th>
+					<th>Facilities</th>
 					<th>Delete</th>
 				</tr>
 			</thead>
@@ -65,6 +74,15 @@ head('<link href="/asuwecwb/.assets/css/rifs.css" rel="stylesheet" />', 0, 0, 1)
 					<td><?= $rif['id'] ?></td>
 					<td><a href='rif.php?id=<?= $rif["id"] ?>'><?= $rif['name'] ?></a></td>
 					<td><?= $rif['first_name'] . " " . $rif['last_name'] ?></td>
+					<?php if ($_SESSION['permissions'] > 2) { ?>
+						<td><a href='rifsubmit.php?id=<?= $rif["id"] ?>&late=<?= ($rif["late"] == 0) ? "1" : "0" ?>'><?= $rif['late'] == 0 ? 'Mark Late' : 'Clear Late' ?></a></td>
+						<td><a href='rifsubmit.php?id=<?= $rif["id"] ?>&paid=<?= $rif["paid"] == 0 ? "1" : "0" ?>'><?= $rif['paid'] == 0 ? 'Mark Paid' : 'Mark Unpaid' ?></a></td>
+						<td><a href='rifsubmit.php?id=<?= $rif["id"] ?>&facilities=<?= $rif["facilities"] == 0 ? "1" : "0" ?>'><?= $rif['facilities'] == 0 ? 'Mark Complete' : 'Mark Incomplete' ?></a></td>
+					<?php } else { ?>
+						<td><?= $rif['late'] == 0 ? 'Not Late' : 'Late' ?></td>
+						<td><?= $rif['paid'] == 0 ? 'Unpaid' : 'Paid' ?></td>
+						<td><?= $rif['paid'] == 0 ? 'Incomplete' : 'Complete' ?></td>
+					<?php } ?>
 					<td><a href='rifsubmit.php?id=<?= $rif["id"] ?>&delete=delete'>Delete Rif</a></td>
 				</tr>
 			<?php } ?>

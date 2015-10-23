@@ -3,17 +3,26 @@
 	
 	require("../common.php");
 	session_start();
+	$db = new DB();
 	
 
-	print_r($_POST);
+	//print_r($_POST);
 	
+	//Create a new blank rif
+	if (isset($_GET['create']) && $_SESSION['permissions'] > 1) {
+		$db -> query('INSERT INTO rifs (instructor_id, name)
+		               VALUES (' . $db->quote($_SESSION['id']) . ", 'New Course')");
+		header('Location: rifs.php');
+		die();
+	}
+
 
 	if (!verifyAdminOrClassInstructor($_GET['id'])) {
 		error('Access Denied', 'You\'re not allowed to edit this RIF!');
 	}
 
-	$db = new DB();
 
+	//Delete a rif
 	if (isset($_GET['delete'])) {
 		$db -> query('DELETE FROM rifs
 		              WHERE id = ' . $db->quote($_GET['id']));
@@ -25,12 +34,44 @@
 		die();
 	}
 
-	if (isset($_GET['create'])) {
-		$db -> query('INSERT INTO rifs (instructor_id, name)
-		               VALUES (' . $db->quote($_SESSION['id']) . ", 'New Course')");
+
+	if (isset($_GET['late'])) {
+		if ($_SESSION['permissions'] > 2) {
+			$db -> query('UPDATE rifs
+			              SET late = ' . $db->quote($_GET['late']) . '
+			              WHERE id = ' . $db->quote($_GET['id']));
+		} else {
+			error('Access Denied', 'You are not an administrator');
+		}
 		header('Location: rifs.php');
 		die();
 	}
+
+	if (isset($_GET['paid'])) {
+		if ($_SESSION['permissions'] > 2) {
+			$db -> query('UPDATE rifs
+			              SET paid = ' . $db->quote($_GET['paid']) . '
+			              WHERE id = ' . $db->quote($_GET['id']));
+		} else {
+			error('Access Denied', 'You are not an administrator');
+		}
+		header('Location: rifs.php');
+		die();
+	}
+
+	if (isset($_GET['facilities'])) {
+		if ($_SESSION['permissions'] > 2) {
+			$db -> query('UPDATE rifs
+			              SET facilities = ' . $db->quote($_GET['facilities']) . '
+			              WHERE id = ' . $db->quote($_GET['id']));
+		} else {
+			error('Access Denied', 'You are not an administrator');
+		}
+		header('Location: rifs.php');
+		die();
+	}
+
+	//Update the rif
 
 	$data = [];
 	$items = [];
