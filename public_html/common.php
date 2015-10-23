@@ -204,8 +204,6 @@
 							</ul>
 							<ul class="nav navbar-nav navbar-right">
 								
-								<?php if ($_SESSION["permissions"] > 1) { ?>
-									<li><a href="/asuwecwb/instructors">Instructors</a></li>
 								<?php if(isset($_SESSION["name"])) { ?>
 									<li class="dropdown">
 										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= htmlspecialchars($_SESSION["name"]) ?><span class="caret"></span></a>
@@ -215,11 +213,11 @@
 											<?php if ($_SESSION["permissions"] > 1) { ?>
 												<li role="separator" class="divider"></li>
 												<li class="dropdown-header">Administration</li>
-												<?php } if ($_SESSION["permissions"] > 2 ) { ?>
-													<li><a href="/asuwecwb/admin/admin.php">Admin Panel</a></li>
-												<?php } if ($_SESSION["permissions"] > 3 ) { ?>
-													<li><a href="/asuwecwb/admin/superadmin.php">Super Admin</a></li>
-												<?php } ?>
+												<li><a href="/asuwecwb/instructors">Instructors</a></li>
+											<?php } if ($_SESSION["permissions"] > 2 ) { ?>
+												<li><a href="/asuwecwb/admin/admin.php">Admin Panel</a></li>
+											<?php } if ($_SESSION["permissions"] > 3 ) { ?>
+												<li><a href="/asuwecwb/admin/superadmin.php">Super Admin</a></li>
 											<?php } ?>
 											<li role="separator" class="divider"></li>
 											<li class="dropdown-header">Account</li>

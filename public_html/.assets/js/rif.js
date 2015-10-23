@@ -11,7 +11,7 @@
 		for (var i = 5; i < itemFields.length - 2; i+= 2) {
 			itemFields[i].firstChild.onkeyup = itemUpdateCost;
 		}
-		document.getElementById("item-clear-fields") .onclick = ItemClearFields;
+		document.getElementById("item-clear-fields").onclick = ItemClearFields;
 
 		//room
 		var roomFields = document.getElementById("rooms").lastChild.childNodes;
@@ -22,6 +22,18 @@
 		//sections
 		document.getElementById("section-add").onclick = sectionAddNew;
 		document.getElementById("section-clear-fields").onclick = sectionClearFields;
+
+		//clear buttons for already added items
+		var clears = document.getElementsByClassName('clear-original');
+		console.log(clears)
+		for (var i = 0; i < clears.length; i++) {
+			clears[i].onclick = function() {
+				console.log('herp');
+				this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
+				itemUpdateTotal();
+			}
+		}
+		itemUpdateTotal();
 
 	});
 
@@ -118,7 +130,7 @@
 	//udpate the fee costs for students
 	function feesUpdate() {
 		var gen = document.getElementById("fee-gen");
-		var stu = document.getElementById("fee-stu");
+		var stu = document.getElementById("fee-uw");
 		var hrs = document.getElementById("room-hours").value;
 		gen.innerHTML = "$" + parseInt(hrs) * 10;
 		stu.innerHTML = "$" + parseInt(hrs) * 7;

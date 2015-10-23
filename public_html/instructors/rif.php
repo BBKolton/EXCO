@@ -14,6 +14,10 @@
 		$c = $db->select("SELECT * FROM rifs WHERE id = " . $db->quote($_GET['id']));
 		$c = $c[0];
 
+		$i = $db->select("SELECT * FROM rifs_items WHERE rif_id = " . $db->quote($c['id']));
+
+		$s = $db->select("SELECT * FROM rifs_sections WHERE rif_id = " . $db->quote($c['id']));
+
 		if (!$c) {
 			error('No Rif Found', 'The ID specified does not correspond to an existing rif');
 		}
@@ -54,9 +58,38 @@
 						<td><input type="text" placeholder="20" id="item-quan"/></td>
 						<td id="item-row-cost">$0</td>
 					</tr>
+					<?php 
+						$total = 0;
+						$num = 0;
+						foreach ($i as $item) { 
+							$total+= $item['cost'] * $item['quantity']; ?>
+							<tr>
+								<td><img class='clear-original-item' src='//placehold.it/20x20' /></td>
+								<td>
+									<input disabled='disabled' type='text' value='<?= $item["name"] ?>' />
+									<input hidden='hidden' type='text' name='item-<?= $num ?>-0' value='<?= $item["name"] ?>' />
+								</td>
+								<td>
+									<input disabled='disabled' type='text' value='<?= $item["cost"] ?>' />
+									<input hidden='hidden' type='text' name='item-<?= $num ?>-1' value='<?= $item["cost"] ?>' />
+								</td>
+								<td>
+									<input disabled='disabled' type='text' value='<?= $item["quantity"] ?>' />
+									<input hidden='hidden' type='text' name='item-<?= $num ?>-2' value='<?= $item["quantity"] ?>' />
+								</td>
+								<td class='total'>$<?= $item['quantity'] * $item['cost'] ?></td>
+							</tr>
+							<?php 
+							$num++;
+						}
+
+
+					?>
+
+
 				</table>
 				<button type="button" id="item-add">Add Item</button>
-				<p id="item-total">Total fee: $0</p>
+				<p id="item-total">Total fee: $<?= $total ?></p>
 
 				<h2>Room Rental</h2>
 				<p>Please view the room rental fees <a href="">here</a></p>
@@ -125,6 +158,30 @@
 						<td><input type="text"  id="section-end" placeholder="9:00pm"/></td>
 						<td><input id="dates" type="text" /><button type="button" id="section-add">Add Section</button></td>
 					</tr>
+					<?php 
+					$num = 0;
+					foreach ($s as $sec) { 
+						$num++;
+						?>
+						<tr>
+							<td><img class='clear-original' src='//placehold.it/20x20' /></td>
+							<td>
+								<input disabled='disabled' type='text' value='<?= $sec["time_start"] ?>' />
+								<input hidden='hidden' type='text' name='section-<?= $num ?>-0' value='<?= $sec["time_start"] ?>' />
+							</td>
+							<td>
+								<input disabled='disabled' type='text' value='<?= $sec["time_end"] ?>' />
+								<input hidden='hidden' type='text' name='section-<?= $num ?>-1' value='<?= $sec["time_end"] ?>' />
+							</td>
+							<td>
+								<input disabled='disabled' type='text' value='<?= $sec["days"] ?>' />
+								<input hidden='hidden' type='text' name='section-<?= $num ?>-2' value='<?= $sec["days"] ?>' />
+							</td>
+						</tr>
+						<?php 
+					}
+
+					?>
 				</table>
 			</fieldset>
 		</div>
@@ -150,6 +207,9 @@
 
 						</select></td>
 					</tr>
+					<tr>
+						<td>Max Enrollment</td>
+						<td><input type='text' name='size' size='12' value='<?= $c["size"] ?>'/>
 					<tr>
 						<td>General Location</td>
 						<td><input name="loc-gen" type="text" size="12" value='<?= $c["loc_gen"] ?>' /></td>
