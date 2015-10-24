@@ -14,8 +14,8 @@ head('', 1);
 	<div class='container'>
 		<h2>Apply to Instruct with EXCO</h2>
 		<p>Thank you for your interest in teaching with the Experimental College. We're always looking for new, talented instructors to teach engaging, unique, and quality classes. Please fill out the form below to apply to the college.</p>
-		<form>
-
+		<form method='post' action='niasubmit.php'>
+			
 		</form>
 	</div>
 </section>

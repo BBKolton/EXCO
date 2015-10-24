@@ -1,6 +1,5 @@
 <?php
 	//register a new user. Makes plenty of checks against duplicate users and common emails
-
 	require("../common.php");
 
 	if (!empty($_GET["code"])) {
@@ -36,7 +35,6 @@
 	//cryptify the password
 	$password = $_POST["password"];
 	$hash = password_hash($password, PASSWORD_BCRYPT);
-
 	$veriRaw = randomString();
 
 	//repackaged for easier imploding later, when creating a new user
@@ -54,19 +52,11 @@
 
 	//$exists will be FALSE if no people are found. Will be a mysqli with rows if they do
 	//ha ha looks like sexists
-	$exists = $db -> query("SELECT * 
-	                        FROM " . $DATABASE . ".users 
-	                        WHERE email = " . $email);
+	$rows = $db -> select("SELECT * 
+	                       FROM " . $DATABASE . ".users 
+	                       WHERE email = " . $email);
 
-	//execute duplicate account checks
-	if (!$exists) { //malformed request (this shouldnt happen ever). page dies in here
-		error("Bad Database Request");
-	} else { //create an array from the mysqli result and see if anyone lives inside
-		$rows = array();
-		while ($row = mysqli_fetch_assoc($exists)) {
-			$rows[] = $row;
-		}
-	} if (empty($rows[0])) { //no user with same email, insert user
+	if (empty($rows[0])) { //no user with same email, insert user
 		$db -> query("INSERT INTO " . $DATABASE . ".users 
 		              (email, password, first_name, last_name, phone, mailing, activation)
 		              VALUES(" . implode(", ", $options) . ")");
@@ -89,8 +79,7 @@
 	}
 
 
-
-
+	//verifies a user's mailing code against the database
 	function verifyUser($email, $code, $DATABASE) {
 		$db = new DB();
 		$exists = $db -> select("SELECT * 
@@ -126,6 +115,7 @@
 		}
 	}
 
+
 	//mails the user with a verification email
 	function mailUser($email, $verification) {
 		require("../modules/PHPMailer/PHPMailerAutoload.php");
@@ -146,8 +136,8 @@
 		} catch (Exception $e) {
 			error("Email Failure", $mail->ErrorInfo);
 		}
-
 	}
+
 
 	//this very weak function makes sure an email has the right pattern
 	function validEmail($email) {
@@ -161,6 +151,7 @@
 			'While attempting to validate your email, a crucial error occurred. Please notify the webadmin.');
 	}
 	
+
 	//makes sure a password has the correct requirements
 	function validPassword($password) {
 		if (strlen($password) < 8) {

@@ -48,36 +48,46 @@
 	}
 
 	function page() { 
-		head(); 
+		head('<link href="/asuwecwb/.assets/css/login.css" rel="stylesheet" />'); 
 		?>
 
 		<section class="content">
 			<div class="container">
-				<form action="/asuwecwb/users/login.php" method="post">
-					<h3>Login</h3>
-					<input type="text" name="email" autofocus placeholder="email" />
-					<input type="password" name="password" />
-					<input type="submit" value="login" />
-					<p><a href="/asuwecwb/users/forgot.php">Forgot Password?</a></p>
-				</form>
-				<form action="/asuwecwb/users/registeruser.php" method="post">
-					<h3>Register User</h3>
-					<p>NOTICE: If you are a member of the University of Washington and
-						have a valid NetID email address, use it here to receive student
-						pricing.</p>
-					<input type="text" name="email" placeholder="email" /><br />
-					<input type="password" name="password" placeholder="password"/> Must be longer than 8 characters<br />
-					<input type="password" name="password2" placeholder="verify password"/><br />
-					<input type="text" name="first-name" placeholder="first name" /><br />
-					<input type="text" name="last-name" placeholder="last name" /><br />
-					<input type="text" name="phone" placeholder="phone" /><br />
-					<label><input type="checkbox" name="mailing" value="true" checked />Sign me up for newsletters</label><br />
-					<input type="submit" value="register" />
-				</form>
+				<div class='row'>
+					<div class='col-xs-12 col-md-6'>
+						<form action="/asuwecwb/users/login.php" method="post">
+							<h3>Login</h3>
+							<input class='form-control' type="text" name="email" autofocus placeholder="Email" /><br />
+							<input class='form-control' type="password" placeholder='Password' name="password" /><br />
+							<p>
+								<input type="submit" value="login" class='btn btn-info' />
+								<a href="/asuwecwb/users/forgot.php">Forgot Password?</a>
+							</p>
+						</form>
+					</div>
+					<div class='col-xs-12 col-md-6'>
+						<form action="/asuwecwb/users/registeruser.php" method="post">
+							<h3>Register New User</h3>
+							<p><i><b>NOTICE:</b> If you are a member of the University of Washington and
+								have a valid NetID email address, use it here to receive student
+								pricing.</i></p>
+							<input class='form-control' type="text" name="email" placeholder="Email" /><br />
+							<div class='form-group'>
+								<input class='form-control' type="password" name="password" placeholder="Password"/> Must be longer than 8 characters<br />
+							</div>
+							<input class='form-control' type="password" name="password2" placeholder="Verify Password"/><br />
+							<input class='form-control' type="text" name="first-name" placeholder="First Name" /><br />
+							<input class='form-control' type="text" name="last-name" placeholder="Last Name" /><br />
+							<input class='form-control' type="text" name="phone" placeholder="Phone Number" /><br />
+							<label><input type="checkbox" name="mailing" value="true" checked />Sign me up for newsletters</label><br />
+							<input type="submit" value="register" class="btn btn-success"/>
+						</form>
+					</div>
+				</div>
 			</div>
 		</section>
 
-		<?php tail();
+		<?php tail(); 
 	}
 
 ?>

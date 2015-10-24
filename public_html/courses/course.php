@@ -86,7 +86,9 @@
 			sec.section,
 			sec.status,
 			users.first_name,
-			users.last_name
+			users.last_name,
+			users.email,
+			users.phone
 			FROM " . $DATABASE . ".courses courses
 			JOIN " . $DATABASE . ".sections sec ON sec.course_id = courses.id
 			JOIN " . $DATABASE . ".users users ON courses.instructor_id = users.id
@@ -157,10 +159,11 @@
 				</div>
 
 				<div class="col-md-3 col-xs-12">
+					<h3>About the Instructor</h3>
 					<ul>
-						<li>something</li>
-						<li>Soemthing else</li>
-						<li>Maybe some cool info about the teacher</li>
+						<li>Teaches many classes</li>
+						<li>Email: <?= $sections[0]['email'] ?></li>
+						<li>Phone: <?= $sections[0]['phone'] ?></li>
 					</ul>
 
 				</div>

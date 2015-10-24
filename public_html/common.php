@@ -42,13 +42,6 @@
 
 		//get rows from the databse (like a SELECT). creashes on failure, array on success
 		public function select($search) {
-			//Use this for and ONLY FOR debugging problems. It's awful and will shit out FUCKING FATAL ERRORS
-			//FOR THE MOST INANE BULLSHIT. It's the equivalent of installing a water monitor on your faucet 
-			//to check for leaks, but everytime you use your sink for more than 3 seconds, it calls 911, reports 
-			//a fire, stops the water, and explodes your house... for your own safety, of course. Fuck PHP
-
-			//mysqli_report(MYSQLI_REPORT_ALL);
-
 			$rows = array();
 			$result = $this -> query($search);
 			if($result === false) {
@@ -61,20 +54,19 @@
 			return $rows;
 		}
 
-		//get teh alst error from database, returns string
+		//get the last error from database, returns string
 		public function error() {
 			$connection = $this -> connect();
 			return $connection -> error;
 		}
 
-		//SUPER IMPORTANT
-		//quotesand escapes values for use in a database query. returns a sanitized string
+		//quotes and escapes values for use in a database query. returns a sanitized string
 		public function quote($value) {
 			$connection = $this->connect();
 			return "'" . $connection->real_escape_string($value) . "'";
 		}
 
-		//like aobve but does not surround with quotes
+		//like above but does not surround with quotes
 		public function escape($value) {
 			$connection = $this->connect();
 			return $connection->real_escape_string($value);
