@@ -36,11 +36,14 @@
 		text.value = desc.innerHTML;
 		submit.innerHTML = "Submit";
 		submit.setAttribute("type", "button");
+		submit.classList.add('btn', 'btn-submit')
 		submit.onclick = descriptionSubmit;
 		cancel.innerHTML = "Cancel";
+		cancel.classList.add('btn', 'btn-warning')
 		cancel.setAttribute("type", "button");
 		cancel.onclick = descriptionReset;
 		text.id = "editDesc";
+		text.classList.add('form', 'control');
 				
 		area.replaceChild(text, edit);
 		area.insertBefore(cancel, text.nextSibling);
@@ -105,6 +108,11 @@
 		cancel.setAttribute("type", "button");
 		cancel.onclick = reset;
 		text.setAttribute("placeholder", "Your message here");
+		submit.classList.add('btn', 'btn-submit');
+		cancel.classList.add('btn', 'btn-warning');
+		text.classList.add('form', 'form-control');
+		subject.classList.add('form', 'form-control');
+
 
 		area.replaceChild(text, edit);
 		area.insertBefore(description, text);

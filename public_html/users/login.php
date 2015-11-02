@@ -21,7 +21,7 @@
 
 	//Ask the database for the user
 	$db = new DB();
-	$user = $db -> select("SELECT id, email, password, first_name, last_name, activation, permissions, type
+	$user = $db -> select("SELECT id, email, password, first_name, last_name, activation, permissions, type, phone
 	                       FROM " . $DATABASE . ".users 
 	                       WHERE email = " . $db -> quote($email));
 
@@ -44,6 +44,7 @@
 		$_SESSION["permissions"] = $user[0]["permissions"];
 		$_SESSION["type"] = $user[0]["type"];
 		$_SESSION["id"] = $user[0]["id"];
+		$_SESSION["phone"] = $user[0]["phone"];
 		header("Location: /asuwecwb/index.php");
 	}
 

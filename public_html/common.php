@@ -145,8 +145,8 @@
 				<title>Experimental College</title>
 				<link href="/asuwecwb/.assets/img/logo.ico" type="image/icon" rel="shortcut icon" />
 				<link href="/asuwecwb/.assets/css/bootstrap.css" type="text/css" rel="stylesheet" />
-				<link href="/asuwecwb/.assets/css/bootstrap-theme.css" type="text/css" rel="stylesheet" />
-				<link href="/asuwecwb/.assets/css/EXCO.css" type="text/css" rel="stylesheet" />
+<!-- 				<link href="/asuwecwb/.assets/css/bootstrap-theme.css" type="text/css" rel="stylesheet" />
+ -->				<link href="/asuwecwb/.assets/css/EXCO.css" type="text/css" rel="stylesheet" />
 				<script type="text/javascript" src="/asuwecwb/.assets/js/jquery-1.11.3.min.js"></script>
 				<script type="text/javascript" src="/asuwecwb/.assets/js/bootstrap.min.js"></script>
 				<?= $extra ?>
