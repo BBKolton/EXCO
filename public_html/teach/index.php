@@ -12,6 +12,14 @@
 	</section>
 	<section class="content">
 		<div class="container">
+			<?php if ($_SESSION['permissions'] > 2) { ?>
+				<div class='row'>
+					<div class='col-xs-12 col-sm-3 col-md-2 pull-right'>
+						<h3>NIA Admin</h3>
+						<p><a href='niaadmin.php'>Click here for the nia admin</a></p>
+					</div>
+					<div class='col-xs-12 col-sm-9 col-md-10'>
+			<?php } ?>
 			<h1>Teach at EXCO</h1>
 			<p>The Experimental College relies on our hard working instructors to teach interesting, engaging, and extracurricular classes. We're always interested to hear a course idea, and are always on the lookout for new, exciting talent. </p>
 			<h2>New Instructors</h2>
@@ -19,6 +27,10 @@
 			<p>Please read our <a href="/asuwecwb/.assets/docs/instructorinfo.pdf"> prospective instructor information sheet</a>. If you want to work with the Experimental College, you can <b>apply online <a href="nia.php">here</a>.</b> If you have any further questions, please <a href="/asuwecwb/about.php">contact us</a>.</p>
 			<h2>Returning Instructors</h2>
 			<p>If you're already an instructor with EXCO and want to propose a new class, please download the <a href="/asuwecwb/.assets/newcourseproposal.pdf">new course proposal form for existing instructors</a> and submit it to our office, or apply online <a href="TODO">here</a>.</p>
+			<?php if ($_SESSION['id'] > 2) { ?>
+					</div>
+				</div>
+			<?php } ?>
 		</div>
 	</section>
 

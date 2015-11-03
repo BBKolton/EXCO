@@ -48,7 +48,7 @@ head('<link href="/asuwecwb/.assets/css/rifs.css" rel="stylesheet" />', 0, 0, 1)
 <section class='title'>
 	<div class='jumbotron'>
 		<div class='container'>
-			<h1>All Rifs</h1>
+			<h1><?= $_SESSION['permissions'] > 2 ? 'All RIFS' : 'Your RIFS' ?></h1>
 		</div>
 	</div>
 </section>

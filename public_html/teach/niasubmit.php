@@ -26,53 +26,57 @@ if (!in_array($resumeType, $acceptedTypes)) {
 	error('Wrong Outline Format', 'The uploaded outline was not in .docx, .doc, .txt, or .pdf format');
 }
 
+foreach ($_POST as $key => $value) {
+	$_POST[$key] = htmlspecialchars($value);
+}
+
 $db = new DB();
 $db -> query('INSERT INTO nias (
-              user_id,
-              course_name,
-              course_summary,
-              course_start,
-              course_sections,
-              course_hours,
-              course_days,
-              course_max,
-              question_attract,
-              question_why,
-              question_skills,
-              question_supplies,
-              question_excersises,
-              question_background
-              ) VALUES (' . 
-              $_SESSION['id'] . ',' . 
-              $db->quote($_POST['course_name']) . ',' .
-              $db->quote($_POST['course_summary']) . ',' .
-              $db->quote($_POST['course_start']) . ',' .
-              $db->quote($_POST['course_sections']) . ',' .
-              $db->quote($_POST['course_hours']) . ',' .
-              $db->quote($_POST['course_days']) . ',' .
-              $db->quote($_POST['course_max']) . ',' .
-              $db->quote($_POST['question_attract']) . ',' .
-              $db->quote($_POST['question_why']) . ',' .
-              $db->quote($_POST['question_skills']) . ',' .
-              $db->quote($_POST['question_supplies']) . ',' .
-              $db->quote($_POST['question_excersises']) . ',' .
-              $db->quote($_POST['question_background']) . '
-              )');
+		user_id,
+		course_name,
+		course_summary,
+		course_start,
+		course_sections,
+		course_hours,
+		course_days,
+		course_max,
+		question_attract,
+		question_why,
+		question_skills,
+		question_supplies,
+		question_exercises,
+		question_background
+		) VALUES (' . 
+		$_SESSION['id'] . ',' . 
+		$db->quote($_POST['course_name']) . ',' .
+		$db->quote($_POST['course_summary']) . ',' .
+		$db->quote($_POST['course_start']) . ',' .
+		$db->quote($_POST['course_sections']) . ',' .
+		$db->quote($_POST['course_hours']) . ',' .
+		$db->quote($_POST['course_days']) . ',' .
+		$db->quote($_POST['course_max']) . ',' .
+		$db->quote($_POST['question_attract']) . ',' .
+		$db->quote($_POST['question_why']) . ',' .
+		$db->quote($_POST['question_skills']) . ',' .
+		$db->quote($_POST['question_supplies']) . ',' .
+		$db->quote($_POST['question_excersises']) . ',' .
+		$db->quote($_POST['question_background']) . '
+		)');
 
 $db -> query('INSERT INTO users_additional (
-              user_id,
-              address,
-              city,
-              state
-              ) VALUES (' .
-              $_SESSION['id'] . ',' .
-              $db->quote($_POST['personal_address']) . ',' .
-              $db->quote($_POST['personal_city']) . ',' .
-              $db->quote($_POST['personal_stat']) . '
-              )');
+		user_id,
+		address,
+		city,
+		state
+		) VALUES (' .
+		$_SESSION['id'] . ',' .
+		$db->quote($_POST['personal_address']) . ',' .
+		$db->quote($_POST['personal_city']) . ',' .
+		$db->quote($_POST['personal_stat']) . '
+		)');
 
-$dir = '/nfs/bronfs/uwfs/hw00/d55/asuwecwb/teach/docs/' . $_SESSION['id'];
-if (!file_exists($dir)) {
+$dir = 'docs/' . $_SESSION['id'];
+if (!is_dir($dir)) {
 	mkdir($dir);
 }
 

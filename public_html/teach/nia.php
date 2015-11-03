@@ -3,25 +3,16 @@ require('../common.php');
 session_start();
 
 if (!isset($_SESSION['id'])) {
-<<<<<<< HEAD
 	header('Location: /asuwecwb/users/login.php');
 	die();
 }
 
 head('<script src="/asuwecwb/.assets/js/nia.js"></script>' .
      '<link href="/asuwecwb/.assets/css/nia.css" rel="stylesheet" />');
-=======
-	header('Location: /asuwecwb/login.php');
-	die();
-}
-
-head('', 1);
->>>>>>> origin/master
 ?>
 
 <section class='content'>
 	<div class='container'>
-<<<<<<< HEAD
 		<h2>Apply to Instruct a Course with EXCO</h2>
 		<p>Thank you for your interest in teaching with the Experimental College. We're always looking for new, talented instructors to teach engaging, unique, and quality classes. Please fill out the form below to apply to a course with the college. Please estimate where you cannot give an exact answer; details can be dealt with later</p>
 		<form method='post' action='niasubmit.php' enctype='multipart/form-data'>
@@ -172,13 +163,6 @@ head('', 1);
 					<input type='submit' class='btn btn-success' />
 				</div>
 			</div>
-
-=======
-		<h2>Apply to Instruct with EXCO</h2>
-		<p>Thank you for your interest in teaching with the Experimental College. We're always looking for new, talented instructors to teach engaging, unique, and quality classes. Please fill out the form below to apply to the college.</p>
-		<form method='post' action='niasubmit.php'>
-			
->>>>>>> origin/master
 		</form>
 	</div>
 </section>
