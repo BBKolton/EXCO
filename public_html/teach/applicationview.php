@@ -8,13 +8,13 @@ if ($_SESSION['permissions'] < 3) {
 
 $db = new DB();
 
-$nia = $db -> select('SELECT *
-                      FROM nias
-                      JOIN users ON nias.user_id = users.id
+$application = $db -> select('SELECT *
+                      FROM applications
+                      JOIN users ON applications.user_id = users.id
                       JOIN users_additional ua ON users.id = ua.user_id
-                      WHERE nias.id = '. $db->quote($_GET['id']))[0];
+                      WHERE applications.id = '. $db->quote($_GET['id']))[0];
 
-head('<link href="/asuwecwb/.assets/css/nia.css" rel="stylesheet" />');
+head('<link href="/asuwecwb/.assets/css/application.css" rel="stylesheet" />');
 ?>
 
 <section class='content'>
@@ -24,50 +24,50 @@ head('<link href="/asuwecwb/.assets/css/nia.css" rel="stylesheet" />');
 			<div class='col-xs-12 col-md-6 col-lg-4'>
 				<h3>Personal Information</h3>
 					<p><b>Name</b><br />
-					<?= $nia['first_name'] . ' ' . $nia['last_name'] ?></p>
+					<?= $application['first_name'] . ' ' . $application['last_name'] ?></p>
 					
 					<p><b>Phone</b><br />
-					<?= $nia['phone'] ?></p>
+					<?= $application['phone'] ?></p>
 					
 					<p><b>Email</b><br />
-					<?= $nia['email'] ?></p>
+					<?= $application['email'] ?></p>
 					
 					<p><b>Address</b><br />
-					<?= $nia['address'] ?></p>
+					<?= $application['address'] ?></p>
 					
 					<p><b>City</b><br />
-					<?= $nia['city'] ?></p>
+					<?= $application['city'] ?></p>
 					
 					<p><b>State</b><br />
-					<?= $nia['state'] ?></p>
+					<?= $application['state'] ?></p>
 					
 					<p><b>Zip</b><br />
-					<?= $nia['zip'] ?></p>
+					<?= $application['zip'] ?></p>
 					
 			</div>
 
 			<div class='col-xs-12 col-md-6 col-lg-4'>
 				<h3>Course Information</h3>
 					<p><b>Proposed course name</b><br />
-					<?= $nia['course_name'] ?></p>
+					<?= $application['course_name'] ?></p>
 				
 					<p><b>Summarize your course in less than 75 words</b><br />
-					<?= $nia['course_summary'] ?></p>
+					<?= $application['course_summary'] ?></p>
 				
 					<p><b>When would you start?</b><br />
-					<?= $nia['course_start'] ?></p>
+					<?= $application['course_start'] ?></p>
 				
 					<p><b>Estimated number of sections</b><br />
-					<?= $nia['course_sections'] ?></p>
+					<?= $application['course_sections'] ?></p>
 				
 					<p><b>Estimated number of hours per class day</b><br />
-					<?= $nia['course_hours'] ?></p>
+					<?= $application['course_hours'] ?></p>
 				
 					<p><b>Estimated number of days per section</b><br />
-					<?= $nia['course_days'] ?></p>
+					<?= $application['course_days'] ?></p>
 				
 					<p><b>Max number of students per section</b><br />
-					<?= $nia['course_max'] ?></p>
+					<?= $application['course_max'] ?></p>
 				
 			</div>
 
@@ -76,33 +76,33 @@ head('<link href="/asuwecwb/.assets/css/nia.css" rel="stylesheet" />');
 				<div class='col-xs-12'><h3>Course Questions</h3></div>
 				<div class='col-xs-12 col-md-6 col-lg-12'>
 							<p><b>How will you attract students from UW with this course?</b><br />
-							<?= $nia['question_attract'] ?></p>
+							<?= $application['question_attract'] ?></p>
 				</div>
 				<div class='col-xs-12 col-md-6 col-lg-12'>
 							<p><b>Why do you want to teach this course?</b><br />
-							<?= $nia['question_why'] ?></p>
+							<?= $application['question_why'] ?></p>
 				</div>
 				<div class='col-xs-12 col-md-6 col-lg-12'>
 							<p><b>What skills/knowledge do you hope students will gain from this course?</b><br />
-							<?= $nia['question_skills'] ?></p>
+							<?= $application['question_skills'] ?></p>
 				</div>
 				<div class='col-xs-12 col-md-6 col-lg-12'>
 							<p><b>What supplies or equipment will students need to provide? What will you provide?</b><br />
-							<?= $nia['question_supplies'] ?></p>
+							<?= $application['question_supplies'] ?></p>
 				</div>
 				<div class='col-xs-12 col-md-6 col-lg-12'>
 							<p><b>What excersises will students participate in?</b><br />
-							<?= $nia['question_exercises'] ?></p>
+							<?= $application['question_exercises'] ?></p>
 				</div>
 				<div class='col-xs-12 col-md-6 col-lg-12'>
 							<p><b>Please describe your background in reference to the course, teaching, and training</b><br />
-							<?= $nia['quetion_background'] ?></p>
+							<?= $application['quetion_background'] ?></p>
 				</div>
 			</div>
 		</div>
 
 		<h3>Resume and Course Outline</h3>
-		<?php $dir = 'docs/' . $nia['user_id'] . '/'; 
+		<?php $dir = 'docs/' . $application['user_id'] . '/'; 
 		$files = scandir($dir);
 		$outline = $dir . $files[2];
 		$resume = $dir . $files[3]; ?>

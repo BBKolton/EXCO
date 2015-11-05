@@ -7,15 +7,32 @@ if (!isset($_SESSION['id'])) {
 	die();
 }
 
-head('<script src="/asuwecwb/.assets/js/nia.js"></script>' .
-     '<link href="/asuwecwb/.assets/css/nia.css" rel="stylesheet" />');
+head('<script src="/asuwecwb/.assets/js/application.js"></script>' .
+     '<link href="/asuwecwb/.assets/css/application.css" rel="stylesheet" />');
+
+$nia = $_SESSION['permissions'] < 2;
+
+$oldData;
+
+if (!$nia) {
+	$db = new DB();
+	$oldData = $db -> select('SELECT * FROM users_additional
+                            WHERE user_id = ' . $db->quote($_SESSION['id']))[0];
+
+}
+
 ?>
 
 <section class='content'>
 	<div class='container'>
-		<h2>Apply to Instruct a Course with EXCO</h2>
-		<p>Thank you for your interest in teaching with the Experimental College. We're always looking for new, talented instructors to teach engaging, unique, and quality classes. Please fill out the form below to apply to a course with the college. Please estimate where you cannot give an exact answer; details can be dealt with later</p>
-		<form method='post' action='niasubmit.php' enctype='multipart/form-data'>
+		<h2><?= $nia ? 'New Instructor Application' : 'New Course Proposal' ?></h2>
+		<?php if ($nia) { ?>
+			<p>Thank you for your interest in teaching with the Experimental College. We're always looking for new, talented instructors to teach engaging, unique, and quality classes. Please fill out the form below to apply to a course with the college. Please estimate where you cannot give an exact answer; details can be dealt with later</p>
+		<?php } else { ?>
+			<p>Thank you for your interest with teaching a course with EXCO! Please fill out the form below to make your application of a new course. Please estimate values where they can't be specifically given at this time; details can be dealt with later</p>
+		<?php } ?>
+		<p>No fields are expressely required besides your file uploads, but we hope you fill out all of them</p>
+		<form method='post' action='applicationsubmit.php' enctype='multipart/form-data'>
 			<div class='row'>
 				<div class='col-xs-12 col-md-6 col-lg-4'>
 					<h3>Personal Information</h3>
@@ -37,22 +54,22 @@ head('<script src="/asuwecwb/.assets/js/nia.js"></script>' .
 					</div>
 					<div class='form-group'>
 						<label>Address
-							<input type='text' name='personal_address' class='form-control'/>
+							<input type='text' name='personal_address' class='form-control' <?php if($oldData) { ?> value='<?= $oldData["address"] ?>' disabled <?php } ?> />
 						</label>
 					</div>
 					<div class='form-group'>
 						<label>City
-							<input type='text' name='personal_city' class='form-control'/>
+							<input type='text' name='personal_city' class='form-control' <?php if($oldData) { ?> value='<?= $oldData["city"] ?>' disabled <?php } ?> />
 						</label>
 					</div>
 					<div class='form-group'>
 						<label>State
-							<input type='text' name='personal_state' class='form-control'/>
+							<input type='text' name='personal_state' class='form-control' <?php if($oldData) { ?> value='<?= $oldData["state"] ?>' disabled <?php } ?> />
 						</label>
 					</div>
 					<div class='form-group'>
 						<label>Zip
-							<input type='number' name='personal_zip' class='form-control' disabled/>
+							<input type='number' name='personal_zip' class='form-control' value='<?= $_SESSION["zip"] ?>' disabled/>
 						</label>
 					</div>
 				</div>

@@ -31,7 +31,7 @@ foreach ($_POST as $key => $value) {
 }
 
 $db = new DB();
-$db -> query('INSERT INTO nias (
+$db -> query('INSERT INTO applications (
 		user_id,
 		course_name,
 		course_summary,
@@ -72,7 +72,7 @@ $db -> query('INSERT INTO users_additional (
 		$_SESSION['id'] . ',' .
 		$db->quote($_POST['personal_address']) . ',' .
 		$db->quote($_POST['personal_city']) . ',' .
-		$db->quote($_POST['personal_stat']) . '
+		$db->quote($_POST['personal_state']) . '
 		)');
 
 $dir = 'docs/' . $_SESSION['id'];
@@ -83,4 +83,4 @@ if (!is_dir($dir)) {
 move_uploaded_file($_FILES['resume']['tmp_name'], $dir . '/resume.' . $resumeType);
 move_uploaded_file($_FILES['outline']['tmp_name'], $dir . '/outline.' . $outlineType);
 
-header('Location: /asuwecwb/teach/niacomplete.php');
+header('Location: /asuwecwb/teach/applicationcomplete.php');

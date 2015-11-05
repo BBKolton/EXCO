@@ -23,6 +23,7 @@
 
 		//change a users email
 		//TODO this is copied from register user
+		//TODO html entitiy escape everything going into the database
 		if (!empty($_POST["email-new"])) {
 			if ($_POST["email-new"] !== $_POST["email-new-confirm"]) {
 				error("Emails do not Match", "You typed in two different emails");
@@ -60,15 +61,22 @@
 		if (!empty($_POST["first"])) {
 			if (empty($_POST["last"]) || empty($_POST["phone"]) ||
 			    empty($_POST["phone"]) || empty($_POST["zip"]) || 
-			    empty($_POST['mailing']) || ($_POST["mailing"] != 1 && $_POST["mailing"] != 0)) {
+			    empty($_POST['mailing']) || ($_POST["mailing"] != 1 && $_POST["mailing"] != 0) ||
+
+			    !empty($_POST['additional']) && (
+			    empty($_POST['address']) || empty($_POST['city']) || 
+			    empty($_POST['state']) ) ) {
+
 				error("A Required Field was Empty", "You must include all information during this
 				       request. Please do not leave a field blank under \"Change Personal Information.\"
 				       Fields under \"Change Address\" and \"Change Password\" may be left blank.");
 			}
+
 			//all data is good past here
 			foreach($_POST as &$val) {
 				$val = $db->quote($val);
 			}
+
 			$db->query("UPDATE " . $DATABASE . ".users 
 			            SET first_name = " . $_POST["first"] .
 			              ", last_name = " . $_POST["last"] .
@@ -76,6 +84,16 @@
 			              ", zip = " . $_POST["zip"] . 
 			              ", mailing = " . $_POST["mailing"] .
 			          " WHERE id = " . $db->quote($_SESSION["id"]));
+
+			if (!empty($_POST['additional'])) {
+				$db->query("UPDATE users_additional 
+				            SET address = " . $_POST['address'] . ", 
+				                city = " . $_POST['city'] . ",
+				                state = " . $_POST['state'] . ",
+				                about = " . $_POST['about'] . "
+				            WHERE user_id = " . $db->quote($_SESSION['id']));
+			}
+
 			changeComplete("Information");
 		}
 
@@ -108,7 +126,9 @@
 	                            zip
 	                     FROM " . $DATABASE . ".users 
 	                     WHERE users.id = " . $db->quote($_SESSION["id"]));
-	
+
+	$additional = $db->select('SELECT * FROM users_additional WHERE user_id = ' . $db->quote($_SESSION['id']))[0];
+
 	head(); ?>
 
 	<section class="content">
@@ -118,27 +138,83 @@
 			field, </p>
 			<form action="/asuwecwb/users/preferences.php" method="post">
 				<h2>Change Email</h2>
-				<p>New Email</p> <input name="email-new" type="text" />
-				<p>Confirm New Email</p> <input name="email-new-confirm" type="text" />
-				<p>Password</p> <input name="password" type="password" /><br />
-				<input type="reset" value="Reset" /><input type="submit" value="Change Email" />
+				<div class='form-group'>
+					<p>New Email</p>
+					<input class='form-control' name="email-new" type="text" />
+				</div>
+				<div class='form-group'>
+					<p>Confirm New Email</p>
+					<input class='form-control' name="email-new-confirm" type="text" />
+				</div>
+				<div class='form-group'>
+					<p>Password</p>
+					<input class='form-control' name="password" type="password" /><br />
+				</div>
+				<input type="reset" value="Reset" class='btn btn-info'/> <input class='btn btn-success' type="submit" value="Change Email" />
 			</form><form action="/asuwecwb/users/preferences.php" method="post">
 				<h2>Change Password</h2>
-				<p>Current Password</p> <input name="password" type="password" />
-				<p>New Password</p> <input name="password-new" type="password" />
-				<p>Confirm New Password</p> <input name="password-new-confirm" type="password" /><br />
-				<input type="reset" value="Reset" /><input type="submit" value="Change Password" />
+				<div class='form-group'>
+					<p>Current Password</p>
+					<input class='form-control' name="password" type="password" />
+				</div>
+				<div class='form-group'>
+					<p>New Password</p>
+					<input class='form-control' name="password-new" type="password" />
+				</div>
+				<div class='form-group'>
+					<p>Confirm New Password</p>
+					<input class='form-control' name="password-new-confirm" type="password" /><br />
+				</div>
+				<input type="reset" value="Reset" class='btn btn-info'/> <input class='btn btn-success' type="submit" value="Change Password" />
 			</form><form action="/asuwecwb/users/preferences.php" method="post">
 				<h2>Change Personal Information</h2>
-				<p>First Name</p> <input name="first" type="text" value="<?= htmlspecialchars($user[0]['first_name']) ?>" />
-				<p>Last Name</p> <input name="last" type="text" value="<?= htmlspecialchars($user[0]['last_name']) ?>" />
-				<p>Phone Number</p> <input name="phone" type="text" value="<?= htmlspecialchars($user[0]['phone']) ?>" />
-				<p>Zip Code</p> <input name="zip" type="text" value="<?= htmlspecialchars($user[0]['zip']) ?>" />
-				<p>Subscribe to Mailing List</p> 
-				<label><input type="radio" name="mailing" value="1" /> Yes </label>
-				<label><input type="radio" name="mailing" value="0" /> No </label>
-				<p>Password</p> <input name="password" type="password" /><br />
-				<input type="reset" value="Reset" /><input type="submit" value="Change Info" />
+				<div class='form-group'>
+					<p>First Name</p>
+					<input class='form-control' name="first" type="text" value="<?= htmlspecialchars($user[0]['first_name']) ?>" />
+				</div>
+				<div class='form-group'>
+					<p>Last Name</p>
+					<input class='form-control' name="last" type="text" value="<?= htmlspecialchars($user[0]['last_name']) ?>" />
+				</div>
+				<div class='form-group'>
+					<p>Phone Number</p>
+					<input class='form-control' name="phone" type="text" value="<?= htmlspecialchars($user[0]['phone']) ?>" />
+				</div>
+				<div class='form-group'>
+					<p>Zip Code</p>
+					<input class='form-control' name="zip" type="text" value="<?= htmlspecialchars($user[0]['zip']) ?>" />
+				</div>
+
+				<?php if (isset($additional)) { ?>
+					<input type='hidden' name='additional' value='true' />
+					<div class='form-group'>
+						<p>Address</p>
+						<input class='form-control' type='text' name='address' value='<?= $additional["address"] ?>' />
+					</div>
+					<div class='form-group'>
+						<p>City</p>
+						<input class='form-control' type='text' name='city' value='<?= $additional["city"] ?>' />
+					</div>
+					<div class='form-group'>
+						<p>State</p>
+						<input class='form-control' type='text' name='state' value='<?= $additional["state"] ?>' />
+					</div>
+					<div class='form-group'>
+						<p>About You</p>
+						<textarea class='form-control' name='about'><?= $additional['about'] ?></textarea>
+					</div>
+				<?php } ?>
+
+				<div class='form-group'>
+					<p>Subscribe to Mailing List</p> 
+					<label><input type="radio" name="mailing" value="1" <?= $user[0]['mailing'] == 1 ? 'checked' : '' ?>/> Yes </label>
+					<label><input type="radio" name="mailing" value="0" <?= $user[0]['mailing'] == 1 ? '' : 'checked' ?>/> No </label>
+				</div>
+				<div class='form-group'>
+					<p>Password</p> 
+					<input class='form-control' name="password" type="password" /><br />
+				</div>
+				<input type="reset" value="Reset" class='btn btn-info'/> <input class='btn btn-success' type="submit" value="Change Info" />
 			</form>
 		</div>
 	</section>
