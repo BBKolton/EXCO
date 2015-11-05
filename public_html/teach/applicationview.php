@@ -2,24 +2,55 @@
 session_start();
 require('../common.php');
 
-if ($_SESSION['permissions'] < 3) {
-	error('Unauthorized Access', 'You are not an admin');
-}
-
 $db = new DB();
 
-$application = $db -> select('SELECT *
-                      FROM applications
-                      JOIN users ON applications.user_id = users.id
-                      JOIN users_additional ua ON users.id = ua.user_id
-                      WHERE applications.id = '. $db->quote($_GET['id']))[0];
+$application = $db -> select('SELECT a.id as app_id,
+                                     a.course_name,
+                                     a.course_summary,
+                                     a.course_start,
+                                     a.course_hours,
+                                     a.course_sections,
+                                     a.course_days,
+                                     a.course_max,
+                                     u.first_name,
+                                     u.last_name,
+                                     u.email,
+                                     u.phone,
+                                     ua.address,
+                                     a.type,
+                                     ua.city,
+                                     ua.state,
+                                     u.zip,
+                                     a.user_id,
+                                     a.question_attract,
+                                     a.question_why,
+                                     a.question_skills,
+                                     a.question_supplies,
+                                     a.question_exercises,
+                                     a.question_background
+                      FROM applications a
+                      JOIN users u ON a.user_id = u.id
+                      JOIN users_additional ua ON u.id = ua.user_id
+                      WHERE a.id = '. $db->quote($_GET['id']))[0];
+
+
+if ($_SESSION['permissions'] < 3 && $_SESSION['id'] != $application['user_id']) {
+	error('Unauthorized Access', 'You are not an admin or the author');
+}
+
 
 head('<link href="/asuwecwb/.assets/css/application.css" rel="stylesheet" />');
 ?>
 
+<style>
+h3 {
+	border-top: 4px solid <?= ($application['type'] == 0 ? '#c5395a' : '#297383') ?>;
+}
+</style>
+
 <section class='content'>
 	<div class='container'>
-		<h2>New Instructor Application</h2>
+		<h2><?= $application['type'] == 0 ? 'New Instructor Application' : 'New Course Proposal' ?></h2>
 		<div class='row'>
 			<div class='col-xs-12 col-md-6 col-lg-4'>
 				<h3>Personal Information</h3>
@@ -96,13 +127,13 @@ head('<link href="/asuwecwb/.assets/css/application.css" rel="stylesheet" />');
 				</div>
 				<div class='col-xs-12 col-md-6 col-lg-12'>
 							<p><b>Please describe your background in reference to the course, teaching, and training</b><br />
-							<?= $application['quetion_background'] ?></p>
+							<?= $application['question_background'] ?></p>
 				</div>
 			</div>
 		</div>
 
 		<h3>Resume and Course Outline</h3>
-		<?php $dir = 'docs/' . $application['user_id'] . '/'; 
+		<?php $dir = 'docs/' . $application['app_id'] . '/'; 
 		$files = scandir($dir);
 		$outline = $dir . $files[2];
 		$resume = $dir . $files[3]; ?>

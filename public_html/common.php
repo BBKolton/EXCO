@@ -72,6 +72,11 @@
 			return $connection->real_escape_string($value);
 		}
 
+		public function getInsertedId() {
+			$connection = $this->connect();
+			return $connection->insert_id;
+		}
+
 	}
 
 	function verifyAdminOrClassInstructor($courseID) {

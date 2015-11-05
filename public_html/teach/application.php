@@ -7,31 +7,42 @@ if (!isset($_SESSION['id'])) {
 	die();
 }
 
-head('<script src="/asuwecwb/.assets/js/application.js"></script>' .
-     '<link href="/asuwecwb/.assets/css/application.css" rel="stylesheet" />');
+
+$db = new DB();
 
 $nia = $_SESSION['permissions'] < 2;
 
-$oldData;
-
-if (!$nia) {
-	$db = new DB();
-	$oldData = $db -> select('SELECT * FROM users_additional
-                            WHERE user_id = ' . $db->quote($_SESSION['id']))[0];
-
+if ($nia) {
+	$currentNia = $db->select('SELECT * FROM applications WHERE user_id = ' . $db->quote($_SESSION['id']))[0];
+	if (!empty($currentNia)) {
+		header('Location: applicationview.php?id=' . $currentNia['id']);
+	}
 }
 
+$oldData;
+
+$oldData = $db -> select('SELECT * FROM users_additional
+                          WHERE user_id = ' . $db->quote($_SESSION['id']))[0];
+
+head('<script src="/asuwecwb/.assets/js/application.js"></script>' .
+     '<link href="/asuwecwb/.assets/css/application.css" rel="stylesheet" />');
 ?>
+
+<style>
+	h3 {
+		border-top: 4px solid <?= ($nia ? '#c5395a' : '#297383') ?>;
+	}
+</style>
 
 <section class='content'>
 	<div class='container'>
 		<h2><?= $nia ? 'New Instructor Application' : 'New Course Proposal' ?></h2>
 		<?php if ($nia) { ?>
-			<p>Thank you for your interest in teaching with the Experimental College. We're always looking for new, talented instructors to teach engaging, unique, and quality classes. Please fill out the form below to apply to a course with the college. Please estimate where you cannot give an exact answer; details can be dealt with later</p>
+			<p>Thank you for your interest in teaching with the Experimental College. We're always looking for new, talented instructors to teach engaging, unique, and quality classes. Please fill out the form below to apply to teach a course with the college. Please estimate where you cannot give an exact answer; details can be dealt with later. You may only submit one New Instructor Application. If you have more than one course you wish to propose, use your strongest one for this form. If you're accepted as an instructor with EXCO, we can take a look at your other courses then</p>
 		<?php } else { ?>
-			<p>Thank you for your interest with teaching a course with EXCO! Please fill out the form below to make your application of a new course. Please estimate values where they can't be specifically given at this time; details can be dealt with later</p>
+			<p>Thank you for your interest with teaching a new course with EXCO! Please fill out the form below to make your application of a new course. Please estimate values where they can't be specifically given at this time; details can be dealt with later</p>
 		<?php } ?>
-		<p>No fields are expressely required besides your file uploads, but we hope you fill out all of them</p>
+		<p>No fields are expressely required besides your file uploads, but we hope you fill out the complete form</p>
 		<form method='post' action='applicationsubmit.php' enctype='multipart/form-data'>
 			<div class='row'>
 				<div class='col-xs-12 col-md-6 col-lg-4'>

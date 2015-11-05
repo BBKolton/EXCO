@@ -1,6 +1,7 @@
 <?php
 require('../common.php');
 session_start();
+$db = new DB();
 
 //check all prerequisites
 if (!isset($_SESSION['id'])) {
@@ -13,6 +14,12 @@ if (!isset($_SESSION['id'])) {
 	error('File Upload Error', 'One of your files is larger than the required 2MB');
 } if ($_FILES['resume']['error'] > 1 || $_FILES['outline']['error'] > 1) {
 	error('File Upload Error', 'The file upload failed. Please make sure your internet connection is stable and try again');
+}
+
+$nia = $db->select('SELECT type FROM applications WHERE user_id = ' . $_SESSION['id'])[0];
+if (!empty($nia) && $nia['type'] == 0) {
+	header('Location: /asuwecwb/teach/applicationview.php?id=' . $id);
+	die();
 }
 
 $acceptedTypes = ["docx", "doc", "txt", "pdf"];
@@ -30,9 +37,9 @@ foreach ($_POST as $key => $value) {
 	$_POST[$key] = htmlspecialchars($value);
 }
 
-$db = new DB();
 $db -> query('INSERT INTO applications (
 		user_id,
+		type,
 		course_name,
 		course_summary,
 		course_start,
@@ -48,6 +55,7 @@ $db -> query('INSERT INTO applications (
 		question_background
 		) VALUES (' . 
 		$_SESSION['id'] . ',' . 
+		($_SESSION['permissions'] > 1 ? "1" : "0" ) . ',' .
 		$db->quote($_POST['course_name']) . ',' .
 		$db->quote($_POST['course_summary']) . ',' .
 		$db->quote($_POST['course_start']) . ',' .
@@ -59,28 +67,35 @@ $db -> query('INSERT INTO applications (
 		$db->quote($_POST['question_why']) . ',' .
 		$db->quote($_POST['question_skills']) . ',' .
 		$db->quote($_POST['question_supplies']) . ',' .
-		$db->quote($_POST['question_excersises']) . ',' .
+		$db->quote($_POST['question_exercises']) . ',' .
 		$db->quote($_POST['question_background']) . '
 		)');
 
-$db -> query('INSERT INTO users_additional (
-		user_id,
-		address,
-		city,
-		state
-		) VALUES (' .
-		$_SESSION['id'] . ',' .
-		$db->quote($_POST['personal_address']) . ',' .
-		$db->quote($_POST['personal_city']) . ',' .
-		$db->quote($_POST['personal_state']) . '
-		)');
-
-$dir = 'docs/' . $_SESSION['id'];
+$id = $db->getInsertedId();
+$dir = 'docs/' . $id;
 if (!is_dir($dir)) {
 	mkdir($dir);
 }
 
+$additionalInfo = $db->select('SELECT * FROM users_additional WHERE user_id = ' . $_SESSION['id'])[0];
+
+if (empty($additionalInfo)) {
+	$db -> query('INSERT INTO users_additional (
+			user_id,
+			address,
+			city,
+			state
+			) VALUES (' .
+			$_SESSION['id'] . ',' .
+			$db->quote($_POST['personal_address']) . ',' .
+			$db->quote($_POST['personal_city']) . ',' .
+			$db->quote($_POST['personal_state']) . '
+			)');
+}
+
+
+
 move_uploaded_file($_FILES['resume']['tmp_name'], $dir . '/resume.' . $resumeType);
 move_uploaded_file($_FILES['outline']['tmp_name'], $dir . '/outline.' . $outlineType);
 
-header('Location: /asuwecwb/teach/applicationcomplete.php');
+header('Location: /asuwecwb/teach/applicationview.php?id=' . $id);
