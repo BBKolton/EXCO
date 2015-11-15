@@ -21,7 +21,7 @@
 
 	//Ask the database for the user
 	$db = new DB();
-	$user = $db -> select("SELECT id, email, password, first_name, last_name, activation, permissions, type, phone, zip
+	$user = $db -> select("SELECT id, email, password, first_name, last_name, activation, permissions, phone, zip
 	                       FROM " . $DATABASE . ".users 
 	                       WHERE email = " . $db -> quote($email));
 

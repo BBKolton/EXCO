@@ -1,27 +1,27 @@
 <?php
-	require("../common.php");
-	head('<script type="text/javascript" src="../.assets/js/rif.js"></script>' . 
-		 '<link rel="stylesheet" href="../.assets/css/rif.css">', 1, 1);
+//The returning Instructor Form. Instructors fill this out to tell us what
+//courses they'll be teaching with us next quarter
 
-	session_start();
-	if (!verifyAdminOrClassInstructor($_GET['id'])) {
-		error('Access Denied', 'You are not cleared to edit this page');
+require("../common.php");
+head('<script type="text/javascript" src="../.assets/js/rif.js"></script>' . 
+	 '<link rel="stylesheet" href="../.assets/css/rif.css">', 1, 1);
+
+session_start();
+if (!verifyAdminOrClassInstructor($_GET['id'])) {
+	error('Access Denied', 'You are not cleared to edit this page');
+}
+
+$c;
+if (isset($_GET['id'])) {
+	$db = new DB();
+	$c = $db->select("SELECT * FROM rifs WHERE id = " . $db->quote($_GET['id']));
+	$c = $c[0];
+	$i = $db->select("SELECT * FROM rifs_items WHERE rif_id = " . $db->quote($c['id']));
+	$s = $db->select("SELECT * FROM rifs_sections WHERE rif_id = " . $db->quote($c['id']));
+	if (!$c) {
+		error('No Rif Found', 'The ID specified does not correspond to an existing rif');
 	}
-
-	$c;
-	if (isset($_GET['id'])) {
-		$db = new DB();
-		$c = $db->select("SELECT * FROM rifs WHERE id = " . $db->quote($_GET['id']));
-		$c = $c[0];
-
-		$i = $db->select("SELECT * FROM rifs_items WHERE rif_id = " . $db->quote($c['id']));
-
-		$s = $db->select("SELECT * FROM rifs_sections WHERE rif_id = " . $db->quote($c['id']));
-
-		if (!$c) {
-			error('No Rif Found', 'The ID specified does not correspond to an existing rif');
-		}
-	}
+}
 
 ?>	
 <form action="/asuwecwb/instructors/rifsubmit.php?id=<?= $c['id'] ?>" method="POST">
@@ -275,11 +275,11 @@
 </form>
 
 <?php
-	$db = new DB();
-	//$db -> query("");
+$db = new DB();
+//$db -> query("");
 
 
 
 
-	tail()
+tail();
 ?>

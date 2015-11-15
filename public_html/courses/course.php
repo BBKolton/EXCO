@@ -232,15 +232,9 @@
 						<h2>Course Controls</h2>
 						<form action="course.php?id=<?= $_GET["id"] ?>" method="post">
 							<?php if ($sections[0]["course_status"] == 1) { ?>
-<<<<<<< HEAD
 								<button type="submit" name="course-toggle" value="toggle" class='btn btn-warning'>Cancel Course</button>
 							<?php } else { ?>
 								<button type="submit" name="course-toggle" value="toggle" class='btn btn-info'>Reinstate Course</button>
-=======
-								<button type="submit" name="course-toggle" value="toggle">Cancel Course</button>
-							<?php } else { ?>
-								<button type="submit" name="course-toggle" value="toggle">Reinstate Course</button>
->>>>>>> origin/master
 							<?php } ?>
 						</form>
 					</div>
