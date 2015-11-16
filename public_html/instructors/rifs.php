@@ -14,6 +14,7 @@ if ($_SESSION['permissions'] > 2) {
 	                 r.name,
 	                 u.first_name,
 	                 u.last_name,
+	                 r.submitted,
 	                 r.late,
 	                 r.paid,
 	                 r.facilities
@@ -25,6 +26,7 @@ if ($_SESSION['permissions'] > 2) {
 	                 r.name,
 	                 u.first_name,
 	                 u.last_name,
+	                 r.submitted,
 	                 r.late,
 	                 r.paid,
 	                 r.facilities
@@ -36,7 +38,7 @@ if ($_SESSION['permissions'] > 2) {
 
 $rifs = $db->select($query);
 
-head('<link href="/asuwecwb/.assets/css/rifs.css" rel="stylesheet" />', 0, 0, 1);
+head('<link href="/asuwecwb/.assets/css/rifsgalleys.css" rel="stylesheet" />', 0, 0, 1);
 ?>
 
 <script>
@@ -61,6 +63,7 @@ head('<link href="/asuwecwb/.assets/css/rifs.css" rel="stylesheet" />', 0, 0, 1)
 					<th>Id</th>
 					<th>Course Name</th>
 					<th>Instructor</th>
+					<th>Submitted</th>
 					<th>Late</th>
 					<th>Paid</th>
 					<th>Facilities</th>
@@ -75,10 +78,12 @@ head('<link href="/asuwecwb/.assets/css/rifs.css" rel="stylesheet" />', 0, 0, 1)
 					<td><a href='rif.php?id=<?= $rif["id"] ?>'><?= $rif['name'] ?></a></td>
 					<td><?= $rif['first_name'] . " " . $rif['last_name'] ?></td>
 					<?php if ($_SESSION['permissions'] > 2) { ?>
+						<td><a href='rifsubmit.php?id=<?= $rif["id"] ?>&submitted=<?= ($rif["submitted"] == 0) ? "1" : "0" ?>'><?= $rif['submitted'] == 0 ? 'Mark Submitted' : 'Clear Submitted' ?></a></td>
 						<td><a href='rifsubmit.php?id=<?= $rif["id"] ?>&late=<?= ($rif["late"] == 0) ? "1" : "0" ?>'><?= $rif['late'] == 0 ? 'Mark Late' : 'Clear Late' ?></a></td>
 						<td><a href='rifsubmit.php?id=<?= $rif["id"] ?>&paid=<?= $rif["paid"] == 0 ? "1" : "0" ?>'><?= $rif['paid'] == 0 ? 'Mark Paid' : 'Mark Unpaid' ?></a></td>
 						<td><a href='rifsubmit.php?id=<?= $rif["id"] ?>&facilities=<?= $rif["facilities"] == 0 ? "1" : "0" ?>'><?= $rif['facilities'] == 0 ? 'Mark Complete' : 'Mark Incomplete' ?></a></td>
 					<?php } else { ?>
+						<td><?= $rif['submitted'] == 0 ?  'Not Submitted' : 'Submitted' ?></td>
 						<td><?= $rif['late'] == 0 ? 'Not Late' : 'Late' ?></td>
 						<td><?= $rif['paid'] == 0 ? 'Unpaid' : 'Paid' ?></td>
 						<td><?= $rif['paid'] == 0 ? 'Incomplete' : 'Complete' ?></td>

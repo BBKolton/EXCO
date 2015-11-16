@@ -240,23 +240,23 @@ if (isset($_GET['id'])) {
 					</tr>
 				</table>
 
+				<h3>Course Descriptions</h3>
+				<h4>Short</h4>
+				<p>Enter a short course description here. This description will be used for the catalog, 
+				small blurbs, and any other length sensitive areas. Please do not use HTML in this area (Galley information MUST be plaintext, hence the non-fancy editor)</p>
+				<textarea name="info-short" rows="7" cols="60"><?= $c["text_short"] ?></textarea>
+				<h4>Long</h4>
+				<p>Enter a full description for the course here. There is no limit to length. 
+				This description will be used primarily on digital devices, like your course description page, where length is not an issue.</p>
+				<p>If you leave this area blank, we will use the description above</p>
+				<textarea class='ckEditor' name="info-long" rows="7" cols="60"><?= $c["text_long"] ?></textarea>
 				<h3>Confirmation Email</h3>
 				<p>When students register for an Experimental College class, they receive an email 
 				confirming their registration. If there is any information for this class that should 
 				be included in this email (e.g. supplies that they will need, clothing they should wear, 
 				special directions to your class location, etc.) put it here and it will be included in 
 				their confirmation email</p>
-				<textarea name="info-email" rows="7" cols="60"><?= $c["text_email"] ?></textarea>
-				<h3>Course Descriptions</h3>
-				<h4>Short</h4>
-				<p>Enter a short course description here. This description will be used for the catalog, 
-				small blurbs, and any other length sensitive areas</p>
-				<textarea name="info-short" rows="7" cols="60"><?= $c["text_short"] ?></textarea>
-				<h4>Long</h4>
-				<p>Enter a full description for the course here. There is no limit to length. 
-				This description will be used primarily on digital devices, like your course description page, where length is not an issue.</p>
-				<p>If you leave this area blank, we will use the description above</p>
-				<textarea name="info-long" rows="7" cols="60"><?= $c["text_long"] ?></textarea>
+				<textarea class='ckEditor' name="info-email" rows="7" cols="60"><?= $c["text_email"] ?></textarea>
 
 
 			</fieldset>
@@ -267,7 +267,7 @@ if (isset($_GET['id'])) {
 		<div class="content">
 			<div class='container'>
 				<fieldset>
-					<p id='submit-area'><input type="submit" value="Save" /><input type="submit" value="Review and Submit" /></p>
+					<p id='submit-area'><input type="submit" value="Save" /> <input type="submit" name='review' value="Review and Submit" /></p>
 				</fieldset>
 			</div>
 		</div>
@@ -275,11 +275,5 @@ if (isset($_GET['id'])) {
 </form>
 
 <?php
-$db = new DB();
-//$db -> query("");
-
-
-
-
 tail();
 ?>

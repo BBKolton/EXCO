@@ -105,7 +105,7 @@ head("<link href='/asuwecwb/.assets/css/superadmin.css' type='text/css' rel='sty
 <?php tail();
 
 //brings teh site down if it is up, and vice versa.
-.//only the superadmin page, login page are available when site is down
+//only the superadmin page, login page are available when site is down
 function toggleMaintenanceMode() {
 	$maintenanceMode = false;
 	if (strpos(file_get_contents("../.htaccess"), "#TOGGLE") === false) {

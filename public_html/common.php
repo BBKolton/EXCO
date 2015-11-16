@@ -193,7 +193,6 @@
 						<div id="navbar" class="navbar-collapse collapse">
 							<ul class="nav navbar-nav">
 								<li><a href="/asuwecwb/courses/courses.php">Courses</a></li>
-								<li><a href="/asuwecwb/.assets/docs/Catalog.pdf">Catalog</a></li>
 								<li><a href="/asuwecwb/teach/">Teach</a></li>
 								<li><a href="/asuwecwb/help.php">Help</a></li>
 								<li><a href="/asuwecwb/about.php">About</a></li>
@@ -202,6 +201,9 @@
 							<ul class="nav navbar-nav navbar-right">
 								
 								<?php if(isset($_SESSION["name"])) { ?>
+									<?php if ($_SESSION["permissions"] > 1) { ?>
+										<li class='common-instructor'><a href="/asuwecwb/instructors">Instructors</a></li>
+									<?php } ?>
 									<li class="dropdown">
 										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= htmlspecialchars($_SESSION["name"]) ?><span class="caret"></span></a>
 										<ul class="dropdown-menu">
@@ -210,7 +212,6 @@
 											<?php if ($_SESSION["permissions"] > 1) { ?>
 												<li role="separator" class="divider"></li>
 												<li class="dropdown-header">Administration</li>
-												<li><a href="/asuwecwb/instructors">Instructors</a></li>
 											<?php } if ($_SESSION["permissions"] > 2 ) { ?>
 												<li><a href="/asuwecwb/admin/admin.php">Admin Panel</a></li>
 											<?php } if ($_SESSION["permissions"] > 3 ) { ?>

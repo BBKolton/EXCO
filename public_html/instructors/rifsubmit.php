@@ -32,6 +32,51 @@ if (isset($_GET['delete'])) {
 	die();
 }
 
+//set a rifs submitted
+if (isset($_GET['submitted'])) {
+	if ($_SESSION['permissions'] > 2) {
+		$db -> query('UPDATE rifs
+		              SET submitted = ' . $db->quote($_GET['submitted']) . '
+		              WHERE id = ' . $db->quote($_GET['id']));
+	} else {
+		error('Access Denied', 'You are not an administrator');
+	}
+	header('Location: rifs.php');
+	die();
+}
+
+if (isset($_GET['rif-submit'])) {
+	$text = '';
+
+	$c = $db->select("SELECT * FROM rifs WHERE id = " . $db->quote($_GET['id']));
+	$u = $db->select("SELECT first_name, last_name FROM users WHERE id = " . $db->quote($c['instructor_id']));
+	$c = $c[0];
+	$s = $db->select("SELECT * FROM rifs_sections WHERE rif_id = " . $db->quote($c['id']));
+
+	$text.= $c['name'] . "\n";
+	$text.= $c['first_name'] . ' ' . $c['last_name'] . "\n";
+	for ($i = 0; $i < count($s); $i++) { 
+		$sec = $s[$i];
+		$text.= 'Sec ' . $i . ': ' . $sec['days'] . "\n";
+		$text.= 'Sec ' . $i . ': ' . $sec['time_start'] . ' - ' . $sec['time_end'] . "\n";
+	}
+	$text.= $c['text_short'] . "\n";
+	$text.= 'General Public / ' . $c['fee_gen'] . "\n";
+	$text.= 'UW Students / ' . $c['fee_uw'] . "\n";
+	$text.= 'Max Enrollment / ' . $s[0]['size'] . "\n";
+	$text.= 'Location / ' . $c['loc_gen'] . "\n";
+
+	$db -> query('UPDATE rifs
+	              SET submitted = 1
+	              WHERE id = ' . $db->quote($_GET['id']));
+	$db -> query('INSERT INTO galleys (id, text) VALUES (' . $db->quote($_GET['id']) . ',' . $db->quote($text) . ')
+	              ON DUPLICATE KEY UPDATE text = '. $db->quote($text));
+	
+
+	header('Location: galley.php?id=' . $_GET['id']);	
+	die();
+}
+
 //set a rifs lateness
 if (isset($_GET['late'])) {
 	if ($_SESSION['permissions'] > 2) {
@@ -139,6 +184,11 @@ $db -> query("UPDATE rifs
                   text_short = " . $data["info-short"] . ",
                   text_long = " . $data["info-long"] . "
               WHERE id = " . $db->quote($_GET['id']));
+
+if (isset($_POST['review'])) {
+	header('Location: rifreview.php?id=' . $_GET['id']);
+	die();
+}
 
 header('Location: rif.php?id=' . $_GET['id']);
 
