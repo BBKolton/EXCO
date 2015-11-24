@@ -15,7 +15,7 @@ if (isset($_GET['create']) && $_SESSION['permissions'] > 1) {
 }
 
 
-if (!verifyAdminOrClassInstructor($_GET['id'])) {
+if (!verifyAdminOrRifInstructor($_GET['id'])) {
 	error('Access Denied', 'You\'re not allowed to edit this RIF!');
 }
 
@@ -48,17 +48,29 @@ if (isset($_GET['submitted'])) {
 if (isset($_GET['rif-submit'])) {
 	$text = '';
 
-	$c = $db->select("SELECT * FROM rifs WHERE id = " . $db->quote($_GET['id']));
+	$c = $db->select("SELECT u.id as instructor_id,
+	                         r.id as id,
+	                         r.name,
+	                         u.first_name, 
+	                         u.last_name, 
+	                         r.fee_gen,
+	                         r.fee_uw,
+	                         r.loc_gen,
+	                         r.loc_spec,
+	                         r.text_short
+	                         FROM rifs r JOIN users u ON r.instructor_id = u.id 
+	                         WHERE r.id = " . $db->quote($_GET['id']));
+	$c = $c[0];  ////////
+	//var_dump($c);
 	$u = $db->select("SELECT first_name, last_name FROM users WHERE id = " . $db->quote($c['instructor_id']));
-	$c = $c[0];
 	$s = $db->select("SELECT * FROM rifs_sections WHERE rif_id = " . $db->quote($c['id']));
 
 	$text.= $c['name'] . "\n";
 	$text.= $c['first_name'] . ' ' . $c['last_name'] . "\n";
 	for ($i = 0; $i < count($s); $i++) { 
 		$sec = $s[$i];
-		$text.= 'Sec ' . $i . ': ' . $sec['days'] . "\n";
-		$text.= 'Sec ' . $i . ': ' . $sec['time_start'] . ' - ' . $sec['time_end'] . "\n";
+		$text.= 'Sec ' . ($i + 1) . ': ' . $sec['days'] . "\n";
+		$text.= 'Sec ' . ($i + 1) . ': ' . $sec['time_start'] . ' - ' . $sec['time_end'] . "\n";
 	}
 	$text.= $c['text_short'] . "\n";
 	$text.= 'General Public / ' . $c['fee_gen'] . "\n";

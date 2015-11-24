@@ -3,7 +3,7 @@
 require('../common.php');
 
 session_start();
-if (!verifyAdminOrClassInstructor($_GET['id'])) {
+if (!verifyAdminOrRifInstructor($_GET['id'])) {
 	error('Access Denied', 'You are not cleared to edit or view this page');
 }
 
@@ -12,7 +12,11 @@ $db = new DB();
 if (isset($_POST['text'])) {
 	$db -> query('INSERT INTO galleys (id, text) VALUES (' . $db->quote($_GET['id']) . ',' . $db->quote($_POST['text']) . ')
 	              ON DUPLICATE KEY UPDATE text = '. $db->quote($_POST['text']));
-	header('Location: galley.php?id=' . $_GET['id']);	
+	if ($_POST['continue']) {
+		header('Location: galleys.php');
+		die();
+	}
+	header('Location: galley.php?id=' . $_GET['id']);
 	die();
 }
 

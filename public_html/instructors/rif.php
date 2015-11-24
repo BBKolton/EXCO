@@ -7,7 +7,7 @@ head('<script type="text/javascript" src="../.assets/js/rif.js"></script>' .
 	 '<link rel="stylesheet" href="../.assets/css/rif.css">', 1, 1);
 
 session_start();
-if (!verifyAdminOrClassInstructor($_GET['id'])) {
+if (!verifyAdminOrRifInstructor($_GET['id'])) {
 	error('Access Denied', 'You are not cleared to edit this page');
 }
 
@@ -21,6 +21,10 @@ if (isset($_GET['id'])) {
 	if (!$c) {
 		error('No Rif Found', 'The ID specified does not correspond to an existing rif');
 	}
+}
+
+if (!isset($_GET['id'])) {
+	error("Unspecified Rif Id", "You have to specify a rif id.");
 }
 
 ?>	

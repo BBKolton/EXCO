@@ -69,7 +69,7 @@
 
 	$courseID = $_GET['id'];
 	head("<link href='/asuwecwb/.assets/css/course.css' type='text/css' rel='stylesheet'>" . 
-	     "<script type='text/javascript' src='/asuwecwb/.assets/js/course.js'></script>");
+	     "<script type='text/javascript' src='/asuwecwb/.assets/js/course.js'></script>", 0, 0, 1);
 
 	$sections = $db -> select("SELECT courses.name,
 			courses.description,
@@ -100,6 +100,11 @@
 
 
 	?>
+	<script>
+		$(document).ready(function() {
+			$('.dynatable').dynatable();
+		});
+	</script>
 
 	<section class="title" >
 		<div class="jumbotron" style="background-image: url('/asuwecwb/.assets/img/classes/<?= $courseID ?>.jpg');">
@@ -180,7 +185,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-8 col-xs-12">
-						<h1>Admin Panel</h1>
+						<h2>Instructor Panel</h2>
 						<p>Edit information, send emails, and view registrants for your course and section</p>
 						<div><a id="editDesc">Edit Description</a></div>
 						<div class="all" id="true"><a id="sendAll">Send an email to all students</a></div> 
@@ -190,7 +195,8 @@
 							<?php
 							$section = $db -> select("SELECT users.first_name,
 							                                 users.last_name,
-							                                 users.netid
+							                                 users.netid,
+							                                 reg.id
 							                          FROM " . $DATABASE . ".users users
 							                          JOIN " . $DATABASE . ".registrations reg
 							                          ON reg.user_id = users.id 
@@ -201,17 +207,21 @@
 							<?php } else { ?>
 
 							<div class="sec" id="<?= $i + 1 ?>"><a class="sendSecs">Email this section</a></div>
-							<table>
-								<tr>
-									<th></th>
-									<th>First Name</th>
-									<th>Last Name</th>
-									<th>Type</th>
-								</tr>
-								<tr>
+							<table class='dynatable table table-striped'>
+								<thead>
+									<tr>
+										<?php if ($_SESSION['permissions'] > 2) { ?> <th>Cancel Registration</th> <?php } ?>
+										<th>First Name</th>
+										<th>Last Name</th>
+										<th>Type</th>
+									</tr>
+								</thead>
+								<tbody>
 									<?php for ($j = 0; $j < count($section); $j++) { ?>
 										<tr>
-											<td></td>
+											<?php if ($_SESSION['permissions'] > 2) { ?> 
+												<td><a href='coursesubmit.php?cancel=true&id=<?= $section[$j]['id'] ?>&course=<?= $_GET['id']?>'>Cancel User</a></td>
+											<?php } ?>
 											<td><?= htmlspecialchars($section[$j]["first_name"]) ?></td>
 											<td><?= htmlspecialchars($section[$j]["last_name"]) ?></td>
 											<td>
@@ -223,7 +233,7 @@
 											</td>
 										</tr>
 									<?php } ?>
-								</tr>
+								</tbody>
 							</table>
 						<?php }
 						} ?>
@@ -239,6 +249,10 @@
 						</form>
 					</div>
 				</div>
+				<?php if ($_SESSION['permissions'] > 2) { ?>
+					<h2>Admin Panel</h2>
+
+				<?php } ?>
 			</div>
 		</section>
 

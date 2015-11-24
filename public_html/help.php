@@ -95,6 +95,6 @@
 		</div>
 	</section>
 
-	tail();
+	<?php tail();
 
 ?>

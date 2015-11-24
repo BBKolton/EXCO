@@ -4,7 +4,7 @@ require("../common.php");
 head();
 
 session_start();
-if (!verifyAdminOrClassInstructor($_GET['id'])) {
+if (!verifyAdminOrRifInstructor($_GET['id'])) {
 	error('Access Denied', 'You are not cleared to edit this page');
 }
 

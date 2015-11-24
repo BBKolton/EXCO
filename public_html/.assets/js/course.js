@@ -43,7 +43,7 @@
 		cancel.setAttribute("type", "button");
 		cancel.onclick = descriptionReset;
 		text.id = "editDesc";
-		text.classList.add('form', 'control');
+		text.classList.add('form-control');
 				
 		area.replaceChild(text, edit);
 		area.insertBefore(cancel, text.nextSibling);

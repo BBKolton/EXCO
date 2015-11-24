@@ -81,6 +81,7 @@
 							<input class='form-control' type="text" name="first-name" placeholder="First Name" /><br />
 							<input class='form-control' type="text" name="last-name" placeholder="Last Name" /><br />
 							<input class='form-control' type="text" name="phone" placeholder="Phone Number" /><br />
+							<input class='form-control' type='text' name="zip" placeholder="Zip code" /><br />
 							<label><input type="checkbox" name="mailing" value="true" checked />Sign me up for newsletters</label><br />
 							<input type="submit" value="register" class="btn btn-success"/>
 						</form>

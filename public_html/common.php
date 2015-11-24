@@ -96,6 +96,22 @@
 		return false;
 	}
 
+	function verifyAdminOrRifInstructor($courseID) {
+		if ($_SESSION['permissions'] >= 3) {
+			return true;
+		}
+		if ($_SESSION['permissions'] == 2) {
+			$db = new DB();
+			$user = $db -> select("SELECT instructor_id
+			                       FROM rifs
+			                       WHERE id = " . $db->quote($courseID));
+			if ($user[0]['instructor_id'] == $_SESSION['id']) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	//creates a random string
 	function randomString($length = 80) {
 		$chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-';
@@ -211,8 +227,8 @@
 											<li><a href="/asuwecwb/users/cart.php">Cart</a></li>
 											<?php if ($_SESSION["permissions"] > 1) { ?>
 												<li role="separator" class="divider"></li>
-												<li class="dropdown-header">Administration</li>
 											<?php } if ($_SESSION["permissions"] > 2 ) { ?>
+												<li class="dropdown-header">Administration</li>
 												<li><a href="/asuwecwb/admin/admin.php">Admin Panel</a></li>
 											<?php } if ($_SESSION["permissions"] > 3 ) { ?>
 												<li><a href="/asuwecwb/admin/superadmin.php">Super Admin</a></li>
