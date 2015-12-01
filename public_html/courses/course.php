@@ -31,13 +31,15 @@
 					$students = $db -> select("SELECT DISTINCT users.email FROM " . $DATABASE . ".users 
 					                           JOIN " . $DATABASE . ".registrations reg ON reg.user_id = users.id
 					                           JOIN " . $DATABASE . ".courses co ON reg.course_id = co.id
-					                           WHERE co.id = " . $db->quote($_GET["id"]));	
+					                           WHERE reg.status = 1 AND
+					                           co.id = " . $db->quote($_GET["id"]));	
 				} else { //send an email to a section
 					$students = $db -> select("SELECT DISTINCT users.email FROM " . $DATABASE . ".users 
 					                           JOIN " . $DATABASE . ".registrations reg ON reg.user_id = users.id
 					                           JOIN " . $DATABASE . ".courses co ON reg.course_id = co.id
 					                           JOIN " . $DATABASE . ".sections sec ON reg.course_section
 					                           WHERE co.id = " . $db->quote($_GET["id"]) . " AND 
+					                           reg.status = 1 AND
 					                           sec.id = " . $db->quote($_POST["type"]));	
 				}
 				emailUsers($students, $_POST["subject"], $_POST["text"]);	
@@ -196,6 +198,7 @@
 							$section = $db -> select("SELECT users.first_name,
 							                                 users.last_name,
 							                                 users.netid,
+							                                 reg.status,
 							                                 reg.id
 							                          FROM " . $DATABASE . ".users users
 							                          JOIN " . $DATABASE . ".registrations reg
@@ -210,7 +213,9 @@
 							<table class='dynatable table table-striped'>
 								<thead>
 									<tr>
-										<?php if ($_SESSION['permissions'] > 2) { ?> <th>Cancel Registration</th> <?php } ?>
+										<?php if ($_SESSION['permissions'] > 2) { ?> <th>Cancel Registration</th> 
+											<th>Move Registration</th>
+										<?php } ?>
 										<th>First Name</th>
 										<th>Last Name</th>
 										<th>Type</th>
@@ -220,7 +225,14 @@
 									<?php for ($j = 0; $j < count($section); $j++) { ?>
 										<tr>
 											<?php if ($_SESSION['permissions'] > 2) { ?> 
-												<td><a href='coursesubmit.php?cancel=true&id=<?= $section[$j]['id'] ?>&course=<?= $_GET['id']?>'>Cancel User</a></td>
+												<?php if ($section[$j]['status'] == 1) { ?>
+													<td><a href='coursesubmit.php?cancel=true&id=<?= $section[$j]['id'] ?>&course=<?= $_GET['id']?>'>Cancel User</a></td>
+												<?php } else { ?>
+													<td><a href='coursesubmit.php?uncancel=true&id=<?= $section[$j]['id'] ?>&course=<?= $_GET['id']?>'>Uncancel User</a></td>
+												<?php } ?>
+
+												<td><a href='coursesubmit.php?id=<?= $section[$j]['id'] ?>&moveselect=true'>Move Registration</a></td>
+												
 											<?php } ?>
 											<td><?= htmlspecialchars($section[$j]["first_name"]) ?></td>
 											<td><?= htmlspecialchars($section[$j]["last_name"]) ?></td>
@@ -251,7 +263,7 @@
 				</div>
 				<?php if ($_SESSION['permissions'] > 2) { ?>
 					<h2>Admin Panel</h2>
-
+					<!-- <p><a id='change-location'>Change Location</a></p> -->
 				<?php } ?>
 			</div>
 		</section>
@@ -267,7 +279,7 @@
 			echo "Failed to find any students!";
 			die();
 		}
-		require("modules/PHPMailer/PHPMailerAutoload.php");
+		require("../modules/PHPMailer/PHPMailerAutoload.php");
 
 		$mail = new PHPMailer(true);
 		$mail->AddAddress(htmlspecialchars($_SESSION["email"]));

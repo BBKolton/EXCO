@@ -72,15 +72,14 @@
 			<?php } else if (!empty($courses)) { ?>
 				
 				<h1>Your Enrollments</h1>
-				<table>
+				<table class='table table-striped'>
 					<tr>
-						<th></th>
 						<th>Class</th>
 						<th>Section</th>
 						<th>Days</th>
 						<th>Times</th>
 						<th>Location</th>
-						<th>Class Fee</th>
+						<th>Fee</th>
 						<th>Registration Email</th>
 					</tr>
 					<?php 
@@ -90,7 +89,6 @@
 							$fee = $courses[$i]["fee_uw"];
 						} ?>
 						<tr>
-							<td><img src="http://placehold.it/20x20" /></td>
 							<td><a href="/asuwecwb/courses/course.php?id=<?= $courses[$i]['id'] ?>"><?= $courses[$i]["name"] ?></a></td>
 							<td><?= $courses[$i]["section"] ?></td>
 							<td><?= $courses[$i]["days"] ?></td>

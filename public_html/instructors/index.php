@@ -26,8 +26,8 @@ head('<link href="/asuwecwb/.assets/css/instructors.css" rel="stylesheet" />');
 				<p><a href='dates.php'>Dates</a></p>
 				<p><a href='rifs.php'>Rifs</a></p>
 				<p><a href='rif.php'>Rif</a></p>
-				<p><a href='galleys.php'>galleys</a></p>
-				<p><a href='galley.php'>galley</a></p>
+				<p><a href='galleys.php'>Galleys</a></p>
+				<p><a href='galley.php'>Galley</a></p>
 			</div>
 			<div class='col-md-4'>
 				<div class='dates'>

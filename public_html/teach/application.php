@@ -99,7 +99,7 @@ head('<script src="/asuwecwb/.assets/js/application.js"></script>' .
 						<p><span id='word-count'>0</span> / 75 words</p>
 					</div>
 					<div class='form-group'>
-						<label>When would you start?
+						<label>Which quarter would you like to start teaching?
 							<input type='text' name='course_start' class='form-control'/>
 						</label>
 					</div>

@@ -33,8 +33,8 @@ head();
 		<p>March 13 // Online registration begins </p>
 		<p>March 28 // All other registration begins </p>
 		<p>April 5 // Winter facilities invoices due / New Course Proposals due </p>
-		<p>April 15 - June 8 // Spring Classes </p>
-		<p>April 12 // Summer Quarter RIFs due </p>
+		<p>April 12 - June 8 // Spring Classes </p>
+		<p>April 15 // Summer Quarter RIFs due </p>
 		<p>April 24 - 26 // Summer Galleys </p>
 		<p>June 24 // Spring facilities invoices due There are no classes on: May 30 (Memorial Day) </p>
 
