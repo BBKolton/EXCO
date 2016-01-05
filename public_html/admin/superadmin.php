@@ -6,7 +6,7 @@ session_start();
 
 //check for superadmin account
 if (empty($_SESSION)) {
-	header("location: /asuwecwb/users/login.php");
+	header("location: /asuwxpcl/users/login.php");
 	die();
 } if ($_SESSION["permissions"] < 4) {
 	error("Drastically Insufficient Privledges!", "You are totally not in any way shape or form allowed to view this page!!!");
@@ -41,7 +41,7 @@ if (!empty($_POST["account-type"]) && !empty($_POST["email"])) {
 }
 
 
-head("<link href='/asuwecwb/.assets/css/superadmin.css' type='text/css' rel='stylesheet'>"); ?>
+head("<link href='/asuwxpcl/.assets/css/superadmin.css' type='text/css' rel='stylesheet'>"); ?>
 
 <section role="main">
 	<div class="jumbotron">
@@ -116,7 +116,7 @@ function toggleMaintenanceMode() {
 		$data = <<<DATA
 RewriteEngine On
 
-RewriteRule ^((?!(maintenancemode|login|logout|superadmin|\.assets)).)*$ /asuwecwb/maintenancemode.php [NE,R,L]
+RewriteRule ^((?!(maintenancemode|login|logout|superadmin|\.assets)).)*$ /asuwxpcl/maintenancemode.php [NE,R,L]
 
 #TOGGLE
 #Created by superadmin.php

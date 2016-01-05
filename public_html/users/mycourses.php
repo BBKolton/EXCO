@@ -4,11 +4,11 @@
 
 	require("../common.php");
 	
-	head('<script type="text/javascript" src="/asuwecwb/.assets/js/mycourses.js"></script>' . 
-		'<link href="/asuwecwb/.assets/css/mycourses.css" type="text/css" rel="stylesheet" />');
+	head('<script type="text/javascript" src="/asuwxpcl/.assets/js/mycourses.js"></script>' . 
+		'<link href="/asuwxpcl/.assets/css/mycourses.css" type="text/css" rel="stylesheet" />');
 
 	if (empty($_SESSION["name"])) {
-		header("Location: /asuwecwb/index.php");
+		header("Location: /asuwxpcl/index.php");
 	} ?>
 
 	<section class="content">
@@ -33,7 +33,7 @@
 					<table>
 						<?php for ($i = 0; $i < count($taught); $i++) { ?>
 							<tr>
-								<td><a href="/asuwecwb/courses/course.php?id=<?= $taught[$i]['id'] ?>"><?= $taught[$i]['name'] ?></a></td>
+								<td><a href="/asuwxpcl/courses/course.php?id=<?= $taught[$i]['id'] ?>"><?= $taught[$i]['name'] ?></a></td>
 							</tr>
 						<?php } ?>
 					</table>
@@ -67,7 +67,7 @@
 			if (empty($courses) && $_SESSION["permissions"] != 2) { ?>
 
 				<h1>Nothing Here Yet!</h1>
-				<p>You have not yet signed up for a class with the Experimetal College. <a href="/asuwecwb/courses/courses.php">Find something awesome!</a></p>
+				<p>You have not yet signed up for a class with the Experimetal College. <a href="/asuwxpcl/courses/courses.php">Find something awesome!</a></p>
 				
 			<?php } else if (!empty($courses)) { ?>
 				
@@ -89,7 +89,7 @@
 							$fee = $courses[$i]["fee_uw"];
 						} ?>
 						<tr>
-							<td><a href="/asuwecwb/courses/course.php?id=<?= $courses[$i]['id'] ?>"><?= $courses[$i]["name"] ?></a></td>
+							<td><a href="/asuwxpcl/courses/course.php?id=<?= $courses[$i]['id'] ?>"><?= $courses[$i]["name"] ?></a></td>
 							<td><?= $courses[$i]["section"] ?></td>
 							<td><?= $courses[$i]["days"] ?></td>
 							<td><?= $courses[$i]["times"] ?></td>

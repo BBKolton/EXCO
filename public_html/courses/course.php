@@ -70,12 +70,11 @@
 
 
 	$courseID = $_GET['id'];
-	head("<link href='/asuwecwb/.assets/css/course.css' type='text/css' rel='stylesheet'>" . 
-	     "<script type='text/javascript' src='/asuwecwb/.assets/js/course.js'></script>", 0, 0, 1);
+	head("<link href='/asuwxpcl/.assets/css/course.css' type='text/css' rel='stylesheet'>" . 
+	     "<script type='text/javascript' src='/asuwxpcl/.assets/js/course.js'></script>", 0, 0, 1);
 
 	$sections = $db -> select("SELECT courses.name,
 			courses.description,
-			courses.num_sections,
 			courses.instructor_id,
 			courses.id,
 			courses.status as course_status,
@@ -85,16 +84,19 @@
 			sec.fee_gen,
 			sec.fee_uw,
 			sec.location_gen,
+			sec.location_spec,
 			sec.section,
 			sec.status,
 			users.first_name,
 			users.last_name,
 			users.email,
-			users.phone
+			users.phone,
+			ua.about
 			FROM " . $DATABASE . ".courses courses
 			JOIN " . $DATABASE . ".sections sec ON sec.course_id = courses.id
-			JOIN " . $DATABASE . ".users users ON courses.instructor_id = users.id
-			WHERE courses.id = " . $db -> quote($courseID));
+			LEFT OUTER JOIN " . $DATABASE . ".users users ON courses.instructor_id = users.id
+			LEFT OUTER JOIN " . $DATABASE . ".users_additional ua ON users.id = ua.user_id
+			WHERE courses.id = " . $db -> quote($courseID)); //rdsadsa
 
 	if (empty($sections[0])) {
 		error("Specified Class Not Found", "The course you're looking for was not found");
@@ -109,9 +111,8 @@
 	</script>
 
 	<section class="title" >
-		<div class="jumbotron" style="background-image: url('/asuwecwb/.assets/img/classes/<?= $courseID ?>.jpg');">
+		<div class="jumbotron" style="background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('/asuwxpcl/.assets/img/classes/<?= $courseID ?>.jpg');">
 			<div class="container">
-				<!--<p><?= print_r($sections) ?></p>-->
 				<h1><?= htmlspecialchars($sections[0]["name"]) ?></h1>
 				<p><?= htmlspecialchars($sections[0]["first_name"]) . " " . htmlspecialchars($sections[0]["last_name"]) ?></p>
 			</div>
@@ -125,7 +126,7 @@
 					<h1>Course Cancelled</h1>
 					<p>This course has been cancelled. No sections will be held. 
 					If you were enrolled, you may request a refund from the college.
-					Please <a href="/asuwecwb/about.php">contact us</a> for more 
+					Please <a href="/asuwxpcl/about.php">contact us</a> for more 
 					information. </p>
 				</div>
 			<?php } ?>
@@ -136,7 +137,8 @@
 					<p id="description"><?= $sections[0]["description"] ?></p>
 
 					<?php
-						for ($i = 0; $i < $sections[0]['num_sections']; $i++) {
+						for ($i = 0; $i < count($sections); $i++) {
+							if ($sections[0]['course_status'] != 1) $sections[$i][status] = 2;
 					?>
 					<div class="section col-md-4 col-sm-6 col-xs-12 ">
 						<div class="wrapper status-<?= $sections[$i]["status"] ?>">
@@ -151,12 +153,20 @@
 							</ul>
 							
 							<?php if($sections[$i]["status"] === "1") { ?>
-								<form action="/asuwecwb/courses/signupsubmit.php">
+								<form action="/asuwxpcl/courses/signupsubmit.php">
 									<input type="hidden" name="id" value="<?= $courseID ?>" />
 									<input type="hidden" name="section" value="<?= $sections[$i]['section'] ?>" />
 									<button type="submit" class='btn btn-success'>Sign Up</button>
 								</form>
-							<?php } ?>
+								<?php if ($_SESSION['permissions'] > 2) { ?>
+									<form action='/asuwxpcl/courses/coursesubmit.php' method='get'>
+										<input type='hidden' name='id' value='<?= $courseID ?>' />
+										<input type='hidden' name='outsideSignup' value='true' />
+										<input type='hidden' name='section' value='<?= $sections[$i]['section'] ?>' />
+										<button type='submit' class='btn btn-info other-register'>Register Student</button>
+									</form>
+								<?php } 
+							}?>
 
 						</div>
 					</div>
@@ -167,12 +177,10 @@
 
 				<div class="col-md-3 col-xs-12">
 					<h3>About the Instructor</h3>
-					<ul>
-						<li>Teaches many classes</li>
-						<li>Email: <?= $sections[0]['email'] ?></li>
-						<li>Phone: <?= $sections[0]['phone'] ?></li>
-					</ul>
-
+					<p>Email: <?= $sections[0]['email'] ?></p>
+<!-- 					<p>Phone: <?= $sections[0]['phone'] ?></p>
+ -->					<p><?= $sections[0]['about'] ?></p>
+					
 				</div>
 			</div>
 		</div>
@@ -192,12 +200,14 @@
 						<div><a id="editDesc">Edit Description</a></div>
 						<div class="all" id="true"><a id="sendAll">Send an email to all students</a></div> 
 
-						<?php for ($i = 0; $i < $sections[0]["num_sections"]; $i++) { ?>
+						<?php for ($i = 0; $i < count($sections); $i++) { ?>
 							<h2>Section <?= $i + 1 ?></h2>
 							<?php
 							$section = $db -> select("SELECT users.first_name,
 							                                 users.last_name,
 							                                 users.netid,
+							                                 users.phone,
+							                                 users.email,
 							                                 reg.status,
 							                                 reg.id
 							                          FROM " . $DATABASE . ".users users
@@ -213,11 +223,14 @@
 							<table class='dynatable table table-striped'>
 								<thead>
 									<tr>
-										<?php if ($_SESSION['permissions'] > 2) { ?> <th>Cancel Registration</th> 
+										<?php if ($_SESSION['permissions'] > 2) { ?> 
+											<th>Cancel Registration</th> 
 											<th>Move Registration</th>
 										<?php } ?>
 										<th>First Name</th>
 										<th>Last Name</th>
+										<th>Email</th>
+										<th>Phone</th>
 										<th>Type</th>
 									</tr>
 								</thead>
@@ -236,6 +249,8 @@
 											<?php } ?>
 											<td><?= htmlspecialchars($section[$j]["first_name"]) ?></td>
 											<td><?= htmlspecialchars($section[$j]["last_name"]) ?></td>
+											<td><?= htmlspecialchars($section[$j]["email"]) ?></td>
+											<td><?= htmlspecialchars($section[$j]["phone"]) ?></td>
 											<td>
 												<?php if ($section[$j]["netid"]) { ?>
 													Student
@@ -263,7 +278,14 @@
 				</div>
 				<?php if ($_SESSION['permissions'] > 2) { ?>
 					<h2>Admin Panel</h2>
-					<!-- <p><a id='change-location'>Change Location</a></p> -->
+					<form action='coursesubmit.php?' method="get">
+						<p>Specific Location: <?= $sections[0]["location_spec"] ?></p>
+						<p>Change Location</p>
+						<input type='hidden' name='id' value="<?= $_GET["id"] ?>" />
+						<input type='hidden' name='changeLocation' value='true' />
+						<input type='text' name='loc_spec' class='form-control' />
+						<button type='submit' class='btn btn-success'>Update Location</button>
+					</form>
 				<?php } ?>
 			</div>
 		</section>

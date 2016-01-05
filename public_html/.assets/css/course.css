@@ -26,11 +26,13 @@
 }
 
 .status-1 h3 {
-	background-color: #80CC80;
+	background-color: #5cb85c;
+	color: white;
 }
 
 .status-2 h3 {
-	background-color: #FF9999;
+	background-color: #9c0000;
+	color: white;
 }
 
 .status-1 h3, .status-2 h3 {
@@ -46,4 +48,8 @@
 
 a {
 	cursor: pointer;
+}
+
+.other-register {
+	margin-top: 8px;
 }

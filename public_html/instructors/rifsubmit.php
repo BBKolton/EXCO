@@ -28,7 +28,7 @@ if (isset($_GET['delete'])) {
 	              WHERE rif_id = ' . $db->quote($_GET['id']));
 	$db -> query('DELETE FROM rifs_sections
 	              WHERE rif_id = ' . $db->quote($_GET['id']));
-	header('Location: /asuwecwb/instructors/rifs.php');
+	header('Location: /asuwxpcl/instructors/rifs.php');
 	die();
 }
 

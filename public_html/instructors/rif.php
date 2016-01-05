@@ -28,7 +28,7 @@ if (!isset($_GET['id'])) {
 }
 
 ?>	
-<form action="/asuwecwb/instructors/rifsubmit.php?id=<?= $c['id'] ?>" method="POST">
+<form action="/asuwxpcl/instructors/rifsubmit.php?id=<?= $c['id'] ?>" method="POST">
 	<section class="title">
 		<div class="container">
 			<h1>Returning Instructor Form</h1>

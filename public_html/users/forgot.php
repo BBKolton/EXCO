@@ -84,7 +84,7 @@
 		$mail->SetFrom("noreply@exco.org", "ASUW Experimetnal College");
 		$mail->Body = "We've received a request to change your password.
 			Please visit this link to reset: 
-			https://depts.washington.edu/asuwecwb/users/forgot.php?reset=" . $pass . "&email=" . $email[0]["email"] ." 
+			https://depts.washington.edu/asuwxpcl/users/forgot.php?reset=" . $pass . "&email=" . $email[0]["email"] ." 
 			If you did not request this email, ignore it.";
 		try {
 			$mail->Send();
@@ -149,7 +149,7 @@
 			<div class="container">
 				<h1>Password Reset!</h1>
 				<p>Your password has been reset. Please 
-				<a href="/asuwecwb/users/login.php">login</a> to continue</p>
+				<a href="/asuwxpcl/users/login.php">login</a> to continue</p>
 			</div>
 		</section>
 

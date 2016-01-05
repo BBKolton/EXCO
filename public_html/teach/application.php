@@ -3,7 +3,7 @@ require('../common.php');
 session_start();
 
 if (!isset($_SESSION['id'])) {
-	header('Location: /asuwecwb/users/login.php');
+	header('Location: /asuwxpcl/users/login.php');
 	die();
 }
 
@@ -24,8 +24,8 @@ $oldData;
 $oldData = $db -> select('SELECT * FROM users_additional
                           WHERE user_id = ' . $db->quote($_SESSION['id']))[0];
 
-head('<script src="/asuwecwb/.assets/js/application.js"></script>' .
-     '<link href="/asuwecwb/.assets/css/application.css" rel="stylesheet" />');
+head('<script src="/asuwxpcl/.assets/js/application.js"></script>' .
+     '<link href="/asuwxpcl/.assets/css/application.css" rel="stylesheet" />');
 ?>
 
 <style>
@@ -48,7 +48,7 @@ head('<script src="/asuwecwb/.assets/js/application.js"></script>' .
 				<div class='col-xs-12 col-md-6 col-lg-4'>
 					<h3>Personal Information</h3>
 					<div class='form-group'>
-					<p class='subtitle'>Disabled fields are tied to your account. You may change them <a href='/asuwecwb/users/preferences.php'>here</a></p>
+					<p class='subtitle'>Disabled fields are tied to your account. You may change them <a href='/asuwxpcl/users/preferences.php'>here</a></p>
 						<label>Name
 							<input type='text' name='personal_name' class='form-control' value='<?= $_SESSION["name"] ?>' disabled/>
 						</label>
@@ -187,7 +187,7 @@ head('<script src="/asuwecwb/.assets/js/application.js"></script>' .
 				<div class='col-xs-12 col-md-6'>
 					<h3>Submit</h3>
 					<p>Once you've completed all the information to the best of your ability, click submit to apply. You will not be able to edit any information submitted.</p>
-					<p>Did you have issues filling out this form? Something you'd like to say about this process? Please <a target='_blank' href='/asuwecwb/feedback.php'>give us feedback</a>!</p>
+					<p>Did you have issues filling out this form? Something you'd like to say about this process? Please <a target='_blank' href='/asuwxpcl/feedback.php'>give us feedback</a>!</p>
 					<input type='submit' class='btn btn-success' />
 				</div>
 			</div>

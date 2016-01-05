@@ -1,6 +1,6 @@
 <?php
 	session_start();
 	session_destroy();
-	header("Location: /asuwecwb/index.php");
+	header("Location: /asuwxpcl/index.php");
 	die(); //  :(
 ?>

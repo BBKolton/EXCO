@@ -21,7 +21,7 @@ if (isset($_GET['id'])) {
 	}
 }
 
-head('<link href="/asuwecwb/.assets/css/galley.css" type="text/css" rel="stylesheet" />');
+head('<link href="/asuwxpcl/.assets/css/galley.css" type="text/css" rel="stylesheet" />');
 
 ?>
 

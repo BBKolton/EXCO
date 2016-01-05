@@ -129,7 +129,7 @@ function mailUser($email, $verification) {
 	$mail->SetFrom("noreply@exco.org", "ASUW Experimental College");
 	$mail->Body = "Thank you for registering with the Experimental College!" .
 			"Please click this link to verify your account " . 
-			"http://depts.washington.edu/asuwecwb/users/registeruser.php?email=" . $email .
+			"http://depts.washington.edu/asuwxpcl/users/registeruser.php?email=" . $email .
 			"&code=" . $verification . " . If you did not request this email, please " . 
 			"ignore it.";
 	try {

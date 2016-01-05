@@ -5,7 +5,7 @@ require("../common.php");
 session_start();
 
 if (empty($_SESSION)) {
-	header("location: /asuwecwb/users/login.php");
+	header("location: /asuwxpcl/users/login.php");
 	die();
 }
 
@@ -138,9 +138,8 @@ head(); ?>
 <section class="content">
 	<div class="container">
 		<h1>Preferences</h1>
-		<p>Update your password, email, or basic information. Please note that after updating one
-		field, </p>
-		<form action="/asuwecwb/users/preferences.php" method="post">
+		<p>Update your password, email, or basic information. Please note that after updating, you will have to log back in</p>
+		<form action="/asuwxpcl/users/preferences.php" method="post">
 			<h2>Change Email</h2>
 			<div class='form-group'>
 				<p>New Email</p>
@@ -155,7 +154,7 @@ head(); ?>
 				<input class='form-control' name="password" type="password" /><br />
 			</div>
 			<input type="reset" value="Reset" class='btn btn-info'/> <input class='btn btn-success' type="submit" value="Change Email" />
-		</form><form action="/asuwecwb/users/preferences.php" method="post">
+		</form><form action="/asuwxpcl/users/preferences.php" method="post">
 			<h2>Change Password</h2>
 			<div class='form-group'>
 				<p>Current Password</p>
@@ -170,7 +169,7 @@ head(); ?>
 				<input class='form-control' name="password-new-confirm" type="password" /><br />
 			</div>
 			<input type="reset" value="Reset" class='btn btn-info'/> <input class='btn btn-success' type="submit" value="Change Password" />
-		</form><form action="/asuwecwb/users/preferences.php" method="post">
+		</form><form action="/asuwxpcl/users/preferences.php" method="post">
 			<h2>Change Personal Information</h2>
 			<div class='form-group'>
 				<p>First Name</p>

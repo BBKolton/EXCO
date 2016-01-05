@@ -6,7 +6,7 @@ if ($_SESSION['permissions'] < 2) {
 	error('Access Denied', 'You are not an instructor');
 }
 
-head('<link href="/asuwecwb/.assets/css/instructors.css" rel="stylesheet" />');
+head('<link href="/asuwxpcl/.assets/css/instructors.css" rel="stylesheet" />');
 
 ?>
 
@@ -24,10 +24,14 @@ head('<link href="/asuwecwb/.assets/css/instructors.css" rel="stylesheet" />');
 			<div class='col-md-8'>
 				<h2>Links</h2>
 				<p><a href='dates.php'>Dates</a></p>
-				<p><a href='rifs.php'>Rifs</a></p>
-				<p><a href='rif.php'>Rif</a></p>
-				<p><a href='galleys.php'>Galleys</a></p>
-				<p><a href='galley.php'>Galley</a></p>
+				<p><a href='/asuwxpcl/teach/application.php'>NCP - New Course Proposals</a></p>
+				<div style='background-color: #ac1000; color: white'>
+					<h2>Under Construction!</h2>
+					<p><a href='rifs.php'>Rifs</a></p>
+					<p><a href='rif.php'>Rif</a></p>
+					<p><a href='galleys.php'>Galleys</a></p>
+					<p><a href='galley.php'>Galley</a></p>
+				</div>
 			</div>
 			<div class='col-md-4'>
 				<div class='dates'>

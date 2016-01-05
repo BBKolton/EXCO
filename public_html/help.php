@@ -1,7 +1,7 @@
 <?php 
 	require("common.php");
 	head('<link href=".assets/css/help.css" type="text/css" rel="stylesheet" />' . 
-	     "<script type='text/javascript' src='/asuwecwb/.assets/js/help.js'></script>"); 
+	     "<script type='text/javascript' src='/asuwxpcl/.assets/js/help.js'></script>"); 
 
 	$faq = ["How can I register for a class?" => 
 				"To register online, you can create a user account or register as a guest. User accounts save your registration information quarter by quarter, making the registration process simpler. If you have registered for a course using your account, you can also access location information about the class through our website. You can search our online course catalog and click on the “Register” button to register for a class. </p><p>
@@ -61,7 +61,7 @@
 				"We have an e-mail newsletter that you can sign up for to receive e-mails twice per quarter letting you know that registration is open. We'll also update you on which classes are still open for registration about halfway through the quarter.", 
 			"I have a complaint about a class. What can I do?" => 
 				"Student satisifaction and safety are our top priorities. If you have a complaint regarding your class please feel free to e-mail office@exco.org or call 206-543-4375 and the staff will be sure to process the complaint. </p><p>
-				You can also use the anonymous <a href='/asuwecwb/feedback.php'>feedback page</a> for anything related to your experience with EXCO. ", 
+				You can also use the anonymous <a href='/asuwxpcl/feedback.php'>feedback page</a> for anything related to your experience with EXCO. ", 
 			"Who can work for the ASUW Experimental College?" => 
 				"Any current student of the University of Washington (both graduate and undergrated students) can apply to work at the Experimental College in one of eight staff positions: Director, Assistant Director, Accountant, Catalog Editor, Facilities Coordinator, Office Assistant, Public Relations Coordinator, and Webmaster. To check for current job listings you can visit jobs.asuw.org to see if we are currently hiring.", 
 			];
