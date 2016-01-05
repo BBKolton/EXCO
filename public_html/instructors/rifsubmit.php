@@ -62,7 +62,7 @@ if (isset($_GET['rif-submit'])) {
 	                         r.text_short
 	                         FROM rifs r JOIN users u ON r.instructor_id = u.id 
 	                         WHERE r.id = " . $db->quote($_GET['id']));
-	$c = $c[0];  ////////
+	$c = $c[0];
 	//var_dump($c);
 	$u = $db->select("SELECT first_name, last_name FROM users WHERE id = " . $db->quote($c['instructor_id']));
 	$s = $db->select("SELECT * FROM rifs_sections WHERE rif_id = " . $db->quote($c['id']));
@@ -174,7 +174,7 @@ die();
 
 function printItems() {
 	$db = new DB();
-	<?php foreach ($i as $item) { ?>
+	foreach ($i as $item) { ?>
 		<div class='itemSection'>
 			<div class='col-md-4 col-xs-12'>
 				<div class="form-group">
@@ -213,42 +213,43 @@ function printItems() {
 	<?php } ?>
 
 	<div class='blankItem'>
-	<div class='col-md-4 col-xs-12'>
-		<div class="form-group">
-			<label for="name" class="col-md-4 control-label hidden-md hidden-lg">Name</label>
-			<div class="col-xs-12">
-				<div class='input-group'>
-					<span class='input-group-btn'>
-						<button class='btn btn-danger'>
-							<span class='glyphicon glyphicon-remove'></span>
-						</button>
-					</span>
-					<input id="name" name="name" type="text" placeholder="name" value="<?= $item["name"] ?>" class="form-control"/>
+		<div class='col-md-4 col-xs-12'>
+			<div class="form-group">
+				<label for="name" class="col-md-4 control-label hidden-md hidden-lg">Name</label>
+				<div class="col-xs-12">
+					<div class='input-group'>
+						<span class='input-group-btn'>
+							<button class='btn btn-danger'>
+								<span class='glyphicon glyphicon-remove'></span>
+							</button>
+						</span>
+						<input id="name" name="name" type="text" placeholder="name" value="<?= $item["name"] ?>" class="form-control"/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class='col-md-4 col-xs-12'>
+			<div class="form-group">
+				<label for="cost" class="col-md-4 control-label hidden-md hidden-lg">Cost</label>
+				<div class="col-xs-12">
+					<input id="cost" name="cost" type="text" placeholder="cost" value="<?= $item["cost"] ?>" class="form-control"/>
+				</div>
+			</div>
+		</div>
+
+		<div class='col-md-4 col-xs-12'>
+			<div class="form-group">
+				<label for="quantity" class="col-md-4 control-label hidden-md hidden-lg">Quantity</label>
+				<div class="col-xs-12">
+					<input id="quantity" name="quantity" type="text" placeholder="quantity" value="<?= $item["quantity"] ?>" class="form-control"/>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class='col-md-4 col-xs-12'>
-		<div class="form-group">
-			<label for="cost" class="col-md-4 control-label hidden-md hidden-lg">Cost</label>
-			<div class="col-xs-12">
-				<input id="cost" name="cost" type="text" placeholder="cost" value="<?= $item["cost"] ?>" class="form-control"/>
-			</div>
-		</div>
-	</div>
-
-	<div class='col-md-4 col-xs-12'>
-		<div class="form-group">
-			<label for="quantity" class="col-md-4 control-label hidden-md hidden-lg">Quantity</label>
-			<div class="col-xs-12">
-				<input id="quantity" name="quantity" type="text" placeholder="quantity" value="<?= $item["quantity"] ?>" class="form-control"/>
-			</div>
-		</div>
-	</div>
-	</div>
+<?php
 }
-
 
 //Update the rif
 if ($_POST['update']) {
@@ -301,7 +302,9 @@ if ($_POST['update']) {
 		$_POST['info-overload'] = 0;
 	}
 
-	var_dump($_POST['text_email']);
+	echo "name is ";
+	$data = ($_POST['update']);
+	var_dump($data);
 	
 	$db -> query("UPDATE rifs
 	              SET name = " . $db->quote($_POST['name']) . ",
