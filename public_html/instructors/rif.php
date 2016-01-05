@@ -171,6 +171,10 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 					</div>
 				</div>
 			</div>
+		</form>
+	</div>
+	<div>
+		<form id="updateRif" data-toggle="formcache" name="proposalForm" method="post" action="/asuwxpcl/instructors/rifsubmit.php?id=<?= $_GET["id"] ?>" class="form-horizontal">
 			<div id="step-3" class="row setup-content">
 				<div class="col-xs-12">
 					<div class="col-md-12 well">
@@ -309,11 +313,10 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 					</div>
 				</div>
 			</div>
-		</form>
 	</div>
 	<div>
 		<form id="sections" data-toggle="formcache" name="proposalForm" method="post" action="/asuwxpcl/instructors/rifsubmit.php?id=<?= $_GET["id"] ?>" class="form-horizontal">
-		<input type='hidden' name='addSection' value='true' />
+			<input type='hidden' name='addSection' value='true' />
 			<div id="step-4" class="row setup-content">
 				<div class="col-xs-12">
 					<div class="col-md-8 well">

@@ -268,6 +268,21 @@
 								</tbody>
 							</table>
 						<?php }
+						if ($_SESSION['permissions'] > 2) { ?>
+							<form action='coursesubmit.php?' method="get">
+								<p>Specific Location: <?= $sections[$i]["location_spec"] ?></p>
+								<div class='col-xs-4'>
+									<p>Change Location</p>
+								</div>
+								<div class='col-xs-8'>
+									<input type='hidden' name='id' value="<?= $_GET["id"] ?>" />
+									<input type='hidden' name='changeLocation' value='true' />
+									<input type='hidden' name='section' value='<?= $sections[$i]['section']?>' />
+									<input type='text' name='loc_spec' class='form-control' />
+									<button type='submit' class='btn btn-success'>Update Location</button>
+								</div>
+							</form>
+						<?php }
 						} ?>
 					</div>
 					<div class="col-md-4 col-xs-12">
@@ -281,17 +296,6 @@
 						</form>
 					</div>
 				</div>
-				<?php if ($_SESSION['permissions'] > 2) { ?>
-					<h2>Admin Panel</h2>
-					<form action='coursesubmit.php?' method="get">
-						<p>Specific Location: <?= $sections[0]["location_spec"] ?></p>
-						<p>Change Location</p>
-						<input type='hidden' name='id' value="<?= $_GET["id"] ?>" />
-						<input type='hidden' name='changeLocation' value='true' />
-						<input type='text' name='loc_spec' class='form-control' />
-						<button type='submit' class='btn btn-success'>Update Location</button>
-					</form>
-				<?php } ?>
 			</div>
 		</section>
 

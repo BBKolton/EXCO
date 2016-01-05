@@ -97,6 +97,7 @@ if (isset($_GET['id']) && isset($_GET['course']) && isset($_GET['section']) && $
 
 if (isset($_GET['id']) && $_GET['changeLocation'] && isset($_GET['loc_spec'])) {
 	$db->query("UPDATE sections SET location_spec = " . $db->quote($_GET['loc_spec']) . "
-	            WHERE course_id = " . $db->quote($_GET['id']));
-	header('Location: /asuwxpcl/courses/course?id=' . $_get['id']);
+	            WHERE course_id = " . $db->quote($_GET['id']) . "
+	            AND section = " . $db->quote($_GET['section']));
+	header('Location: /asuwxpcl/courses/course.php?id=' . $_GET['id']);
 }
