@@ -1,7 +1,6 @@
 <?php
 
 require("../common.php");
-head();
 
 session_start();
 if (!verifyAdminOrRifInstructor($_GET['id'])) {
@@ -17,14 +16,9 @@ if (isset($_GET['id'])) {
 		error('No Rif Found', 'The ID specified does not correspond to an existing rif');
 	}
 }
-
-head();
 ?>
 
-<section class='content'>
-	<div class='container'>
-		<h2>Review your RIF</h2>
-		<p>If you find something that's wrong, <a href='rif.php?id=<?=$_GET["id"] ?>'>head back to the edit page</a>.</p>
+	<div>
 		<ul>
 			<h4>General Information</h4>
 			<li><b>Name</b>: <?= $c['name']?></li>
@@ -48,10 +42,9 @@ head();
 				</li>
 			<?php } ?>
 		</ul>
-		<p>If everything looks good from here, go ahead and hit the submit button. Your RIF will be marked as submitted. Afterwards, you will be taken to your auto-generated galley. Please check that all information is correct on your galley as well before finishing.</p>
-		<form action='rifsubmit.php' action='get'>
+		<p>If everything looks good from here, go ahead and submit. Afterwards, you will be taken to your auto-generated galley. Please check that all information is correct on your galley as well before finishing.</p>
+		<form action='/asuwxpcl/instructors/rifsubmit.php' action='get'>
 			<input type='hidden' name='id' value='<?= $_GET["id"] ?>' />
 			<button type='submit' class='btn btn-success' name='rif-submit' value='1'>Submit your RIF</button>
 		</form>
-	</div>
-</section>		
+	</div>	

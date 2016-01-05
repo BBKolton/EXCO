@@ -2,7 +2,7 @@
 	require("../common.php");
 	session_start();
 	if (empty($_SESSION)) {
-		header("location: /asuwecwb/users/login.php");
+		header("location: /asuwxpcl/users/login.php");
 		die();
 	}
 
@@ -28,7 +28,7 @@
 		            WHERE email = " . $db->quote($_POST["activate-email"]));
 	}
 
-	head("<link href='/asuwecwb/.assets/css/admin.css' type='text/css' rel='stylesheet'>"); ?>
+	head("<link href='/asuwxpcl/.assets/css/admin.css' type='text/css' rel='stylesheet'>"); ?>
 
 	<section role="main">
 		<div class="jumbotron">

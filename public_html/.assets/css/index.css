@@ -10,13 +10,17 @@
 
 /*carousel stuff*/
 
+body, html {
+	height: 100%;
+}
+
 .jumbotron h1, .jumbotron p {
 	color: white;
 	text-align: center;
 }
 
 .jumbotron {
-	background-image: url("/asuwecwb/.assets/img/index-2.jpg");
+	background-image: url("/asuwxpcl/.assets/img/index-2.jpg");
 	background-position: 50% 0%;
 	min-height: 300px;
 	height: 50vh;
@@ -35,10 +39,43 @@
 	padding-top: 0px;
 }
 
-.find-a-class {
-	background-color: #EEEEEE;
+.what-is {
+	background-color: #ddd;
 	border-radius: 4px;
 	padding: 10px;
+	height: 100%;
+}
+
+.what-is-wrap {
+	height: 100%;
+}
+
+.cat-wrap {
+	background-color: #eee;
+	padding: 8px;
+	margin-top: 20px;
+	border-radius: 4px;
+	min-height: 174px;
+}
+
+.icon {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 14px;
+}
+
+.categories-wrap div a {
+	color: #000000;
+}
+
+.categories-wrap div a:hover {
+	color: #000000;
+}
+
+.content .container {
+	padding-bottom: 20px;
+	margin-bottom: 30px;
 }
 
 

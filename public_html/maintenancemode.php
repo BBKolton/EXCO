@@ -42,7 +42,7 @@
 	<div>
 		<h1>ASUW Experimental College</h1>
 		<p>Down for maintenance. Please check back soon! <br />
-		SuperAdmins, use SU Panel <a href="/asuwecwb/admin/superadmin.php">here</a>.
-		Logout <a href="/asuwecwb/users/logout.php">here</a>. </p>
+		SuperAdmins, use SU Panel <a href="/asuwxpcl/admin/superadmin.php">here</a>.
+		Logout <a href="/asuwxpcl/users/logout.php">here</a>. </p>
 	</div>
 </body>

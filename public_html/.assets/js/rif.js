@@ -1,5 +1,17 @@
 $(document).ready(function() {
 
+	document.getElementById('toggleDatepicker').onclick = function() {
+		$('.datepicker').data('daterangepicker').show();
+	}
+
+
+
+
+})
+
+
+$(document).ready(function() {
+
 	toastr.options = {
 		"closeButton": true,
 		"debug": false,
@@ -41,89 +53,94 @@ $(document).ready(function() {
 		}
 
 
-		//brings us to the right location in the document
-		//if there is no hash in the url, brings us to the itnro
-		if (window.location.hash) {
-			$('ul.setup-panel li a.step-' + window.location.hash.substring(1)).trigger('click');
-		} else {
-			$('ul.setup-panel li a.step-1').trigger('click');
-		}
-
-
-		$(".sliderMetric").on('change',function(e){
-				var total = 0;
-				var i=0;
-				$(".sliderMetric").each(function() {
-				total += parseFloat($(this).val());
-				i += 1;
-		});
-		var average = total / i
-				$("#totalScore").val(average)
+		$('#updateRif').submit(function(e) {
+			e.preventDefault();
+			console.log($('#updateRif').serialize())
+			$.ajax({
+				data: $('#updateRif').serialize(),
+				method: 'POST',
+				url: $('#updateRif').attr('action'),
+				success: function(data) {
+					console.log(data)
+					toastr["success"](data);
+				}
+			});
 		})
 
-		//only used during the create page
-		$('#title').keypress(function(e) {
-			if ($(this).val().length < 10) {
-				$('#create').addClass("disabled");
-				$('.form-button').addClass("disabled");
-			} else {
-				$('#create').removeClass("disabled");
-				$('.form-button').removeClass("disabled");
-			}
-		})
-
-
-		$('#updateProposal').on('submit', function(e) {
+		function bindSections() {
+			$('.removeSection').click(function(e) {
+				var section = $(this).attr('section');
+				console.log(section)
 				e.preventDefault();
 				$.ajax({
-						data: $('#updateProposal').serialize(),
-						method: 'POST',
-						url: $('#updateProposal').attr('action'),
-						success: function(data) {
-								toastr["success"]("Successfully Updated..");
-						}
-				});
-		})
+					data: {section: section, removeSection: true},
+					method: 'POST',
+					url: $('#sections').attr('action'),
+					success: function(data) {
+						console.log(data);
+						$('#itemsList').html(data);
+						toastr["warning"]("Section Removed" );
+						bindSections();
+					}
+				})
+			})		
+		}
 
-		$('#createItem').on('submit', function(e){
+		bindSections();
+
+		$('#sections').submit(function(e){
+			e.preventDefault();
+			console.log($('#sections').serialize())
+			$.ajax({
+				data: $('#sections').serialize(),
+				method: 'POST',
+				url: $('#sections').attr('action'),
+				success: function(data) {
+					console.log(data)
+					$('#itemsList').html(data);
+					toastr["success"]("Section Added" );
+					$('#sections').find('input[type=text], textarea').val('');
+					bindSections();
+				}
+			});
+		});
+
+
+
+		//?
+		$('#newItem').click(function(e){
 				e.preventDefault();
 				$.ajax({
 						data: $('#createItem').serialize(),
 						method: 'POST',
 						url: $('#createItem').attr('action'),
 						success: function(data) {
-								$('#itemsList ol').append('<li><a href="/item/' + data.item.id+'">'+
-										$('#ItemName').val() + '</a></li>');
-								//a(href='item/#{item.ProposalId}/#{item.ItemName}') #{item.ItemName}
-								toastr["success"]("Item created Successfully.." );
-								//+ JSON.stringify(data));
-								$('ul.setup-panel li a[href="#step-4"]').trigger('click');
-								$('#createItem')[0].reset();
+							$('#itemsList ol').append('<li><a href="/item/' + data.item.id+'">'+
+									$('#ItemName').val() + '</a></li>');
+							toastr["success"]("Item created Successfully.." );
+							$('#createItem')[0].reset();
 						}
 				});
 		});
 
-		$('.sign-btn').on('click', function(e) {
-			var elem = this;
-			var proposal = window.location.href;
-			proposal = proposal.substring(proposal.lastIndexOf('/') + 1, proposal.indexOf('#'));
-			$.ajax({
-				data: {id: proposal},
-				method: 'POST',
-				url: '/proposal/sign',
-				success: function(data) {
-					if (data.message == 'SignSuccess') {
-						toastr['success']('Signature Successful!');
-						var par = elem.parentNode;
-						elem.parentNode.innerHTML = '<span class="signed"> Signed </span> ';
-						if (data.finished) {
-							document.getElementById('submitProposal').classList.remove('disabled');
+
+
+		$('#step-5-select').on('click', function() {
+			console.log('herp')
+			$('#rifReview').fadeOut(0, function() {
+				$('#loadingReview').fadeIn(0, function() {
+					$.ajax({
+						method: 'GET',
+						url: $('#updateRif').attr('action').replace('rifsubmit', 'rifreview'),
+						success: function(data) {
+							console.log(data)
+							$('#loadingReview').delay(1000).fadeOut(500, function() {
+								$('#rifReview').empty().append(data).fadeIn(500);
+							});
 						}
-					} else {
-						toastr['warning']('Signature Failure');
-					}
-					
-				}
-			})
+					})
+				});
+			});
 		})
+
 });

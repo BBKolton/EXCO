@@ -5,7 +5,7 @@
 
 	//if we're already logged in, redirect away
 	if (!empty($_SESSION["id"])) {
-		header("location: /asuwecwb/index.php");
+		header("location: /asuwxpcl/index.php");
 	}
 
 	//If theres no email or password supplied, display thr login
@@ -13,7 +13,7 @@
 		page();
 		die();
 	} if (isset($_SESSION["name"])) {
-		header("Location /asuwecwb/index.php");
+		header("Location /asuwxpcl/index.php");
 	}
 
 	$email = $_POST["email"];
@@ -21,7 +21,7 @@
 
 	//Ask the database for the user
 	$db = new DB();
-	$user = $db -> select("SELECT id, email, password, first_name, last_name, activation, permissions, phone, zip
+	$user = $db -> select("SELECT id, email, password, first_name, last_name, activation, permissions, phone, zip, netid
 	                       FROM " . $DATABASE . ".users 
 	                       WHERE email = " . $db -> quote($email));
 
@@ -42,33 +42,38 @@
 		$_SESSION["name"] = $user[0]["first_name"] . " " . $user[0]["last_name"];
 		$_SESSION["phone"] = $user[0]["phone"];
 		$_SESSION["permissions"] = $user[0]["permissions"];
-		$_SESSION["type"] = $user[0]["type"];
+		$_SESSION["netId"] = $user[0]["netid"];
 		$_SESSION["id"] = $user[0]["id"];
 		$_SESSION["phone"] = $user[0]["phone"];
 		$_SESSION["zip"] = $user[0]["zip"];
-		header("Location: /asuwecwb/index.php");
+		header("Location: /asuwxpcl/index.php");
 	}
 
 	function page() { 
-		head('<link href="/asuwecwb/.assets/css/login.css" rel="stylesheet" />'); 
+		head('<link href="/asuwxpcl/.assets/css/login.css" rel="stylesheet" />'); 
 		?>
 
 		<section class="content">
 			<div class="container">
 				<div class='row'>
 					<div class='col-xs-12 col-md-6'>
-						<form action="/asuwecwb/users/login.php" method="post">
+						<h1>A New Site!</h1>
+						<p>The Experimental College has gotten a facelift! With it, we've archived and cleaned our user database. 
+						If you had an account on our old site and have not made one here yet, <b>you will need to create a new 
+						account to the right</b></p>
+						<form action="/asuwxpcl/users/login.php" method="post">
 							<h3>Login</h3>
 							<input class='form-control' type="text" name="email" autofocus placeholder="Email" /><br />
 							<input class='form-control' type="password" placeholder='Password' name="password" /><br />
 							<p>
 								<input type="submit" value="login" class='btn btn-info' />
-								<a href="/asuwecwb/users/forgot.php">Forgot Password?</a>
+								<a href="/asuwxpcl/users/forgot.php">Forgot Password?</a>
 							</p>
 						</form>
 					</div>
 					<div class='col-xs-12 col-md-6'>
-						<form action="/asuwecwb/users/registeruser.php" method="post">
+
+						<form action="/asuwxpcl/users/registeruser.php" method="post">
 							<h3>Register New User</h3>
 							<p><i><b>NOTICE:</b> If you are a member of the University of Washington and
 								have a valid NetID email address, use it here to receive student

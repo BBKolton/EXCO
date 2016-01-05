@@ -9,8 +9,7 @@
 		});
 
 		function createDatePicker() {
-			$(".datepicker").multiDatesPicker({
-				maxPicks: 999,
+			$(".datepicker").daterangepicker({
 				showButtonPanel: true,
 				dateFormat: 'mm/dd',
 				numberOfMonths: 3,

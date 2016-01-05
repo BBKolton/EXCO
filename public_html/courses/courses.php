@@ -4,8 +4,8 @@
 require("../common.php");
 $db = new DB();
 $types = $db -> select("SELECT DISTINCT type from " . $DATABASE . ".courses ORDER BY type");
-head("<link href='/asuwecwb/.assets/css/courses.css' type='text/css' rel='stylesheet' />" . 
-     "<script type='text/javascript' src='/asuwecwb/.assets/js/courses.js'></script>"); ?>
+head("<link href='/asuwxpcl/.assets/css/courses.css' type='text/css' rel='stylesheet' />" . 
+     "<script type='text/javascript' src='/asuwxpcl/.assets/js/courses.js'></script>"); ?>
 
 
 
@@ -39,9 +39,9 @@ head("<link href='/asuwecwb/.assets/css/courses.css' type='text/css' rel='styles
 						}
 						for ($i = 0; $i < count($classes); $i++) { 
 							?>
-							<a href="/asuwecwb/courses/course.php?id=<?= $classes[$i]['id'] ?>">
+							<a href="/asuwxpcl/courses/course.php?id=<?= $classes[$i]['id'] ?>">
 								<div class="class-wrap col-lg-4 col-sm-6 col-xs-12">
-									<div class="class" style="background-image: url('/asuwecwb/.assets/img/classes/<?= $classes[$i]['id'] ?>.jpg'), url('/asuwecwb/.assets/img/classes/fallback.jpg'); background-size: cover;">
+									<div class="class" style="background-image: url('/asuwxpcl/.assets/img/classes/<?= $classes[$i]['id'] ?>.jpg'), url('/asuwxpcl/.assets/img/classes/fallback.jpg'); background-size: cover;">
 										<h3 class="status-<?= $classes[$i]['status']?>"><?= htmlspecialchars($classes[$i]["name"]) ?></h3>
 									</div>
 								</div>

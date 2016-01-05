@@ -28,7 +28,7 @@ if (isset($_GET['delete'])) {
 	              WHERE rif_id = ' . $db->quote($_GET['id']));
 	$db -> query('DELETE FROM rifs_sections
 	              WHERE rif_id = ' . $db->quote($_GET['id']));
-	header('Location: /asuwecwb/instructors/rifs.php');
+	header('Location: /asuwxpcl/instructors/rifs.php');
 	die();
 }
 
@@ -44,6 +44,8 @@ if (isset($_GET['submitted'])) {
 	header('Location: rifs.php');
 	die();
 }
+
+
 
 if (isset($_GET['rif-submit'])) {
 	$text = '';
@@ -85,9 +87,11 @@ if (isset($_GET['rif-submit'])) {
 	              ON DUPLICATE KEY UPDATE text = '. $db->quote($text));
 	
 
-	header('Location: galley.php?id=' . $_GET['id']);	
+	echo('Location: galley.php?id=' . $_GET['id']);	
 	die();
 }
+
+
 
 //set a rifs lateness
 if (isset($_GET['late'])) {
@@ -128,80 +132,195 @@ if (isset($_GET['facilities'])) {
 	die();
 }
 
-//Update the rif
 
-$data = [];
-$items = [];
-$sections = [];
-foreach ($_POST as $key => $val) {
-	$data[$key] = $db->quote($val);
-	if (strpos($key, 'item') !== false) {
-		array_push($items, $db->quote($val));
-	} else if (strpos($key, 'section') !== false) {
-		array_push($sections, $val);
-	}
-}
+if ($_POST['addSection']) {
+	$db -> query("INSERT INTO rifs_sections
+                (rif_id, days, time_start, time_end)
+                VALUES ( " .
+                    $db->quote($_GET['id']) . "," .
+                    $db->quote($_POST['dates']) . "," . 
+                    $db->quote($_POST['startTime']) . "," .
+                    $db->quote($_POST['endTime']) .
+                ")");
 
-
-$db -> query('DELETE FROM rifs_items
-              WHERE rif_id = ' . $db->quote($_GET['id']));
-$db -> query('DELETE FROM rifs_sections
-              WHERE rif_id = ' . $db->quote($_GET['id']));
-
-
-for ($i = 0; $i < sizeof($items); $i+= 3) {
-	$db -> query("INSERT INTO rifs_items
-	              (rif_id, name, cost, quantity)
-	              VALUES ( " .
-	                  $db->quote($_GET['id']) . "," .
-	                  $items[$i] . "," . 
-	                  $items[$i + 1] . "," .
-	                  $items[$i + 2] .
-	              ")");
-}
-
-for ($i = 0; $i < sizeof($sections); $i+= 3) {
-	$startDay = $db->quote($sections[$i] . ' ' . substr($sections[$i + 2], 0, strpos($sections[$i + 2], ',')));
-	$db -> query("INSERT INTO rifs_sections 
-	              SET rif_id = " . $db->quote($_GET['id']) . ",
-	                  section = " . $db->quote($i / 3 + 1) . ",
-	                  start_day = " . $startDay . ",
-	                  days = " . $db->quote($sections[$i + 2]) . ",
-	                  time_start = " . $db->quote($sections[$i]) . ",
-	                  time_end = " . $db->quote($sections[$i + 1]) . ",
-	                  size = " . $data['size'] . ",
-	                  fee_gen = " . $data['fee-gen'] . ",
-	                  fee_uw = " . $data['fee-uw'] . ",
-	                  location_gen = " . $data['loc-gen'] . ",
-	                  location_spec = " . $data['loc-spec']);
-}
-
-if ($data['info-overload'] == '') {
-	$data['info-overload'] = 0;
-}
-
-$db -> query("UPDATE rifs
-              SET name = " . $data["name"] . ",
-                  room_rate = " . $data["room-rate"] . ",
-                  room_hours = " . $data["room-hours"] . ",
-                  fee_gen = " . $data["fee-gen"] . ",
-                  fee_uw = " . $data["fee-uw"] . ",
-                  category = " . $data["info-cat"] . ",
-                  loc_gen = " . $data["loc-gen"] . ",
-                  loc_spec = " . $data["loc-spec"] . ",
-                  firstday = " . $data["info-firstday"] . ",
-                  overload = " . $data["info-overload"] . ",
-                  underage = " . $data["info-age"] . ",
-                  text_email = " . $data["info-email"] . ",
-                  text_short = " . $data["info-short"] . ",
-                  text_long = " . $data["info-long"] . "
-              WHERE id = " . $db->quote($_GET['id']));
-
-if (isset($_POST['review'])) {
-	header('Location: rifreview.php?id=' . $_GET['id']);
+	printSections();
 	die();
 }
 
-header('Location: rif.php?id=' . $_GET['id']);
+if ($_POST['removeSection']) {
+	$db -> query('DELETE FROM rifs_sections WHERE id = ' . $db->quote($_POST['section']));
+	printSections();
+}
 
+function printSections() {
+	$db = new DB();
+	$s = $db->select("SELECT * FROM rifs_sections WHERE rif_id = " . $db->quote($_GET['id']));	
+	?>
+
+	<h3>All Sections</h3>
+	<?php if (empty($s)) { ?>
+		<p>You have no saved sections yet</p>
+	<?php } else { ?>
+		<ul>
+		<?php foreach ($s as $sec) { ?>
+			<li><a class='removeSection' section='<?= $sec["id"] ?>'><button class='btn btn-danger' type='button'><span class='glyphicon glyphicon-remove'></span></button></a> <?= $sec['time_start'] . ' - ' . $sec['time_end'] . ', ' . $sec['days'] ?></li>
+		<?php } ?>
+		</ul>
+	<?php } ?>
+<?php 
+die();
+}
+
+
+function printItems() {
+	$db = new DB();
+	<?php foreach ($i as $item) { ?>
+		<div class='itemSection'>
+			<div class='col-md-4 col-xs-12'>
+				<div class="form-group">
+					<label for="name" class="col-md-4 control-label hidden-md hidden-lg">Name</label>
+					<div class="col-xs-12">
+						<div class='input-group'>
+							<span class='input-group-btn'>
+								<button class='btn btn-danger'>
+									<span class='glyphicon glyphicon-remove'></span>
+								</button>
+							</span>
+							<input id="name" name="name" type="text" placeholder="name" value="<?= $item["name"] ?>" class="form-control"/>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class='col-md-4 col-xs-12'>
+				<div class="form-group">
+					<label for="cost" class="col-md-4 control-label hidden-md hidden-lg">Cost</label>
+					<div class="col-xs-12">
+						<input id="cost" name="cost" type="text" placeholder="cost" value="<?= $item["cost"] ?>" class="form-control"/>
+					</div>
+				</div>
+			</div>
+
+			<div class='col-md-4 col-xs-12'>
+				<div class="form-group">
+					<label for="quantity" class="col-md-4 control-label hidden-md hidden-lg">Quantity</label>
+					<div class="col-xs-12">
+						<input id="quantity" name="quantity" type="text" placeholder="quantity" value="<?= $item["quantity"] ?>" class="form-control"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	<?php } ?>
+
+	<div class='blankItem'>
+	<div class='col-md-4 col-xs-12'>
+		<div class="form-group">
+			<label for="name" class="col-md-4 control-label hidden-md hidden-lg">Name</label>
+			<div class="col-xs-12">
+				<div class='input-group'>
+					<span class='input-group-btn'>
+						<button class='btn btn-danger'>
+							<span class='glyphicon glyphicon-remove'></span>
+						</button>
+					</span>
+					<input id="name" name="name" type="text" placeholder="name" value="<?= $item["name"] ?>" class="form-control"/>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class='col-md-4 col-xs-12'>
+		<div class="form-group">
+			<label for="cost" class="col-md-4 control-label hidden-md hidden-lg">Cost</label>
+			<div class="col-xs-12">
+				<input id="cost" name="cost" type="text" placeholder="cost" value="<?= $item["cost"] ?>" class="form-control"/>
+			</div>
+		</div>
+	</div>
+
+	<div class='col-md-4 col-xs-12'>
+		<div class="form-group">
+			<label for="quantity" class="col-md-4 control-label hidden-md hidden-lg">Quantity</label>
+			<div class="col-xs-12">
+				<input id="quantity" name="quantity" type="text" placeholder="quantity" value="<?= $item["quantity"] ?>" class="form-control"/>
+			</div>
+		</div>
+	</div>
+	</div>
+}
+
+
+//Update the rif
+if ($_POST['update']) {
+	var_dump($_POST);
+
+
+	// foreach ($_POST as $key => $val) {
+	// 	if (strpos($key, 'item') !== false) {
+	// 		array_push($items, $db->quote($val));
+	// 	} else if (strpos($key, 'section') !== false) {
+	// 		array_push($sections, $val);
+	// 	}
+	// }
+
+
+	// $db -> query('DELETE FROM rifs_items
+	//               WHERE rif_id = ' . $db->quote($_GET['id']));
+	// $db -> query('DELETE FROM rifs_sections
+	//               WHERE rif_id = ' . $db->quote($_GET['id']));
+
+
+	// for ($i = 0; $i < sizeof($items); $i+= 3) {
+	// 	$db -> query("INSERT INTO rifs_items
+	// 	              (rif_id, name, cost, quantity)
+	// 	              VALUES ( " .
+	// 	                  $db->quote($_GET['id']) . "," .
+	// 	                  $items[$i] . "," . 
+	// 	                  $items[$i + 1] . "," .
+	// 	                  $items[$i + 2] .
+	// 	              ")");
+	// }
+
+	// for ($i = 0; $i < sizeof($sections); $i+= 3) {
+	// 	$startDay = $db->quote($sections[$i] . ' ' . substr($sections[$i + 2], 0, strpos($sections[$i + 2], ',')));
+	// 	$db -> query("INSERT INTO rifs_sections 
+	// 	              SET rif_id = " . $db->quote($_GET['id']) . ",
+	// 	                  section = " . $db->quote($i / 3 + 1) . ",
+	// 	                  start_day = " . $startDay . ",
+	// 	                  days = " . $db->quote($sections[$i + 2]) . ",
+	// 	                  time_start = " . $db->quote($sections[$i]) . ",
+	// 	                  time_end = " . $db->quote($sections[$i + 1]) . ",
+	// 	                  size = " . $db->quote($_POST['size']) . ",
+	// 	                  fee_gen = " . $db->quote($_POST['fee_gen']) . ",
+	// 	                  fee_uw = " . $db->quote($_POST['fee_uw']) . ",
+	// 	                  location_gen = " . $db->quote($_POST['loc-gen']) . ",
+	// 	                  location_spec = " . $db->quote($_POST['loc-spec']));
+	// }
+
+	if ($_POST['info-overload'] == '') {
+		$_POST['info-overload'] = 0;
+	}
+
+	var_dump($_POST['text_email']);
+	
+	$db -> query("UPDATE rifs
+	              SET name = " . $db->quote($_POST['name']) . ",
+	                  room_rate = " . $db->quote($_POST['room_rate']) . ",
+	                  room_hours = " . $db->quote($_POST['room_hours']) . ",
+	                  fee_gen = " . $db->quote($_POST['fee_gen'])         . ",
+	                  fee_uw = " . $db->quote($_POST['fee_uw'])            . ",
+	                  category = " . $db->quote($_POST['category']) . ",
+	                  loc_gen = " . $db->quote($_POST['loc-gen'])           . ",
+	                  loc_spec = " . $db->quote($_POST['loc-spec'])             . ",
+	                  firstday = " . $db->quote($_POST['firstday']) . ",
+	                  overload = " . $db->quote($_POST['overload']) . ",
+	                  underage = " . $db->quote($_POST['underage']) . ",
+	                  text_email = " . $db->quote($_POST['text_email']) . ",
+	                  text_short = " . $db->quote($_POST['text_short']) . ",
+	                  text_long = " . $db->quote($_POST['text_long']) . "
+	              WHERE id = " . $db->quote($_GET['id']));
+
+echo "UPDATE rifs SET name = " . $db->quote($_POST['name']) . ", room_rate = " . $db->quote($_POST['room_rate']) . ", room_hours = " . $db->quote($_POST['room_hours']) . ", fee_gen = " . $db->quote($_POST['fee_gen']) . ", fee_uw = " . $db->quote($_POST['fee_uw']) . ", category = " . $db->quote($_POST['info-cat']) . ", loc_gen = " . $db->quote($_POST['loc-gen']) . ", loc_spec = " . $db->quote($_POST['loc-spec']) . ", firstday = " . $db->quote($_POST['info-firstday']) . ", overload = " . $db->quote($_POST['info-overload']) . ", underage = " . $db->quote($_POST['info-age']) . ", text_email = " . $db->quote($_POST['text_email']) . ", text_short = " . $db->quote($_POST['text_short']) . ", text_long = " . $db->quote($_POST['text_long']) . " WHERE id = " . $db->quote($_GET['id']);
+
+}
 ?>

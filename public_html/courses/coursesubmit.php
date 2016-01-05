@@ -52,6 +52,8 @@ if (isset($_GET['id']) && isset($_GET['course']) && isset($_GET['section']) && $
 	$db->query('UPDATE registrations SET course_id = ' . $db->quote($_GET["course"]) . 
 	           ', course_section = ' . $db->quote($_GET["section"]) . '
 	            WHERE id = ' . $db->quote($_GET['id']));
-	header('Location: /asuwecwb/courses/course.php?id=' . $new['id']);
+	header('Location: /asuwxpcl/courses/course.php?id=' . $new['id']);
 	die();
 }
+
+if (isset($_GET['id']) && isset([$_GET['']]) )

@@ -38,7 +38,7 @@ if ($_SESSION['permissions'] > 2) {
 
 $rifs = $db->select($query);
 
-head('<link href="/asuwecwb/.assets/css/rifsgalleys.css" rel="stylesheet" />', 0, 0, 1);
+head('<link href="/asuwxpcl/.assets/css/rifsgalleys.css" rel="stylesheet" />', 0, 0, 1);
 ?>
 
 <script>

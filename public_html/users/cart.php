@@ -7,13 +7,13 @@
 		unset($cart[$_GET["cart"]]); //the get values are teh course and section to remove
 		unset($cart[$_GET["cart"] + 1]);
 		$_SESSION["cart"] = array_values($cart);
-		header("Location: /asuwecwb/users/cart.php");
+		header("Location: /asuwxpcl/users/cart.php");
 		die();
 	}
 
 	//general page things
 	require("../common.php");
-	head("<link href='/asuwecwb/.assets/css/cart.css' type='text/css' rel='stylesheet'>"); ?>
+	head("<link href='/asuwxpcl/.assets/css/cart.css' type='text/css' rel='stylesheet'>"); ?>
 
 	<section class="title">
 		<div class="jumbotron">
@@ -63,11 +63,13 @@
 									                          FROM " . $DATABASE . ".courses
 									                          JOIN " . $DATABASE . ".sections sec
 									                          ON courses.id = sec.course_id
-									                          WHERE courses.id = " . $db->quote($id)); 
-									$type = $_SESSION["type"];
+									                          WHERE courses.id = " . $db->quote($id) . "
+									                          AND sec.section = " . $db->quote($section)); 
+									
+									$netId = $_SESSION["netId"];
 									$costExCo;
 									$costClass;
-									if ($type === "student") {
+									if ($netId != NULL) {
 										$costExCo = 5;
 										$costClass = $courses[0]["fee_uw"];
 									} else {
@@ -78,7 +80,7 @@
 									$totalClassFee+= $costClass;
 									?>
 									<tr>
-										<td><a href="/asuwecwb/users/cart.php?remove=1&cart=<?= $i ?>"><span class='glyphicon glyphicon-remove'></span></a></td>
+										<td><a href="/asuwxpcl/users/cart.php?remove=1&cart=<?= $i ?>"><span class='glyphicon glyphicon-remove'></span></a></td>
 										<td><?= htmlspecialchars($courses[0]["name"]) ?></td>
 										<td><?= $section ?></td>
 										<td><?= htmlspecialchars($courses[0]["days"]) ?></td>
@@ -88,7 +90,7 @@
 									</tr>
 								<?php } ?>
 						</table>
-						<p><a href="/asuwecwb/courses/courses.php">Add another class</a></p> 
+						<p><a href="/asuwxpcl/courses/courses.php">Add another class</a></p> 
 						<h1>Total Due</h1>
 						<p>The Experimental College collects a fee per class. Other fees noted above <strong>are due to instructors on the first day of class</strong>, and are noted here for your convenience. You will only pay the total Experimental College fee when you click continue</p>
 						<table>
@@ -106,7 +108,7 @@
 					</div>
 					<div class="col-md-3 col-xs-12">
 						<h2>Credit Card Information</h2>
-						<form action="/asuwecwb/users/cartsubmit.php" method="post">
+						<form action="/asuwxpcl/users/cartsubmit.php" method="post">
 							<div class='form-group'>First Name<input class='form-control' type="text" name="first-name" value="<?= htmlspecialchars($_SESSION['first_name']) ?>"></div>
 							<div class='form-group'>Last Name<input class='form-control' type="text" name="last-name" value="<?= htmlspecialchars($_SESSION['last_name']) ?>"></div>
 							<div class='form-group'>Email Address<input class='form-control' type="text" name="email" value="<?= htmlspecialchars($_SESSION['email']) ?>"></div>

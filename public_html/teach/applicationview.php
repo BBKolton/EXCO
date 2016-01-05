@@ -39,7 +39,7 @@ if ($_SESSION['permissions'] < 3 && $_SESSION['id'] != $application['user_id']) 
 }
 
 
-head('<link href="/asuwecwb/.assets/css/application.css" rel="stylesheet" />');
+head('<link href="/asuwxpcl/.assets/css/application.css" rel="stylesheet" />');
 ?>
 
 <style>

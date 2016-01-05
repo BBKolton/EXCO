@@ -18,7 +18,7 @@ if (!isset($_SESSION['id'])) {
 
 $nia = $db->select('SELECT type FROM applications WHERE user_id = ' . $_SESSION['id'])[0];
 if (!empty($nia) && $nia['type'] == 0) {
-	header('Location: /asuwecwb/teach/applicationview.php?id=' . $id);
+	header('Location: /asuwxpcl/teach/applicationview.php?id=' . $id);
 	die();
 }
 
@@ -98,4 +98,4 @@ if (empty($additionalInfo)) {
 move_uploaded_file($_FILES['resume']['tmp_name'], $dir . '/resume.' . $resumeType);
 move_uploaded_file($_FILES['outline']['tmp_name'], $dir . '/outline.' . $outlineType);
 
-header('Location: /asuwecwb/teach/applicationview.php?id=' . $id);
+header('Location: /asuwxpcl/teach/applicationview.php?id=' . $id);

@@ -5,7 +5,7 @@ require("../common.php");
 session_start();
 
 if (empty($_SESSION)) {
-	header("location: /asuwecwb/users/login.php");
+	header("location: /asuwxpcl/users/login.php");
 	die();
 }
 
@@ -33,11 +33,11 @@ if (!empty($_POST)) {
 		if (preg_match("/((@uw\.edu)|(@u\.washington\.edu))/i", $exists[0]["email"])) {
 			$netid = substr($exists[0]["email"], 0, strpos($exists[0]["email"], "@"));
 			$db -> query("UPDATE " . $DATABASE . ".users
-			              SET activation = '1', type = 'student', netid = " . $db->quote($netid) .
+			              SET activation = '1', netid = " . $db->quote($netid) .
 			            " WHERE email = " . $db->quote($email));
 		} else {
 			$db -> query("UPDATE " . $DATABASE . ".users
-			              SET activation = '1', type = 'general', netid = NULL
+			              SET activation = '1', netid = NULL
 			              WHERE email = " . $db->quote($email));
 		}
 		changeComplete("Email", "NOTE: If you have changed from an @uw.edu or @u.washington.edu address 
@@ -140,7 +140,7 @@ head(); ?>
 		<h1>Preferences</h1>
 		<p>Update your password, email, or basic information. Please note that after updating one
 		field, </p>
-		<form action="/asuwecwb/users/preferences.php" method="post">
+		<form action="/asuwxpcl/users/preferences.php" method="post">
 			<h2>Change Email</h2>
 			<div class='form-group'>
 				<p>New Email</p>
@@ -155,7 +155,7 @@ head(); ?>
 				<input class='form-control' name="password" type="password" /><br />
 			</div>
 			<input type="reset" value="Reset" class='btn btn-info'/> <input class='btn btn-success' type="submit" value="Change Email" />
-		</form><form action="/asuwecwb/users/preferences.php" method="post">
+		</form><form action="/asuwxpcl/users/preferences.php" method="post">
 			<h2>Change Password</h2>
 			<div class='form-group'>
 				<p>Current Password</p>
@@ -170,7 +170,7 @@ head(); ?>
 				<input class='form-control' name="password-new-confirm" type="password" /><br />
 			</div>
 			<input type="reset" value="Reset" class='btn btn-info'/> <input class='btn btn-success' type="submit" value="Change Password" />
-		</form><form action="/asuwecwb/users/preferences.php" method="post">
+		</form><form action="/asuwxpcl/users/preferences.php" method="post">
 			<h2>Change Personal Information</h2>
 			<div class='form-group'>
 				<p>First Name</p>
