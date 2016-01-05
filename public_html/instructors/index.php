@@ -24,6 +24,7 @@ head('<link href="/asuwxpcl/.assets/css/instructors.css" rel="stylesheet" />');
 			<div class='col-md-8'>
 				<h2>Links</h2>
 				<p><a href='dates.php'>Dates</a></p>
+				<p><a href='/asuwxpcl/teach/application.php'>NCP - New Course Proposals</a></p>
 				<div style='background-color: #ac1000; color: white'>
 					<h2>Under Construction!</h2>
 					<p><a href='rifs.php'>Rifs</a></p>

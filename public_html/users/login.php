@@ -72,7 +72,6 @@
 						</form>
 					</div>
 					<div class='col-xs-12 col-md-6'>
-
 						<form action="/asuwxpcl/users/registeruser.php" method="post">
 							<h3>Register New User</h3>
 							<p><i><b>NOTICE:</b> If you are a member of the University of Washington and

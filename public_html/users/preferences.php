@@ -138,8 +138,7 @@ head(); ?>
 <section class="content">
 	<div class="container">
 		<h1>Preferences</h1>
-		<p>Update your password, email, or basic information. Please note that after updating one
-		field, </p>
+		<p>Update your password, email, or basic information. Please note that after updating, you will have to log back in</p>
 		<form action="/asuwxpcl/users/preferences.php" method="post">
 			<h2>Change Email</h2>
 			<div class='form-group'>

@@ -42,7 +42,7 @@
 				<div class="col-md-4 col-xs-12 what-is-wrap">
 					<div class="what-is">
 						<h2>What is EXCO?</h2>
-						<p>The Experimental College is a group of students that teach classes a bit 'out there.' We go beyond the 
+						<p>The Experimental College is a student-run organization partnered with professional instructors that teaches classes a bit 'out there.' We go beyond the 
 						traditional classes one would expect, to fill in the gaps that others left behind. Check out our
 						<a href="/asuwxpcl/about.php"> About </a>page for more info.</p>
 					</div>

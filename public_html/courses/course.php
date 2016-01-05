@@ -84,6 +84,7 @@
 			sec.fee_gen,
 			sec.fee_uw,
 			sec.location_gen,
+			sec.location_spec,
 			sec.section,
 			sec.status,
 			users.first_name,
@@ -112,7 +113,6 @@
 	<section class="title" >
 		<div class="jumbotron" style="background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('/asuwxpcl/.assets/img/classes/<?= $courseID ?>.jpg');">
 			<div class="container">
-				<!--<p><?= print_r($sections) ?></p>-->
 				<h1><?= htmlspecialchars($sections[0]["name"]) ?></h1>
 				<p><?= htmlspecialchars($sections[0]["first_name"]) . " " . htmlspecialchars($sections[0]["last_name"]) ?></p>
 			</div>
@@ -158,7 +158,15 @@
 									<input type="hidden" name="section" value="<?= $sections[$i]['section'] ?>" />
 									<button type="submit" class='btn btn-success'>Sign Up</button>
 								</form>
-							<?php } ?>
+								<?php if ($_SESSION['permissions'] > 2) { ?>
+									<form action='/asuwxpcl/courses/coursesubmit.php' method='get'>
+										<input type='hidden' name='id' value='<?= $courseID ?>' />
+										<input type='hidden' name='outsideSignup' value='true' />
+										<input type='hidden' name='section' value='<?= $sections[$i]['section'] ?>' />
+										<button type='submit' class='btn btn-info other-register'>Register Student</button>
+									</form>
+								<?php } 
+							}?>
 
 						</div>
 					</div>
@@ -171,9 +179,10 @@
 
 				<div class="col-md-3 col-xs-12">
 					<h3>About the Instructor</h3>
-<!-- 					<p>Email: <?= $sections[0]['email'] ?></p>
-					<p>Phone: <?= $sections[0]['phone'] ?></p> -->
-					<p><?= $sections[0]['about'] ?></p>
+					<p>Email: <?= $sections[0]['email'] ?></p>
+<!-- 					<p>Phone: <?= $sections[0]['phone'] ?></p>
+ -->					<p><?= $sections[0]['about'] ?></p>
+					
 				</div>
 					
 				<?php } ?>
@@ -202,6 +211,8 @@
 							$section = $db -> select("SELECT users.first_name,
 							                                 users.last_name,
 							                                 users.netid,
+							                                 users.phone,
+							                                 users.email,
 							                                 reg.status,
 							                                 reg.id
 							                          FROM " . $DATABASE . ".users users
@@ -217,11 +228,14 @@
 							<table class='dynatable table table-striped'>
 								<thead>
 									<tr>
-										<?php if ($_SESSION['permissions'] > 2) { ?> <th>Cancel Registration</th> 
+										<?php if ($_SESSION['permissions'] > 2) { ?> 
+											<th>Cancel Registration</th> 
 											<th>Move Registration</th>
 										<?php } ?>
 										<th>First Name</th>
 										<th>Last Name</th>
+										<th>Email</th>
+										<th>Phone</th>
 										<th>Type</th>
 									</tr>
 								</thead>
@@ -240,6 +254,8 @@
 											<?php } ?>
 											<td><?= htmlspecialchars($section[$j]["first_name"]) ?></td>
 											<td><?= htmlspecialchars($section[$j]["last_name"]) ?></td>
+											<td><?= htmlspecialchars($section[$j]["email"]) ?></td>
+											<td><?= htmlspecialchars($section[$j]["phone"]) ?></td>
 											<td>
 												<?php if ($section[$j]["netid"]) { ?>
 													Student
@@ -267,7 +283,14 @@
 				</div>
 				<?php if ($_SESSION['permissions'] > 2) { ?>
 					<h2>Admin Panel</h2>
-					<!-- <p><a id='change-location'>Change Location</a></p> -->
+					<form action='coursesubmit.php?' method="get">
+						<p>Specific Location: <?= $sections[0]["location_spec"] ?></p>
+						<p>Change Location</p>
+						<input type='hidden' name='id' value="<?= $_GET["id"] ?>" />
+						<input type='hidden' name='changeLocation' value='true' />
+						<input type='text' name='loc_spec' class='form-control' />
+						<button type='submit' class='btn btn-success'>Update Location</button>
+					</form>
 				<?php } ?>
 			</div>
 		</section>

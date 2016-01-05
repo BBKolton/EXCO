@@ -30,7 +30,16 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 '<script src="/asuwxpcl/.assets/js/rif.js"></script>' .
 '<script src="/asuwxpcl/.assets/js/toastr.js"></script>' . 
 '<link href="/asuwxpcl/.assets/css/toastr.css" rel="stylesheet">', 1, 1);
-?>
+?>	
+<form action="/asuwxpcl/instructors/rifsubmit.php?id=<?= $c['id'] ?>" method="POST">
+	<section class="title">
+		<div class="container">
+			<h1>Returning Instructor Form</h1>
+			<p>Use this registration form to register for a returning class.</p>
+			<p><a href='rifs.php'>Return to Rifs</a></p>
+		</div>
+	</section>
+>>>>>>> 48bf9731ff1001fbc255907a99c616be00b8d42d
 
 
 <div class="container">

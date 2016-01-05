@@ -1,11 +1,4 @@
 <?php
-
-session_start();
-
-var_dump($_SESSION);
-
-echo is_null($_SESSION["netId"]);
-
 /*
 require('common.php');
 

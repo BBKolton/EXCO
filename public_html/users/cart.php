@@ -63,13 +63,11 @@
 									                          FROM " . $DATABASE . ".courses
 									                          JOIN " . $DATABASE . ".sections sec
 									                          ON courses.id = sec.course_id
-									                          WHERE courses.id = " . $db->quote($id) . "
-									                          AND sec.section = " . $db->quote($section)); 
-									
-									$netId = $_SESSION["netId"];
+									                          WHERE courses.id = " . $db->quote($id)); 
+									$type = $_SESSION["type"];
 									$costExCo;
 									$costClass;
-									if ($netId != NULL) {
+									if (isset($_SESSION['netId'])) {
 										$costExCo = 5;
 										$costClass = $courses[0]["fee_uw"];
 									} else {
@@ -116,7 +114,19 @@
 							<div class='form-group'>Expiration Date (in form MMYY)<input class='form-control' type="text" name="exp" ></div>
 							<div class='form-group'>CVC/CVV code (three digits on back of card)<input class='form-control' type="text" name="cvc" ></div>
 							<div class='form-group'>Phone Number<input class='form-control' type="text" name="phone" value="<?= htmlspecialchars($_SESSION['phone']) ?>"></div>
+							<div class='form-group'>Where did you hear about EXCO?
+								<select name='referred' class='form-control'>
+									<option value='Select...' selected>Select...</option> 
+									<?php $options = $db ->select("SELECT name FROM referrals ORDER BY count DESC"); 
+									foreach ($options as $option) { 
+										if ($option['name'] != "Select...") { ?>
+										<option value='<?= $option['name'] ?>'><?= $option['name'] ?></option>
+									<?php }
+									} ?>
+								</select>
+							</div>
 							<div class='form-group'><i>This information is used only for this transaction. It is not saved by the Experimental College</i></div>
+<!-- 							<p><b>Registration is on hold due to technical difficulties, please come back in an hour</b></p>-->
 							<button action="submit" class='btn btn-success'>Register Now!</button>
 						</form>
 					</div>
