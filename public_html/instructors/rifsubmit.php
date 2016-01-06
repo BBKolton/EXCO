@@ -87,10 +87,20 @@ if (isset($_GET['rif-submit'])) {
 	              ON DUPLICATE KEY UPDATE text = '. $db->quote($text));
 	
 
-	echo('Location: galley.php?id=' . $_GET['id']);	
+	header('Location: galley.php?id=' . $_GET['id']);	
 	die();
 }
 
+
+//update rif items
+if (isset($_POST['items'])) {
+	$parsed = array();
+	parse_str($_POST['serialized'], $parsed);
+	$_POST = array_merge($parsed, $_POST);
+	unset($_POST['serialized']);
+	printItems();
+	die();
+}
 
 
 //set a rifs lateness
@@ -174,6 +184,7 @@ die();
 
 function printItems() {
 	$db = new DB();
+	$i = $db->select("SELECT * FROM rifs_items WHERE rif_id = " . $db->quote($c['id']));
 	foreach ($i as $item) { ?>
 		<div class='itemSection'>
 			<div class='col-md-4 col-xs-12'>
@@ -186,7 +197,7 @@ function printItems() {
 									<span class='glyphicon glyphicon-remove'></span>
 								</button>
 							</span>
-							<input id="name" name="name" type="text" placeholder="name" value="<?= $item["name"] ?>" class="form-control"/>
+							<input name="name" type="text" placeholder="name" value="<?= $item["name"] ?>" class="form-control"/>
 						</div>
 					</div>
 				</div>
@@ -196,7 +207,7 @@ function printItems() {
 				<div class="form-group">
 					<label for="cost" class="col-md-4 control-label hidden-md hidden-lg">Cost</label>
 					<div class="col-xs-12">
-						<input id="cost" name="cost" type="text" placeholder="cost" value="<?= $item["cost"] ?>" class="form-control"/>
+						<input name="cost" type="text" placeholder="cost" value="<?= $item["cost"] ?>" class="form-control"/>
 					</div>
 				</div>
 			</div>
@@ -205,7 +216,7 @@ function printItems() {
 				<div class="form-group">
 					<label for="quantity" class="col-md-4 control-label hidden-md hidden-lg">Quantity</label>
 					<div class="col-xs-12">
-						<input id="quantity" name="quantity" type="text" placeholder="quantity" value="<?= $item["quantity"] ?>" class="form-control"/>
+						<input name="quantity" type="text" placeholder="quantity" value="<?= $item["quantity"] ?>" class="form-control"/>
 					</div>
 				</div>
 			</div>
@@ -223,7 +234,7 @@ function printItems() {
 								<span class='glyphicon glyphicon-remove'></span>
 							</button>
 						</span>
-						<input id="name" name="name" type="text" placeholder="name" value="<?= $item["name"] ?>" class="form-control"/>
+						<input name="name" type="text" placeholder="name" value="" class="form-control"/>
 					</div>
 				</div>
 			</div>
@@ -233,7 +244,7 @@ function printItems() {
 			<div class="form-group">
 				<label for="cost" class="col-md-4 control-label hidden-md hidden-lg">Cost</label>
 				<div class="col-xs-12">
-					<input id="cost" name="cost" type="text" placeholder="cost" value="<?= $item["cost"] ?>" class="form-control"/>
+					<input name="cost" type="text" placeholder="cost" value="" class="form-control"/>
 				</div>
 			</div>
 		</div>
@@ -242,11 +253,13 @@ function printItems() {
 			<div class="form-group">
 				<label for="quantity" class="col-md-4 control-label hidden-md hidden-lg">Quantity</label>
 				<div class="col-xs-12">
-					<input id="quantity" name="quantity" type="text" placeholder="quantity" value="<?= $item["quantity"] ?>" class="form-control"/>
+					<input name="quantity" type="text" placeholder="quantity" value="" class="form-control"/>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<h3><?php var_dump($_POST) ?></h3>
 
 <?php
 }
@@ -313,6 +326,7 @@ if ($_POST['update']) {
 	                  fee_gen = " . $db->quote($_POST['fee_gen'])         . ",
 	                  fee_uw = " . $db->quote($_POST['fee_uw'])            . ",
 	                  category = " . $db->quote($_POST['category']) . ",
+	                  size = " . $db->quote($_POST['size']) . ",
 	                  loc_gen = " . $db->quote($_POST['loc-gen'])           . ",
 	                  loc_spec = " . $db->quote($_POST['loc-spec'])             . ",
 	                  firstday = " . $db->quote($_POST['firstday']) . ",

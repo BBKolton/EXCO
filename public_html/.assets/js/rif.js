@@ -56,6 +56,10 @@ $(document).ready(function() {
 		$('#updateRif').submit(function(e) {
 			e.preventDefault();
 			console.log($('#updateRif').serialize())
+			for (i in CKEDITOR.instances) {
+				CKEDITOR.instances[i].updateElement();
+			}
+
 			$.ajax({
 				data: $('#updateRif').serialize(),
 				method: 'POST',
@@ -108,20 +112,29 @@ $(document).ready(function() {
 
 
 		//?
-		$('#newItem').click(function(e){
+		$('#updateItems').submit(function(e){
 				e.preventDefault();
+				var items = [{test: 'test', test2: 'test2'}, {herp: 'derp'}];
 				$.ajax({
-						data: $('#createItem').serialize(),
+						data: {serialized: $('#facilities').serialize(), items: items},
 						method: 'POST',
-						url: $('#createItem').attr('action'),
+						url: $('#updateItems').attr('action'),
 						success: function(data) {
-							$('#itemsList ol').append('<li><a href="/item/' + data.item.id+'">'+
-									$('#ItemName').val() + '</a></li>');
-							toastr["success"]("Item created Successfully.." );
-							$('#createItem')[0].reset();
+							console.log(data);
+							$('#itemArea').html(data);
+							toastr["success"]("Saved" );
 						}
 				});
 		});
+
+		$('.removeItem').click(function(e) {
+			$(this).closest('.itemSection').remove();
+			console.log($(this).closest('.itemSection'))
+		})
+
+		$('#newItem').click(function(e) {
+
+		})
 
 
 

@@ -95,7 +95,7 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 								<div class="form-group">
 									<label for="overload" class="col-md-4 control-label">Underage Students</label>
 									<div class="col-md-4">
-										<select id='underage' name='info-age' class='form-control'>
+										<select id='underage' name='underage' class='form-control'>
 											<option value='1' <?= $c['underage'] == 1 ? 'selected' : '' ?>>Yes</option>
 											<option value='0' <?= $c['underage'] == 0 ? 'selected' : '' ?>>No</option>
 											<option value='2' <?= $c['underage'] == 2 ? 'selected' : '' ?>>Yes, if accompanied by adult</option>
@@ -174,15 +174,15 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 		</form>
 	</div>
 	<div>
-		<form id="updateRif" data-toggle="formcache" name="proposalForm" method="post" action="/asuwxpcl/instructors/rifsubmit.php?id=<?= $_GET["id"] ?>" class="form-horizontal">
+		<form id="updateItems" data-toggle="formcache" name="proposalForm" method="post" action="/asuwxpcl/instructors/rifsubmit.php?id=<?= $_GET["id"] ?>" class="form-horizontal">
 			<div id="step-3" class="row setup-content">
 				<div class="col-xs-12">
 					<div class="col-md-12 well">
 						<div data-toggle="formcache" name="contactForm" class="form-horizontal">
 							<h3 class="text-center">Items</h3><span class="help-block">Please list all items you will purchase to teach your course </span>
 							<div class="form-horizontal">
+								<fieldset id='itemArea'>
 								<?php if (!empty($i)) { ?>
-								<fieldset>
 									<div class='col-md-4 hidden-xs hidden-sm'>
 										<label>Name</label>
 									</div>
@@ -202,7 +202,7 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 													<div class="col-xs-12">
 														<div class='input-group'>
 															<span class='input-group-btn'>
-																<button class='btn btn-danger'>
+																<button class='btn btn-danger removeItem' type='button'>
 																	<span class='glyphicon glyphicon-remove'></span>
 																</button>
 															</span>
@@ -232,40 +232,40 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 										</div>
 									<?php } ?>
 
-									<div class='blankItem'>
-									<div class='col-md-4 col-xs-12'>
-										<div class="form-group">
-											<label for="name" class="col-md-4 control-label hidden-md hidden-lg">Name</label>
-											<div class="col-xs-12">
-												<div class='input-group'>
-													<span class='input-group-btn'>
-														<button class='btn btn-danger'>
-															<span class='glyphicon glyphicon-remove'></span>
-														</button>
-													</span>
-													<input id="name" name="name" type="text" placeholder="name" value="<?= $item["name"] ?>" class="form-control"/>
+									<div class='blankItem itemSection'>
+										<div class='col-md-4 col-xs-12'>
+											<div class="form-group">
+												<label for="name" class="col-md-4 control-label hidden-md hidden-lg">Name</label>
+												<div class="col-xs-12">
+													<div class='input-group'>
+														<span class='input-group-btn'>
+															<button class='btn btn-danger removeItem' type='button'>
+																<span class='glyphicon glyphicon-remove'></span>
+															</button>
+														</span>
+														<input id="name" name="name" type="text" placeholder="name"  class="form-control"/>
+													</div>
 												</div>
 											</div>
 										</div>
-									</div>
 
-									<div class='col-md-4 col-xs-12'>
-										<div class="form-group">
-											<label for="cost" class="col-md-4 control-label hidden-md hidden-lg">Cost</label>
-											<div class="col-xs-12">
-												<input id="cost" name="cost" type="text" placeholder="cost" value="<?= $item["cost"] ?>" class="form-control"/>
+										<div class='col-md-4 col-xs-12'>
+											<div class="form-group">
+												<label for="cost" class="col-md-4 control-label hidden-md hidden-lg">Cost</label>
+												<div class="col-xs-12">
+													<input id="cost" name="cost" type="text" placeholder="cost" class="form-control"/>
+												</div>
 											</div>
 										</div>
-									</div>
 
-									<div class='col-md-4 col-xs-12'>
-										<div class="form-group">
-											<label for="quantity" class="col-md-4 control-label hidden-md hidden-lg">Quantity</label>
-											<div class="col-xs-12">
-												<input id="quantity" name="quantity" type="text" placeholder="quantity" value="<?= $item["quantity"] ?>" class="form-control"/>
+										<div class='col-md-4 col-xs-12'>
+											<div class="form-group">
+												<label for="quantity" class="col-md-4 control-label hidden-md hidden-lg">Quantity</label>
+												<div class="col-xs-12">
+													<input id="quantity" name="quantity" type="text" placeholder="quantity" class="form-control"/>
+												</div>
 											</div>
 										</div>
-									</div>
 									</div>
 
 									<div class="form-group">
@@ -278,7 +278,7 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 								</fieldset>
 							</div>
 							<div class="form-horizontal">
-								<fieldset>
+								<fieldset id='facilities'>
 									<h3 class="text-center">Facilities</h3>
 									<div class="form-group">
 										<label for="room_rate" class="col-md-4 control-label">Room Rate</label>
@@ -313,6 +313,7 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 					</div>
 				</div>
 			</div>
+		</form>
 	</div>
 	<div>
 		<form id="sections" data-toggle="formcache" name="proposalForm" method="post" action="/asuwxpcl/instructors/rifsubmit.php?id=<?= $_GET["id"] ?>" class="form-horizontal">
