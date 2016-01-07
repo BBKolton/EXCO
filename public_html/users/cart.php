@@ -63,7 +63,8 @@
 									                          FROM " . $DATABASE . ".courses
 									                          JOIN " . $DATABASE . ".sections sec
 									                          ON courses.id = sec.course_id
-									                          WHERE courses.id = " . $db->quote($id)); 
+									                          WHERE courses.id = " . $db->quote($id) . " 
+									                          AND sec.section = " . $db->quote($section)); 
 									$type = $_SESSION["type"];
 									$costExCo;
 									$costClass;
