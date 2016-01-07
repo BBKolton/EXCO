@@ -107,6 +107,7 @@
 					<div class="col-md-3 col-xs-12">
 						<h2>Credit Card Information</h2>
 						<form action="/asuwxpcl/users/cartsubmit.php" method="post">
+							<input type='hidden' name='type' value='credit' />
 							<div class='form-group'>First Name<input class='form-control' type="text" name="first-name" value="<?= htmlspecialchars($_SESSION['first_name']) ?>"></div>
 							<div class='form-group'>Last Name<input class='form-control' type="text" name="last-name" value="<?= htmlspecialchars($_SESSION['last_name']) ?>"></div>
 							<div class='form-group'>Email Address<input class='form-control' type="text" name="email" value="<?= htmlspecialchars($_SESSION['email']) ?>"></div>

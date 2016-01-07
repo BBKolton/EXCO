@@ -5,3 +5,15 @@
 .form-group {
   color: #888888 !important;
 }
+
+.error {
+	border-radius: 6px;
+	padding: 10px;
+	color: white;
+	background-color: #bd3162;
+	margin-top: 10px;
+}
+
+.error h1 {
+	margin-top: 10px
+}

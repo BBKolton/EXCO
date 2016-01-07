@@ -27,14 +27,14 @@
 
 	
 	if (empty($user[0])) { //if no user was found, throw an error
-		page();
-		error("Unknown Email", "The email " . $email . " does not exist!");
+		page("Unknown Email", "The email " . $email . " is not registered");
+		die();
 	} else if (!password_verify($pass, $user[0]["password"])){ //If the pass is wrong, throw and error
-		page();
-		error("Wrong Password", "The pass you supplied is incorrect!");
+		page("Wrong Password", "The password you supplied is incorrect");
+		die();
 	} else if ($user[0]["activation"] !== "1") { //if the user isnt authenticated, throw and error
-		page();
-		error("Unactivated Account", "You have not yet verified your email address.");
+		page("Unactivated Account", "You have not yet verified your email address. Please check your email to click the verification link. The email my be in your junk ");
+		die();
 	} else { //this is a real user with ability to sign in, do so!
 		$_SESSION["email"] = $user[0]["email"];
 		$_SESSION["first_name"] = $user[0]["first_name"];
@@ -49,7 +49,7 @@
 		header("Location: /asuwxpcl/index.php");
 	}
 
-	function page() { 
+	function page($error = '', $message = '') { 
 		head('<link href="/asuwxpcl/.assets/css/login.css" rel="stylesheet" />'); 
 		?>
 
@@ -57,10 +57,17 @@
 			<div class="container">
 				<div class='row'>
 					<div class='col-xs-12 col-md-6'>
-						<h1>A New Site!</h1>
-						<p>The Experimental College has gotten a facelift! With it, we've archived and cleaned our user database. 
-						If you had an account on our old site and have not made one here yet, <b>you will need to create a new 
-						account to the right</b></p>
+						<?php if ($error == '') { ?> 
+							<h1>A New Site!</h1>
+							<p>The Experimental College has gotten a facelift! With it, we've archived and cleaned our user database. 
+							If you had an account on our old site and have not made one here yet, <b>you will need to create a new 
+							account to the right</b></p>
+						<?php } else { ?> 
+							<div class='error'>
+								<h1><?= $error ?></h1>
+								<p><?= $message ?></p>
+							</div>
+						<?php } ?>
 						<form action="/asuwxpcl/users/login.php" method="post">
 							<h3>Login</h3>
 							<input class='form-control' type="text" name="email" autofocus placeholder="Email" /><br />

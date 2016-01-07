@@ -20,7 +20,7 @@
 	margin-top: 5px;
 }
 
-.status-1, .status-2 {
+.status-1, .status-2, .status-3, .status-4 {
 	background-color: #DDDDDD;
 	padding: 5px;
 }
@@ -35,9 +35,20 @@
 	color: white;
 }
 
-.status-1 h3, .status-2 h3 {
+.status-3 h3 {
+	background-color: #bd7318;
+	color: white;
+}
+
+.status-4 h3 {
+	background-color: #29416a;
+	color: white;
+}
+
+.status-1 h3, .status-2 h3, .status-3 h3, .status-4 h3 {
 	border-radius: 4px;
 	padding: 5px;
+	margin-bottom: 5px;
 }
 
 .no-style {

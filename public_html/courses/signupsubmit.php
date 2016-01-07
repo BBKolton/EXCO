@@ -21,6 +21,11 @@ $section = $db -> select("SELECT * FROM " . $DATABASE . ".sections
                          WHERE course_id = " . $db->quote($_GET["id"]) . 
                        " AND section = " . $db->quote($_GET["section"]));
 $course = $db->select("SELECT status FROM courses WHERE id = " . $db->quote($_GET['id']))[0];
+$size = $db->select("SELECT count(*) AS count FROM registrations 
+                     WHERE course_id = " . $db->quote($_GET['id']) . " 
+                     AND course_section = " . $db->quote($_GET['section']) . " 
+                     AND status = 1")[0]['count'];
+//echo $section[0]['size'];
 
 if (empty($section[0]) || $section[0]['status'] != "1") {
 	error("Invalid Signup", "Your specified class or section does not exist or is not taking registrations!");
@@ -28,6 +33,10 @@ if (empty($section[0]) || $section[0]['status'] != "1") {
 
 if (empty($course) || $course['status'] != "1") {
 	error("Invalid Signup", "This section is not open");
+}
+
+if ($size >= $section[0]['size']) {
+	error('Section is Full');
 }
 
 //If first item in cart, make a new array and put the class in there

@@ -87,6 +87,7 @@
 			sec.location_spec,
 			sec.section,
 			sec.status,
+			sec.start_day,
 			users.first_name,
 			users.last_name,
 			users.email,
@@ -97,6 +98,7 @@
 			LEFT OUTER JOIN " . $DATABASE . ".users users ON courses.instructor_id = users.id
 			LEFT OUTER JOIN " . $DATABASE . ".users_additional ua ON users.id = ua.user_id
 			WHERE courses.id = " . $db -> quote($courseID)); //rdsadsa
+
 
 	if (empty($sections[0])) {
 		error("Specified Class Not Found", "The course you're looking for was not found");
@@ -138,15 +140,23 @@
 
 					<?php
 						for ($i = 0; $i < count($sections); $i++) {
-							if ($sections[0]['course_status'] != 1) $sections[$i][status] = 2;
+							if ($sections[0]['course_status'] != 1) $sections[$i]['status'] = 2;
+							$size = $db->select("SELECT count(*) AS count FROM registrations
+							                     WHERE course_id = " . $db->quote($_GET['id']) . " 
+							                     AND status = 1
+							                     AND course_section = " . ($i + 1))[0]['count'];
+							//$size = "SELECT count(*) FROM registrations WHERE course_id = " . $db->quote($_GET['id']) . " AND course_section = " . $i;
+							if ($sections[$i]['start_day'] < date("Y-m-d")) $sections[$i]['status'] = 3;
+							if ($size >= $sections[$i]['size']) $sections[$i]['status'] = 4;
 					?>
+					<!-- <?= var_dump($sections[$i]['status']); ?> -->
 					<div class="section col-md-4 col-sm-6 col-xs-12 ">
 						<div class="wrapper status-<?= $sections[$i]["status"] ?>">
 							<h3>Section <?= $i + 1 ?></h3>
 							<ul class="no-style">
 								<li>Time: <?= htmlspecialchars($sections[$i]["times"]) ?></li>
 								<li>Dates: <?= htmlspecialchars($sections[$i]["days"]) ?></li>
-								<li>Size: <?= htmlspecialchars($sections[$i]["size"]) ?></li>
+								<li>Size: <?= ($_SESSION['permissions'] > 2 ? $size . '/' : '')?><?= htmlspecialchars($sections[$i]["size"]) ?></li>
 								<li>General Fee: $<?= htmlspecialchars($sections[$i]["fee_gen"]) ?></li>
 								<li>UW Fee: $<?= htmlspecialchars($sections[$i]["fee_uw"]) ?></li>
 								<li>Location: <?= htmlspecialchars($sections[$i]["location_gen"]) ?></li>
@@ -158,15 +168,21 @@
 									<input type="hidden" name="section" value="<?= $sections[$i]['section'] ?>" />
 									<button type="submit" class='btn btn-success'>Sign Up</button>
 								</form>
-								<?php if ($_SESSION['permissions'] > 2) { ?>
-									<form action='/asuwxpcl/courses/coursesubmit.php' method='get'>
-										<input type='hidden' name='id' value='<?= $courseID ?>' />
-										<input type='hidden' name='outsideSignup' value='true' />
-										<input type='hidden' name='section' value='<?= $sections[$i]['section'] ?>' />
-										<button type='submit' class='btn btn-info other-register'>Register Student</button>
-									</form>
-								<?php } 
-							}?>
+							<?php } else if ($sections[$i]['status'] == 2) { ?>
+								<h3>Cancelled</h3>
+							<?php } else if ($sections[$i]['status'] == 3) { ?>
+								<h3>Started</h3>
+							<?php } else { ?> 
+								<h3>Full</h3>
+							<?php }
+							if ($_SESSION['permissions'] > 2) { ?>
+								<form action='/asuwxpcl/courses/coursesubmit.php' method='get'>
+									<input type='hidden' name='id' value='<?= $courseID ?>' />
+									<input type='hidden' name='outsideSignup' value='true' />
+									<input type='hidden' name='section' value='<?= $sections[$i]['section'] ?>' />
+									<button type='submit' class='btn btn-info other-register'>Register Student</button>
+								</form>
+							<?php } ?>
 
 						</div>
 					</div>
@@ -208,18 +224,35 @@
 						<?php for ($i = 0; $i < count($sections); $i++) { ?>
 							<h2>Section <?= $i + 1 ?></h2>
 							<?php
-							$section = $db -> select("SELECT users.first_name,
-							                                 users.last_name,
-							                                 users.netid,
-							                                 users.phone,
-							                                 users.email,
-							                                 reg.status,
-							                                 reg.id
-							                          FROM " . $DATABASE . ".users users
-							                          JOIN " . $DATABASE . ".registrations reg
-							                          ON reg.user_id = users.id 
-							                          WHERE reg.course_id = " . $db->quote($sections[0]["id"]) . "
-							                          AND reg.course_section = " . $db->quote($i + 1));
+							$section;
+							if ($_SESSION['permissions'] > 2) {
+								$section = $db -> select("SELECT users.first_name,
+								                                 users.last_name,
+								                                 users.netid,
+								                                 users.phone,
+								                                 users.email,
+								                                 reg.status,
+								                                 reg.id
+								                          FROM " . $DATABASE . ".users users
+								                          JOIN " . $DATABASE . ".registrations reg
+								                          ON reg.user_id = users.id 
+								                          WHERE reg.course_id = " . $db->quote($sections[0]["id"]) . "
+								                          AND reg.course_section = " . $db->quote($i + 1));
+							} else {
+								$section = $db -> select("SELECT users.first_name,
+								                                 users.last_name,
+								                                 users.netid,
+								                                 users.phone,
+								                                 users.email,
+								                                 reg.status,
+								                                 reg.id
+								                          FROM " . $DATABASE . ".users users
+								                          JOIN " . $DATABASE . ".registrations reg
+								                          ON reg.user_id = users.id 
+								                          WHERE reg.course_id = " . $db->quote($sections[0]["id"]) . "
+								                          AND reg.status = 1
+								                          AND reg.course_section = " . $db->quote($i + 1));
+							}
 							if (empty($section)) { ?>
 								<p>There is no one yet signed up for this section</p>
 							<?php } else { ?>
@@ -244,12 +277,12 @@
 										<tr>
 											<?php if ($_SESSION['permissions'] > 2) { ?> 
 												<?php if ($section[$j]['status'] == 1) { ?>
-													<td><a href='coursesubmit.php?cancel=true&id=<?= $section[$j]['id'] ?>&course=<?= $_GET['id']?>'>Cancel User</a></td>
+													<td><a href='coursesubmit.php?cancel=true&id=<?= $section[$j]['id'] ?>&course=<?= $_GET['id']?>'>Cancel</a></td>
 												<?php } else { ?>
-													<td><a href='coursesubmit.php?uncancel=true&id=<?= $section[$j]['id'] ?>&course=<?= $_GET['id']?>'>Uncancel User</a></td>
+													<td><a href='coursesubmit.php?uncancel=true&id=<?= $section[$j]['id'] ?>&course=<?= $_GET['id']?>'>Uncancel</a></td>
 												<?php } ?>
 
-												<td><a href='coursesubmit.php?id=<?= $section[$j]['id'] ?>&moveselect=true'>Move Registration</a></td>
+												<td><a href='coursesubmit.php?id=<?= $section[$j]['id'] ?>&moveselect=true'>Move</a></td>
 												
 											<?php } ?>
 											<td><?= htmlspecialchars($section[$j]["first_name"]) ?></td>
