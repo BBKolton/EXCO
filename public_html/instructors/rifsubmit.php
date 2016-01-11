@@ -92,16 +92,6 @@ if (isset($_GET['rif-submit'])) {
 }
 
 
-//update rif items
-if (isset($_POST['items'])) {
-	$parsed = array();
-	parse_str($_POST['serialized'], $parsed);
-	$_POST = array_merge($parsed, $_POST);
-	unset($_POST['serialized']);
-	printItems();
-	die();
-}
-
 
 //set a rifs lateness
 if (isset($_GET['late'])) {
@@ -184,85 +174,118 @@ die();
 
 function printItems() {
 	$db = new DB();
-	$i = $db->select("SELECT * FROM rifs_items WHERE rif_id = " . $db->quote($c['id']));
-	foreach ($i as $item) { ?>
-		<div class='itemSection'>
-			<div class='col-md-4 col-xs-12'>
-				<div class="form-group">
-					<label for="name" class="col-md-4 control-label hidden-md hidden-lg">Name</label>
-					<div class="col-xs-12">
-						<div class='input-group'>
-							<span class='input-group-btn'>
-								<button class='btn btn-danger'>
-									<span class='glyphicon glyphicon-remove'></span>
-								</button>
-							</span>
-							<input name="name" type="text" placeholder="name" value="<?= $item["name"] ?>" class="form-control"/>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class='col-md-4 col-xs-12'>
-				<div class="form-group">
-					<label for="cost" class="col-md-4 control-label hidden-md hidden-lg">Cost</label>
-					<div class="col-xs-12">
-						<input name="cost" type="text" placeholder="cost" value="<?= $item["cost"] ?>" class="form-control"/>
-					</div>
-				</div>
-			</div>
-
-			<div class='col-md-4 col-xs-12'>
-				<div class="form-group">
-					<label for="quantity" class="col-md-4 control-label hidden-md hidden-lg">Quantity</label>
-					<div class="col-xs-12">
-						<input name="quantity" type="text" placeholder="quantity" value="<?= $item["quantity"] ?>" class="form-control"/>
-					</div>
-				</div>
-			</div>
+	$i = $db->select("SELECT * FROM rifs_items WHERE rif_id = " . $db->quote($_GET['id']));
+	if (!empty($i)) { ?>
+		<div class='col-md-4 hidden-xs hidden-sm'>
+			<label>Name</label>
+		</div>
+		<div class='col-md-4 hidden-xs hidden-sm'>
+			<label>Cost</label>
+		</div>
+		<div class='col-md-4 hidden-xs hidden-sm'>
+			<label>Quantity</label>
 		</div>
 	<?php } ?>
+			
+		<?php foreach ($i as $item) { ?>
+<div class='itemSection'>
+											<input type='hidden' name='id' value='<?= $item['id'] ?>' />
+											<div class='col-md-4 col-xs-12'>
+												<div class="form-group">
+													<label for="name" class="col-md-4 control-label hidden-md hidden-lg">Name</label>
+													<div class="col-xs-12">
+														<div class='input-group'>
+															<span class='input-group-btn'>
+																<button class='btn btn-danger removeItem' type='button'>
+																	<span class='glyphicon glyphicon-remove'></span>
+																</button>
+															</span>
+															<input id="name" name="name" type="text" placeholder="name" value="<?= $item["name"] ?>" class="name <?= $item['id'] ?> form-control"/>
+														</div>
+													</div>
+												</div>
+											</div>
 
-	<div class='blankItem'>
-		<div class='col-md-4 col-xs-12'>
-			<div class="form-group">
-				<label for="name" class="col-md-4 control-label hidden-md hidden-lg">Name</label>
-				<div class="col-xs-12">
-					<div class='input-group'>
-						<span class='input-group-btn'>
-							<button class='btn btn-danger'>
-								<span class='glyphicon glyphicon-remove'></span>
-							</button>
-						</span>
-						<input name="name" type="text" placeholder="name" value="" class="form-control"/>
-					</div>
-				</div>
-			</div>
-		</div>
+											<div class='col-md-4 col-xs-12'>
+												<div class="form-group">
+													<label for="cost" class="col-md-4 control-label hidden-md hidden-lg">Cost</label>
+													<div class="col-xs-12">
+														<input id="cost" name="cost" type="text" placeholder="cost" value="<?= $item["cost"] ?>" class="cost <?= $item['id'] ?> form-control"/>
+													</div>
+												</div>
+											</div>
 
-		<div class='col-md-4 col-xs-12'>
-			<div class="form-group">
-				<label for="cost" class="col-md-4 control-label hidden-md hidden-lg">Cost</label>
-				<div class="col-xs-12">
-					<input name="cost" type="text" placeholder="cost" value="" class="form-control"/>
-				</div>
-			</div>
-		</div>
-
-		<div class='col-md-4 col-xs-12'>
-			<div class="form-group">
-				<label for="quantity" class="col-md-4 control-label hidden-md hidden-lg">Quantity</label>
-				<div class="col-xs-12">
-					<input name="quantity" type="text" placeholder="quantity" value="" class="form-control"/>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<h3><?php var_dump($_POST) ?></h3>
+											<div class='col-md-4 col-xs-12'>
+												<div class="form-group">
+													<label for="quantity" class="col-md-4 control-label hidden-md hidden-lg">Quantity</label>
+													<div class="col-xs-12">
+														<input id="quantity" name="quantity" type="text" placeholder="quantity" value="<?= $item["quantity"] ?>" class="quantity <?= $item['id'] ?> form-control"/>
+													</div>
+												</div>
+											</div>
+										</div>
+		<?php } ?>
 
 <?php
 }
+
+
+//update rif items
+if (isset($_POST['items'])) {
+	$parsed = array();
+	parse_str($_POST['serialized'], $parsed);
+	$_POST = array_merge($parsed, $_POST);
+	unset($_POST['serialized']);
+	saveItems();
+	die();
+}
+
+
+function saveItems() {
+	$db = new DB();
+	$items = $_POST['items'];
+	foreach ($items as $item) {
+		$rif = $db->select("SELECT rif_id FROM rifs_items WHERE id = " . $db->quote($item['id']))[0];
+		if (verifyAdminOrRifInstructor($rif)) {
+
+			$db->query("UPDATE rifs_items
+			            SET name = " . $db->quote($item['name']) . " ,
+			            cost = " . $db->quote($item['cost']) . " ,
+			            quantity = " . $db->quote($item['quantity']) . " 
+			            WHERE id = " . $db->quote($item['id']));
+		}
+	}
+
+	$db->query("UPDATE rifs 
+	            SET room_rate = " . $db->quote($_POST['room_rate']) . ", 
+	            room_hours = " . $db->quote($_POST['room_hours']) . ", 
+	            text_facilities = " . $db->quote($_POST['text_facilities']) . ", 
+	            fee_uw = " . $db->quote($_POST['fee_uw']) . ", 
+	            fee_gen = " . $db->quote($_POST['fee_gen']) . " 
+	            WHERE id = " . $db->quote($_GET['id']));
+
+	var_dump($_POST);
+	die();
+}
+
+
+if ($_POST['deleteItem']) {
+	echo $_POST['id'];
+	if(verifyAdminOrRifInstructor($_GET['id'])) {
+		$db->query("DELETE FROM rifs_items WHERE id = " . $db->quote($_POST['id']));
+		echo 'lolzers';
+	}
+	echo 'lel';
+	die();
+}
+
+
+if ($_POST['newItem']) {
+	$db->query("INSERT INTO rifs_items (rif_id) VALUES (" . $db->quote($_GET['id']) . ")");
+	printItems();
+	die();
+}
+
 
 //Update the rif
 if ($_POST['update']) {

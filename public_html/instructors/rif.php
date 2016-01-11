@@ -196,86 +196,54 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 										
 									<?php foreach ($i as $item) { ?>
 										<div class='itemSection'>
-											<div class='col-md-4 col-xs-12'>
-												<div class="form-group">
-													<label for="name" class="col-md-4 control-label hidden-md hidden-lg">Name</label>
-													<div class="col-xs-12">
-														<div class='input-group'>
-															<span class='input-group-btn'>
-																<button class='btn btn-danger removeItem' type='button'>
-																	<span class='glyphicon glyphicon-remove'></span>
-																</button>
-															</span>
-															<input id="name" name="name" type="text" placeholder="name" value="<?= $item["name"] ?>" class="form-control"/>
+											<input type='hidden' name='id' value='<?= $item['id'] ?>' />
+											<div class='row margin-fix'>
+												<div class='col-md-4 col-xs-12'>
+													<div class="form-group">
+														<label for="name" class="col-md-4 control-label hidden-md hidden-lg">Name</label>
+														<div class="col-xs-12">
+															<div class='input-group'>
+																<span class='input-group-btn'>
+																	<button class='btn btn-danger removeItem' type='button'>
+																		<span class='glyphicon glyphicon-remove'></span>
+																	</button>
+																</span>
+																<input id="name" name="name" type="text" placeholder="name" value="<?= $item["name"] ?>" class="name <?= $item['id'] ?> form-control"/>
+															</div>
 														</div>
 													</div>
 												</div>
-											</div>
 
-											<div class='col-md-4 col-xs-12'>
-												<div class="form-group">
-													<label for="cost" class="col-md-4 control-label hidden-md hidden-lg">Cost</label>
-													<div class="col-xs-12">
-														<input id="cost" name="cost" type="text" placeholder="cost" value="<?= $item["cost"] ?>" class="form-control"/>
+												<div class='col-md-4 col-xs-12'>
+													<div class="form-group">
+														<label for="cost" class="col-md-4 control-label hidden-md hidden-lg">Cost</label>
+														<div class="col-xs-12">
+															<input id="cost" name="cost" type="text" placeholder="cost" value="<?= $item["cost"] ?>" class="cost <?= $item['id'] ?> form-control"/>
+														</div>
 													</div>
 												</div>
-											</div>
 
-											<div class='col-md-4 col-xs-12'>
-												<div class="form-group">
-													<label for="quantity" class="col-md-4 control-label hidden-md hidden-lg">Quantity</label>
-													<div class="col-xs-12">
-														<input id="quantity" name="quantity" type="text" placeholder="quantity" value="<?= $item["quantity"] ?>" class="form-control"/>
+												<div class='col-md-4 col-xs-12'>
+													<div class="form-group">
+														<label for="quantity" class="col-md-4 control-label hidden-md hidden-lg">Quantity</label>
+														<div class="col-xs-12">
+															<input id="quantity" name="quantity" type="text" placeholder="quantity" value="<?= $item["quantity"] ?>" class="quantity <?= $item['id'] ?> form-control"/>
+														</div>
 													</div>
 												</div>
 											</div>
 										</div>
 									<?php } ?>
 
-									<div class='blankItem itemSection'>
-										<div class='col-md-4 col-xs-12'>
-											<div class="form-group">
-												<label for="name" class="col-md-4 control-label hidden-md hidden-lg">Name</label>
-												<div class="col-xs-12">
-													<div class='input-group'>
-														<span class='input-group-btn'>
-															<button class='btn btn-danger removeItem' type='button'>
-																<span class='glyphicon glyphicon-remove'></span>
-															</button>
-														</span>
-														<input id="name" name="name" type="text" placeholder="name"  class="form-control"/>
-													</div>
-												</div>
-											</div>
-										</div>
-
-										<div class='col-md-4 col-xs-12'>
-											<div class="form-group">
-												<label for="cost" class="col-md-4 control-label hidden-md hidden-lg">Cost</label>
-												<div class="col-xs-12">
-													<input id="cost" name="cost" type="text" placeholder="cost" class="form-control"/>
-												</div>
-											</div>
-										</div>
-
-										<div class='col-md-4 col-xs-12'>
-											<div class="form-group">
-												<label for="quantity" class="col-md-4 control-label hidden-md hidden-lg">Quantity</label>
-												<div class="col-xs-12">
-													<input id="quantity" name="quantity" type="text" placeholder="quantity" class="form-control"/>
-												</div>
-											</div>
-										</div>
-									</div>
-
-									<div class="form-group">
-										<div class="col-md-8 hidden-xs hidden-sm"></div>
-										<div class="col-md-4">
-											<button name="newItem" type="button" id='newItem' class="btn btn-primary form-button">+ New Item</button>
-										</div>
-									</div>
-
 								</fieldset>
+
+								<div class="form-group">
+									<div class="col-md-8 hidden-xs hidden-sm"></div>
+									<div class="col-md-4">
+										<button name="newItem" type="button" id='newItem' class="btn btn-primary form-button">+ New Item</button>
+									</div>
+								</div>
+
 							</div>
 							<div class="form-horizontal">
 								<fieldset id='facilities'>
@@ -283,14 +251,17 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 									<div class="form-group">
 										<label for="room_rate" class="col-md-4 control-label">Room Rate</label>
 										<div class="col-md-4 col-xs-12">
-											<input id="room_rate" name="room_rate" type="text" placeholder="Hourly rate in full dollars" value="<?= $item["room_rate"] ?>" class="form-control"/>
+											<div class='input-group'>
+												<span class='input-group-addon'>$</span>
+												<input id="room_rate" name="room_rate" type="text" placeholder="Hourly rate in full dollars" value="<?= $c["room_rate"] ?>" class="form-control"/>
+											</div>
 											<span class="help-block">View the <a href='/asuwxpcl/.assets/docs/FacilitiesCosts.pdf'>rental rates</a></span>
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="room_hours" class="col-md-4 control-label">Instruction Hours</label>
 										<div class="col-md-4 col-xs-12">
-											<input id="room_hours" name="room_hours" type="text" placeholder="Number of instructional hours per course" value="<?= $item["room_hours"] ?>" class="form-control"/>
+											<input id="room_hours" name="room_hours" type="text" placeholder="Number of instructional hours per course" value="<?= $c["room_hours"] ?>" class="form-control"/>
 											<span class="help-block"></span>
 										</div>
 									</div>
@@ -300,6 +271,36 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 											<textarea id="text_facilities" name="text_facilities" placeholder="What do you require for your room facilities?" class="form-control"><?= $c['text_facilities'] ?></textarea><span class="help-block">Let us know if the room will need any special accomodations, such as whiteboards, computers, projectors, or more</span>
 										</div>
 									</div>
+
+
+									<h3 class="text-center">Fees</h3>
+									<div class="form-group">
+										<label for="fee_uw" class="col-md-4 control-label">UW Student Fee</label>
+										<div class="col-md-4 col-xs-12">
+											<div class='input-group'>
+												<span class='input-group-addon'>$</span>
+												<input id="fee_uw" name="fee_uw" type="text" placeholder="Hourly rate in full dollars" value="<?= $c["fee_uw"] ?>" class="form-control"/>
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="fee_gen" class="col-md-4 control-label">General Fee</label>
+										<div class="col-md-4 col-xs-12">
+											<div class='input-group'>
+												<span class='input-group-addon'>$</span>
+												<input id="fee_gen" name="fee_gen" type="text" placeholder="Hourly rate in full dollars" value="<?= $c["fee_gen"] ?>" class="form-control"/>
+											</div>
+										</div>
+									</div>
+
+
+
+
+
+
+
+
 									<div class="form-group">
 										<label for="save" class="col-md-4 control-label"></label><br/>
 										<div class="col-md-4"></div>

@@ -110,30 +110,78 @@ $(document).ready(function() {
 		});
 
 
+		function sendItemData(callback) {
+			var data = [];
+			console.log('herp);')
+			var items = $('.itemSection');
+			for (var i = 0; i < items.length; i++) {
+				var dat = {};
+				console.log('derp')
+				dat.id = ($(items[i]).children('input').attr('value'));
+				console.log('.' + dat.id + '.name')
+				dat.name = $('.' + dat.id + '.name').val();
+				dat.cost = $('.' + dat.id + '.cost').val();
+				dat.quantity = $('.' + dat.id + '.quantity').val();
+				data.push(dat);
+			}
 
-		//?
+			console.log(data);
+
+			$.ajax({
+				data: {serialized: $('#facilities').serialize(), items: data},
+				method: 'POST',
+				url: $('#updateItems').attr('action'),
+				success: function(data) {
+					console.log(data)
+					callback();
+				}
+			});
+		}
+
+
+		//?dsa
 		$('#updateItems').submit(function(e){
-				e.preventDefault();
-				var items = [{test: 'test', test2: 'test2'}, {herp: 'derp'}];
-				$.ajax({
-						data: {serialized: $('#facilities').serialize(), items: items},
-						method: 'POST',
-						url: $('#updateItems').attr('action'),
-						success: function(data) {
-							console.log(data);
-							$('#itemArea').html(data);
-							toastr["success"]("Saved" );
-						}
-				});
+			e.preventDefault();
+			sendItemData(function() {
+				toastr["success"]("Saved" );
+			});
 		});
 
-		$('.removeItem').click(function(e) {
-			$(this).closest('.itemSection').remove();
-			console.log($(this).closest('.itemSection'))
-		})
+		function bindRemoveButtons() {
+			$('.removeItem').click(function(e) {
+				$(this).closest('.itemSection').remove();
+				console.log($(this).closest('.itemSection').children('input').attr('value'))
+				$.ajax({
+					method: 'POST',
+					data: {
+						id: $(this).closest('.itemSection').children('input').attr('value'),
+						deleteItem: true
+					},
+					url: $('#updateItems').attr('action'),
+					success: function(data) {
+						console.log(data);
+					}
+				})
+			})
+		}
+
+		bindRemoveButtons();
 
 		$('#newItem').click(function(e) {
-
+			sendItemData(function() {
+				console.log('herp');
+				console.log($('#updateItems').attr('action')); ///loldsaodlsa
+				$.ajax({
+					method: 'POST',
+					data: {newItem: true},
+					url: $('#updateItems').attr('action'),
+					success: function(data) {							
+						console.log(data)
+						$('#itemArea').html(data);
+						bindRemoveButtons();
+					}
+				})
+			});
 		})
 
 
@@ -154,6 +202,27 @@ $(document).ready(function() {
 					})
 				});
 			});
-		})
+		});
+
+		bindCostUpdate();
+
+		function bindCostUpdate() {
+				console.log('derp');
+			$('.cost,.quantity,#room_fee,#room_hours').keyup(function() {
+				console.log('lol')
+				computeFees();
+			});
+		}
+
+
+		function computeFees() {
+			var total = 0;
+			$('.itemSection').each(function() {
+				var id = $(this).children('input').attr('value');
+				console.log(id);
+				total += $('.' + id + '.cost').val() * $('.' + id + '.quantity').val();
+			})
+			console.log(total);
+		}
 
 });
