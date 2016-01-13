@@ -4,7 +4,7 @@
 }
 
 .dates {
-	background-color: #bd3162;
+	background-color: #007bbd;
 	border-radius: 5px;
 	color: white;
 	padding: 6px;
@@ -17,4 +17,20 @@
 .dates a {
 	color: white !important;
 	text-decoration: underline;
+}
+
+.nav-pills a {
+	color: black !important;
+	text-decoration: none;
+}
+
+.links-wrap {
+	background-color: white;
+	padding: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.nav-pills li {
+	margin-right: 10px;
 }

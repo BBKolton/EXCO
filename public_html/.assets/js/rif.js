@@ -1,17 +1,5 @@
 $(document).ready(function() {
 
-	document.getElementById('toggleDatepicker').onclick = function() {
-		$('.datepicker').data('daterangepicker').show();
-	}
-
-
-
-
-})
-
-
-$(document).ready(function() {
-
 	toastr.options = {
 		"closeButton": true,
 		"debug": false,
@@ -30,199 +18,200 @@ $(document).ready(function() {
 		"hideMethod": "fadeOut"
 	}
 
-		var navListItems = $('ul.setup-panel li a');
-		var allWells = $('.setup-content');
+	document.getElementById('toggleDatepicker').onclick = function() {
+		$('.datepicker').data('daterangepicker').show();
+	}
 
-		allWells.hide();
 
-		changeSection($('ul.setup-panel li a.step-1'));
+	var navListItems = $('ul.setup-panel li a');
+	var allWells = $('.setup-content');
 
-		navListItems.click(function(){changeSection(this)});
+	allWells.hide();
 
-		function changeSection(section) {
-			var $target = $($(section).attr('step')),
-					$item = $(section).closest('li');
-			window.location.hash = $(section).attr('step').substring(6, 7);
+	changeSection($('ul.setup-panel li a.step-1'));
 
-			if (!$item.hasClass('disabled')) {
-					navListItems.closest('li').removeClass('active');
-					$item.addClass('active');
-					allWells.hide();
-					$target.show();
-			}
+	navListItems.click(function(){changeSection(this)});
+
+	function changeSection(section) {
+		var $target = $($(section).attr('step')),
+				$item = $(section).closest('li');
+		window.location.hash = $(section).attr('step').substring(6, 7);
+
+		if (!$item.hasClass('disabled')) {
+				navListItems.closest('li').removeClass('active');
+				$item.addClass('active');
+				allWells.hide();
+				$target.show();
+		}
+	}
+
+
+	$('#updateRif').submit(function(e) {
+		e.preventDefault();
+		for (i in CKEDITOR.instances) {
+			CKEDITOR.instances[i].updateElement();
 		}
 
-
-		$('#updateRif').submit(function(e) {
-			e.preventDefault();
-			console.log($('#updateRif').serialize())
-			for (i in CKEDITOR.instances) {
-				CKEDITOR.instances[i].updateElement();
+		$.ajax({
+			data: $('#updateRif').serialize(),
+			method: 'POST',
+			url: $('#updateRif').attr('action'),
+			success: function(data) {
+				toastr["success"]("Saved");
 			}
+		});
+	})
 
-			$.ajax({
-				data: $('#updateRif').serialize(),
-				method: 'POST',
-				url: $('#updateRif').attr('action'),
-				success: function(data) {
-					console.log(data)
-					toastr["success"](data);
-				}
-			});
-		})
-
-		function bindSections() {
-			$('.removeSection').click(function(e) {
-				var section = $(this).attr('section');
-				console.log(section)
-				e.preventDefault();
-				$.ajax({
-					data: {section: section, removeSection: true},
-					method: 'POST',
-					url: $('#sections').attr('action'),
-					success: function(data) {
-						console.log(data);
-						$('#itemsList').html(data);
-						toastr["warning"]("Section Removed" );
-						bindSections();
-					}
-				})
-			})		
-		}
-
-		bindSections();
-
-		$('#sections').submit(function(e){
+	function bindSections() {
+		$('.removeSection').click(function(e) {
+			var section = $(this).attr('section');
 			e.preventDefault();
-			console.log($('#sections').serialize())
 			$.ajax({
-				data: $('#sections').serialize(),
+				data: {section: section, removeSection: true},
 				method: 'POST',
 				url: $('#sections').attr('action'),
 				success: function(data) {
-					console.log(data)
 					$('#itemsList').html(data);
-					toastr["success"]("Section Added" );
-					$('#sections').find('input[type=text], textarea').val('');
+					toastr["warning"]("Section Removed" );
 					bindSections();
 				}
-			});
-		});
+			})
+		})		
+	}
 
+	bindSections();
 
-		function sendItemData(callback) {
-			var data = [];
-			console.log('herp);')
-			var items = $('.itemSection');
-			for (var i = 0; i < items.length; i++) {
-				var dat = {};
-				console.log('derp')
-				dat.id = ($(items[i]).children('input').attr('value'));
-				console.log('.' + dat.id + '.name')
-				dat.name = $('.' + dat.id + '.name').val();
-				dat.cost = $('.' + dat.id + '.cost').val();
-				dat.quantity = $('.' + dat.id + '.quantity').val();
-				data.push(dat);
+	$('#sections').submit(function(e){
+		e.preventDefault();
+		$.ajax({
+			data: $('#sections').serialize(),
+			method: 'POST',
+			url: $('#sections').attr('action'),
+			success: function(data) {
+				$('#itemsList').html(data);
+				toastr["success"]("Section Added" );
+				$('#sections').find('input[type=text], textarea').val('');
+				bindSections();
 			}
+		});
+	});
 
-			console.log(data);
 
+	function sendItemData(callback) {
+		var data = [];
+		var items = $('.itemSection');
+		for (var i = 0; i < items.length; i++) {
+			var dat = {};
+			dat.id = ($(items[i]).children('input').attr('value'));
+			dat.name = $('.' + dat.id + '.name').val();
+			dat.cost = $('.' + dat.id + '.cost').val();
+			dat.quantity = $('.' + dat.id + '.quantity').val();
+			data.push(dat);
+		}
+
+
+		$.ajax({
+			data: {serialized: $('#facilities').serialize(), items: data},
+			method: 'POST',
+			url: $('#updateItems').attr('action'),
+			success: function(data) {
+				callback();
+			}
+		});
+	}
+
+
+	//?dsa
+	$('#updateItems').submit(function(e){
+		e.preventDefault();
+		sendItemData(function() {
+			toastr["success"]("Saved" );
+		});
+	});
+
+	function bindRemoveButtons() {
+		$('.removeItem').click(function(e) {
+			$(this).closest('.itemSection').remove();
 			$.ajax({
-				data: {serialized: $('#facilities').serialize(), items: data},
 				method: 'POST',
+				data: {
+					id: $(this).closest('.itemSection').children('input').attr('value'),
+					deleteItem: true
+				},
 				url: $('#updateItems').attr('action'),
 				success: function(data) {
-					console.log(data)
-					callback();
 				}
-			});
-		}
-
-
-		//?dsa
-		$('#updateItems').submit(function(e){
-			e.preventDefault();
-			sendItemData(function() {
-				toastr["success"]("Saved" );
-			});
-		});
-
-		function bindRemoveButtons() {
-			$('.removeItem').click(function(e) {
-				$(this).closest('.itemSection').remove();
-				console.log($(this).closest('.itemSection').children('input').attr('value'))
-				$.ajax({
-					method: 'POST',
-					data: {
-						id: $(this).closest('.itemSection').children('input').attr('value'),
-						deleteItem: true
-					},
-					url: $('#updateItems').attr('action'),
-					success: function(data) {
-						console.log(data);
-					}
-				})
 			})
-		}
-
-		bindRemoveButtons();
-
-		$('#newItem').click(function(e) {
-			sendItemData(function() {
-				console.log('herp');
-				console.log($('#updateItems').attr('action')); ///loldsaodlsa
-				$.ajax({
-					method: 'POST',
-					data: {newItem: true},
-					url: $('#updateItems').attr('action'),
-					success: function(data) {							
-						console.log(data)
-						$('#itemArea').html(data);
-						bindRemoveButtons();
-					}
-				})
-			});
 		})
+	}
+
+	bindRemoveButtons();
+
+	$('#newItem').click(function(e) {
+		sendItemData(function() {
+			$.ajax({
+				method: 'POST',
+				data: {newItem: true},
+				url: $('#updateItems').attr('action'),
+				success: function(data) {							
+					$('#itemArea').html(data);
+					bindRemoveButtons();
+				}
+			})
+		});
+	})
 
 
 
-		$('#step-5-select').on('click', function() {
-			console.log('herp')
-			$('#rifReview').fadeOut(0, function() {
-				$('#loadingReview').fadeIn(0, function() {
-					$.ajax({
-						method: 'GET',
-						url: $('#updateRif').attr('action').replace('rifsubmit', 'rifreview'),
-						success: function(data) {
-							console.log(data)
-							$('#loadingReview').delay(1000).fadeOut(500, function() {
-								$('#rifReview').empty().append(data).fadeIn(500);
-							});
-						}
-					})
-				});
+	$('#step-5-select').on('click', function() {
+		$('#rifReview').fadeOut(0, function() {
+			$('#loadingReview').fadeIn(0, function() {
+				$.ajax({
+					method: 'GET',
+					url: $('#updateRif').attr('action').replace('rifsubmit', 'rifreview'),
+					success: function(data) {
+						$('#loadingReview').delay(1000).fadeOut(500, function() {
+							$('#rifReview').empty().append(data).fadeIn(500);
+						});
+					}
+				})
 			});
 		});
+	});
 
-		bindCostUpdate();
+	bindCostUpdate();
 
-		function bindCostUpdate() {
-				console.log('derp');
-			$('.cost,.quantity,#room_fee,#room_hours').keyup(function() {
-				console.log('lol')
-				computeFees();
-			});
+	function bindCostUpdate() {
+		$('.cost,.quantity,#room_rate,#room_hours,#expected').keyup(function() {
+			computeFees();
+		});
+	}
+
+	computeFees();
+
+	function computeFees() {
+		var total = 0;
+		$('.itemSection').each(function() {
+			var id = $(this).children('input').attr('value');
+			total += $('.' + id + '.cost').val() * $('.' + id + '.quantity').val();
+		})
+		var hrs = $('#room_hours').val();
+		var room = $('#room_rate').val() / $('#expected').val();
+		$('#fee_uw_max').html(hrs * 7 + total + hrs * room);
+		$('#fee_gen_max').html(hrs * 10 + total + hrs * room);
+
+	}
+
+	$('#text_short').keyup(function() {
+		if ($(this).val().length > 600) {
+			$('#shortAlert').css('color', 'red')
+				.css('font-weight', 'bold');	
+		} else {
+			$('#shortAlert').css('color', 'black')
+				.css('font-weight', 'normal')
 		}
 
-
-		function computeFees() {
-			var total = 0;
-			$('.itemSection').each(function() {
-				var id = $(this).children('input').attr('value');
-				console.log(id);
-				total += $('.' + id + '.cost').val() * $('.' + id + '.quantity').val();
-			})
-			console.log(total);
-		}
+		$('#shortLength').html($('#text_short').val().length);
+	})
 
 });

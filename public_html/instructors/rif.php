@@ -144,7 +144,9 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 									<div class="form-group">
 										<label for="text_short" class="col-md-4 control-label">Short Description</label>
 										<div class="col-md-8">
-											<textarea id="text_short" name="text_short" placeholder="Please write a quick description of your course" class="form-control"><?= $c['text_short'] ?></textarea><span class="help-block">Please keep your description under 600 characters. This description will be used for the galley and any other size-restricted content. Do not use formatting for this description</span>
+											<textarea id="text_short" name="text_short" placeholder="Please write a quick description of your course" class="form-control"><?= $c['text_short'] ?></textarea>
+											<span class="help-block">Please keep your description under 600 characters. This description will be used for the galley and any other size-restricted content. Do not use formatting for this description<br>
+											<span id='shortAlert'><span id='shortLength'></span>/600 characters used</span></span>
 										</div>
 									</div>
 									<div class="form-group">
@@ -255,13 +257,47 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 												<span class='input-group-addon'>$</span>
 												<input id="room_rate" name="room_rate" type="text" placeholder="Hourly rate in full dollars" value="<?= $c["room_rate"] ?>" class="form-control"/>
 											</div>
-											<span class="help-block">View the <a href='/asuwxpcl/.assets/docs/FacilitiesCosts.pdf'>rental rates</a></span>
+											<span class="help-block">
+												Enter the hourly rental cost of the room you want.
+												View the <a href='/asuwxpcl/.assets/docs/FacilitiesCosts.pdf'>rental rates</a>
+											</span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="loc_spec" class="col-md-4 control-label">Specific Location</label>
+										<div class="col-md-4 col-xs-12">
+											<input id="loc_spec" name="loc_spec" type="text" value="<?= $c["loc_spec"] ?>" class="form-control"/>
+											<span class="help-block">
+													<b>Enter the specific location that you will be holding your class at. Examples:</b><br>
+													&nbsp; Loew 115<br>
+													&nbsp; Seattle Convention Center, RM 201<br>
+													&nbsp; Seattle Center Armory Second Floor<br>
+													&nbsp; 1234 Mercer Ave, Seattle<br><br>
+													<b>For many courses, we recommend choosing from <a href='https://www.washington.edu/classroom/SAV'>Savery</a>, <a href='https://www.washington.edu/classroom/LOW'>Loew</a>, <a href='https://www.washington.edu/classroom/MEB'>Mechanical Engineering</a>, or <a href='https://www.washington.edu/classroom/SMI'>Smith</a> Halls.</b>
+													For a list of all classrooms on campus, <a href='https://www.washington.edu/classroom/'>view the comprehensive list.</a><br><br>
+													If you specify a locaiton on campus, we'll handle reserving facilities for you. If the exact room is unavailable, we will reserve a room similar to the one requested.
+											</span>
 										</div>
 									</div>
 									<div class="form-group">
+										<label for="loc_gen" class="col-md-4 control-label">General Location</label>
+										<div class="col-md-4 col-xs-12">
+											<input id="loc_gen" name="loc_gen" type="text" value="<?= $c["loc_gen"] ?>" class="form-control"/>
+											<span class="help-block">
+												<b>Enter the general location of your course here. A student should not be able to find your course with just this information. Examples:<br></b>
+												&nbsp; On Campus<br>
+												&nbsp; Seattle Center<br>
+												&nbsp; University District<br>
+												&nbsp; Ballard<br>
+											</span>
+										</div>
+									</div>
+
+									<div class="form-group">
 										<label for="room_hours" class="col-md-4 control-label">Instruction Hours</label>
 										<div class="col-md-4 col-xs-12">
-											<input id="room_hours" name="room_hours" type="text" placeholder="Number of instructional hours per course" value="<?= $c["room_hours"] ?>" class="form-control"/>
+											<input id="room_hours" name="room_hours" type="text" value="<?= $c["room_hours"] ?>" class="form-control"/>
 											<span class="help-block"></span>
 										</div>
 									</div>
@@ -271,11 +307,22 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 											<textarea id="text_facilities" name="text_facilities" placeholder="What do you require for your room facilities?" class="form-control"><?= $c['text_facilities'] ?></textarea><span class="help-block">Let us know if the room will need any special accomodations, such as whiteboards, computers, projectors, or more</span>
 										</div>
 									</div>
-
+									<div class="form-group">
+										<label for="expected" class="col-md-4 control-label">Expected Number of Registrants</label>
+										<div class="col-md-4 col-xs-12">
+											<input id="expected" name="expected" type="text" placeholder="" value="<?= $c["expected"] ?>" class="form-control"/>
+											<span class="help-block"></span>
+										</div>
+									</div>
 
 									<h3 class="text-center">Fees</h3>
+									<p>EXCO requires instructors to keep their fees for their courses under the below maximum fees. When setting your fee, consider supply and demand: the more expensive a course, the less people will take it.</p>
 									<div class="form-group">
-										<label for="fee_uw" class="col-md-4 control-label">UW Student Fee</label>
+										<label for="fee_uw" class="col-md-2 control-label">Max UW Fee</label>
+										<div class="col-md-4 col-xs-12">
+											<div type="text" disabled class="alert alert-danger">$<span id="fee_uw_max"></span></div>
+										</div>
+										<label for="fee_uw" class="col-md-2 control-label">UW Fee</label>
 										<div class="col-md-4 col-xs-12">
 											<div class='input-group'>
 												<span class='input-group-addon'>$</span>
@@ -285,7 +332,11 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 									</div>
 
 									<div class="form-group">
-										<label for="fee_gen" class="col-md-4 control-label">General Fee</label>
+										<label for="fee_gen" class="col-md-2 control-label">Max General Fee</label>
+										<div class="col-md-4 col-xs-12">
+											<div type="text" disabled class="alert alert-danger">$<span id='fee_gen_max'></span></div>
+										</div>										
+										<label for="fee_gen" class="col-md-2 control-label">General Fee</label>
 										<div class="col-md-4 col-xs-12">
 											<div class='input-group'>
 												<span class='input-group-addon'>$</span>
@@ -293,12 +344,6 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 											</div>
 										</div>
 									</div>
-
-
-
-
-
-
 
 
 									<div class="form-group">
@@ -353,12 +398,16 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 									<div class='row margin-fix'>
 										<div class='col-md-2'>&nbsp;</div>
 										<div class="col-md-8">	
-											<span class="help-block"><b>Use one of the following formats:</b><br>
-											&nbsp; Tues 1/12<br>
-											&nbsp; Tues 1/12 - 1/26<br>
-											&nbsp; Tues, Thurs 1/12 - 1/28<br>
-											&nbsp; Tues 1/26, Weds 1/27, Thurs 1/28<br>
-											<b>You may need to manually edit your dates to match a format</b></span>
+											<span class="help-block">
+												The first day of classes is <?= $MINDATEVERBOSE ?><br>
+												The last day of classes is <?= $MAXDATEVERBOSE ?><br>
+												<b>Use one of the following formats:</b><br>
+												&nbsp; Tues 1/12<br>
+												&nbsp; Tues 1/12 - 1/26<br>
+												&nbsp; Tues, Thurs 1/12 - 1/28<br>
+												&nbsp; Tues 1/26, Weds 1/27, Thurs 1/28<br>
+												<b>You may need to manually edit your dates to match a format</b>
+											</span>
 										</div>
 									</div>
 								</div>
