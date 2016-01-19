@@ -63,7 +63,7 @@
 						Seattle, WA 98195-2238</li>
 						<li><b>Physical</b><br />
 						Husky Union Building, Suite 131J<br />
-						4001 East Stens Way NE<br />
+						4001 East Stevens Way NE<br />
 						Seattle, WA 98195</li>
 						<li><b>Hours</b><br />
 						Monday-Friday, 10am - 5pm<br />

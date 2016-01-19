@@ -107,9 +107,27 @@
 
 	?>
 	<script>
-		$(document).ready(function() {
-			$('.dynatable').dynatable();
-		});
+		// $(document).ready(function() {
+		// 	$('.dynatable').each(function(i,e) {
+		// 		console.log('dynatable '.concat(i));
+		// 		var name ='dynatable' + i;
+		// 		$(this).dynatable({
+		// 			params: {
+		// 				dynatable: 'dynatable'.concat(String(i)),
+		// 				queries: 'queries'.concat(String(i)),
+		// 				sorts: 'sorts'.concat(String(i)),
+		// 				page: 'page'.concat(String(i)),
+		// 				perPage: 'perPage'.concat(String(i)),
+		// 				offset: 'offset',
+		// 				records: 'records',
+		// 				record: null,
+		// 				queryRecordCount: 'queryRecordCount'.concat(String(i)),
+		// 				totalRecordCount: 'totalRecordCount'.concat(String(i))
+		// 			}
+		// 		});
+		// 		console.log($(this))
+		// 	})
+		// });
 	</script>
 
 	<section class="title" >

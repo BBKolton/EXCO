@@ -107,9 +107,9 @@
 
 	?>
 	<script>
-		$(document).ready(function() {
-			$('.dynatable').dynatable();
-		});
+		// $(document).ready(function() {
+		// 	$('.dynatable').dynatable();
+		// });
 	</script>
 
 	<section class="title" >
@@ -146,8 +146,8 @@
 							                     AND status = 1
 							                     AND course_section = " . ($i + 1))[0]['count'];
 							//$size = "SELECT count(*) FROM registrations WHERE course_id = " . $db->quote($_GET['id']) . " AND course_section = " . $i;
+							if ($size >= $sections[$i]['size']) $sections[$i]['status'] = 4; 
 							if ($sections[$i]['start_day'] < date("Y-m-d")) $sections[$i]['status'] = 3;
-							if ($size >= $sections[$i]['size']) $sections[$i]['status'] = 4;
 					?>
 					<!-- <?= var_dump($sections[$i]['status']); ?> -->
 					<div class="section col-md-4 col-sm-6 col-xs-12 ">

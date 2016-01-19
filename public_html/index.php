@@ -11,12 +11,6 @@
 			</div>
 		</div>
 	</section>
-	<section class="explanation">
-		<div class="container">
-			<h1>Phew, It's Dusty in Here!</h1>
-			<p>Welcome to the new Experimental College Website! We've put a lot of work into revamping the website for ease and usability. If you encounter any issues during your visit, please use the feedback link at the top of the webpage to let us know!</p>
-		</div>
-	</section>
 
 	<section class="content">
 		<div class="container">
@@ -45,6 +39,8 @@
 						<p>The Experimental College is a student-run organization partnered with professional instructors that teaches classes a bit 'out there.' We go beyond the 
 						traditional classes one would expect, to fill in the gaps that others left behind. Check out our
 						<a href="/asuwxpcl/about.php"> About </a>page for more info.</p>
+						<h2>A New Site!</h2>
+						<p>Welcome to the new Experimental College Website! We've put a lot of work into revamping the website for ease and usability. If you encounter any issues during your visit, please use the feedback link at the top of the webpage to let us know!</p>
 					</div>
 				</div>
 			</div>

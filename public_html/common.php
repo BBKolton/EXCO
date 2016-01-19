@@ -194,67 +194,71 @@
 			</head>
 			<!--BEGIN NAVBAR-->
 			<body>
-				<nav class="navbar navbar-inverse navbar-fixed-top">
-					<div class="container">
-						<div class="navbar-header">
-							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-								<span class="sr-only">Toggle navigation</span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-								<span class="icon-bar"></span>
-							</button>
-							<a class="navbar-brand" href="/asuwxpcl/index.php"><img height="150%" src="/asuwxpcl/.assets/img/logo.png" /></a>
-						</div>
-						<div id="navbar" class="navbar-collapse collapse">
-							<ul class="nav navbar-nav">
-								<li><a href="/asuwxpcl/courses/courses.php">Courses</a></li>
-								<li><a href="/asuwxpcl/teach/">Teach</a></li>
-								<li><a href="/asuwxpcl/help.php">Help</a></li>
-								<li><a href="/asuwxpcl/about.php">About</a></li>
-								<li><a href="/asuwxpcl/feedback.php">Feedback</a></li>
-							</ul>
-							<ul class="nav navbar-nav navbar-right">
-								
-								<?php if(isset($_SESSION["name"])) { ?>
-									<?php if ($_SESSION["permissions"] > 1) { ?>
-										<li class='common-instructor'><a href="/asuwxpcl/instructors">Instructors</a></li>
-									<?php } ?>
-									<li class="dropdown">
-										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= htmlspecialchars($_SESSION["name"]) ?><span class="caret"></span></a>
-										<ul class="dropdown-menu">
-											<li><a href="/asuwxpcl/users/mycourses.php">My Courses</a></li>
-											<li><a href="/asuwxpcl/users/cart.php">Cart</a></li>
-											<?php if ($_SESSION["permissions"] > 1) { ?>
+				<div class='full-wrapper'>
+					<nav class="navbar navbar-inverse navbar-fixed-top">
+						<div class="container">
+							<div class="navbar-header">
+								<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+									<span class="sr-only">Toggle navigation</span>
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+								</button>
+								<a class="navbar-brand" href="/asuwxpcl/index.php"><img height="150%" src="/asuwxpcl/.assets/img/logo.png" /></a>
+							</div>
+							<div id="navbar" class="navbar-collapse collapse">
+								<ul class="nav navbar-nav">
+									<li><a href="/asuwxpcl/courses/courses.php">Courses</a></li>
+									<li><a href="/asuwxpcl/teach/">Teach</a></li>
+									<li><a href="/asuwxpcl/help.php">Help</a></li>
+									<li><a href="/asuwxpcl/about.php">About</a></li>
+									<li><a href="/asuwxpcl/feedback.php">Feedback</a></li>
+								</ul>
+								<ul class="nav navbar-nav navbar-right">
+									
+									<?php if(isset($_SESSION["name"])) { ?>
+										<?php if ($_SESSION["permissions"] > 1) { ?>
+											<li class='common-instructor'><a href="/asuwxpcl/instructors">Instructors</a></li>
+										<?php } ?>
+										<li class="dropdown">
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= htmlspecialchars($_SESSION["name"]) ?><span class="caret"></span></a>
+											<ul class="dropdown-menu">
+												<li><a href="/asuwxpcl/users/mycourses.php">My Courses</a></li>
+												<li><a href="/asuwxpcl/users/cart.php">Cart</a></li>
+												<?php if ($_SESSION["permissions"] > 1) { ?>
+													<li role="separator" class="divider"></li>
+												<?php } if ($_SESSION["permissions"] > 2 ) { ?>
+													<li class="dropdown-header">Administration</li>
+													<li><a href="/asuwxpcl/admin/admin.php">Admin Panel</a></li>
+												<?php } if ($_SESSION["permissions"] > 3 ) { ?>
+													<li><a href="/asuwxpcl/admin/superadmin.php">Super Admin</a></li>
+												<?php } ?>
 												<li role="separator" class="divider"></li>
-											<?php } if ($_SESSION["permissions"] > 2 ) { ?>
-												<li class="dropdown-header">Administration</li>
-												<li><a href="/asuwxpcl/admin/admin.php">Admin Panel</a></li>
-											<?php } if ($_SESSION["permissions"] > 3 ) { ?>
-												<li><a href="/asuwxpcl/admin/superadmin.php">Super Admin</a></li>
-											<?php } ?>
-											<li role="separator" class="divider"></li>
-											<li class="dropdown-header">Account</li>
-											<li><a href="/asuwxpcl/users/preferences.php">Preferences</a></li>
-											<li><a href="/asuwxpcl/users/logout.php">Logout</a></li>
-										</ul>
-									</li>
-								<?php } else { ?>
-									<li><a id="login-link" href="/asuwxpcl/users/login.php">Login / Register</a></li>
-								<?php } ?>
+												<li class="dropdown-header">Account</li>
+												<li><a href="/asuwxpcl/users/preferences.php">Preferences</a></li>
+												<li><a href="/asuwxpcl/users/logout.php">Logout</a></li>
+											</ul>
+										</li>
+									<?php } else { ?>
+										<li><a id="login-link" href="/asuwxpcl/users/login.php">Login / Register</a></li>
+									<?php } ?>
 
-							</ul>
-						</div><!--/.nav-collapse -->
-					</div>
-				</nav>
+								</ul>
+							</div><!--/.nav-collapse -->
+						</div>
+					</nav>
+					<div class='body'>
 
 	<?php }
 
 
 	//The end of documents
 	function tail() { ?>
-			<div class="credits">
-			
-			</div>
+					</div>
+					<div class="credits">
+						<p class='text-center'>&copy; Experimental College</p>
+					</div>
+				</div> <!-- close full-wrapper -->
 			</body>
 		</html>
 	<?php }

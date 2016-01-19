@@ -2,6 +2,9 @@
 //The returning Instructor Form. Instructors fill this out to tell us what
 //courses they'll be teaching with us next quarter
 
+//continuing education $80, +$15 per section
+//for one night wonder $40, +$8 per section
+
 require("../common.php");
 session_start();
 if (!verifyAdminOrRifInstructor($_GET['id'])) {

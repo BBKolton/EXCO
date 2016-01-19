@@ -40,10 +40,17 @@ body, html {
 }
 
 .what-is {
-	background-color: #ddd;
+	background-color: #8b2039; /**/   
 	border-radius: 4px;
 	padding: 10px;
 	height: 100%;
+	color: white;
+}
+
+.what-is a, .what-is a:hover {
+	color: white;
+	font-weight: bold;
+	text-decoration: none;
 }
 
 .what-is-wrap {
