@@ -39,7 +39,7 @@ body, html {
 	padding-top: 0px;
 }
 
-.what-is {
+.sidebar {
 	background-color: #8b2039; /**/   
 	border-radius: 4px;
 	padding: 10px;
@@ -47,13 +47,13 @@ body, html {
 	color: white;
 }
 
-.what-is a, .what-is a:hover {
+.sidebar a, .sidebar a:hover {
 	color: white;
 	font-weight: bold;
 	text-decoration: none;
 }
 
-.what-is-wrap {
+.sidebar-wrap {
 	height: 100%;
 }
 

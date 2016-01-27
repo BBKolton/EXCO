@@ -64,7 +64,6 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 	</div>
 	<div>
 		<form id="updateRif" data-toggle="formcache" name="proposalForm" method="post" action="/asuwxpcl/instructors/rifsubmit.php?id=<?= $_GET["id"] ?>" class="form-horizontal">
-			<input type='hidden' name='farts' value='true' />
 			<input type='hidden' name='update' value='true' />
 			<div id="step-1" class="setup-content">
 				<div class="col-xs-12">
@@ -74,7 +73,7 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 								<div class="form-group">
 									<label for="name" class="col-md-4 control-label">Name</label>
 									<div class="col-md-5">
-										<input id="name" name="name" type="text" placeholder="name" value="<?= $c["name"] ?>" class="form-control input-md"/>
+										<input id="name" name="name" type="text" placeholder="name" value="<?= htmlentities($c["name"]) ?>" class="form-control input-md"/>
 									</div>
 								</div>
 								<div class="form-group">
@@ -213,7 +212,7 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 																		<span class='glyphicon glyphicon-remove'></span>
 																	</button>
 																</span>
-																<input id="name" name="name" type="text" placeholder="name" value="<?= $item["name"] ?>" class="name <?= $item['id'] ?> form-control"/>
+																<input id="name" name="name" type="text" placeholder="name" value="<?= htmlentities($item["name"]) ?>" class="name <?= $item['id'] ?> form-control"/>
 															</div>
 														</div>
 													</div>
@@ -223,7 +222,10 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 													<div class="form-group">
 														<label for="cost" class="col-md-4 control-label hidden-md hidden-lg">Cost</label>
 														<div class="col-xs-12">
-															<input id="cost" name="cost" type="text" placeholder="cost" value="<?= $item["cost"] ?>" class="cost <?= $item['id'] ?> form-control"/>
+															<div class='input-group'>
+																<span class='input-group-addon'>$</span>
+																<input id="cost" name="cost" type="text" placeholder="cost" value="<?= $item["cost"] ?>" class="cost <?= $item['id'] ?> form-control"/>
+															</div>
 														</div>
 													</div>
 												</div>
@@ -232,7 +234,10 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 													<div class="form-group">
 														<label for="quantity" class="col-md-4 control-label hidden-md hidden-lg">Quantity</label>
 														<div class="col-xs-12">
-															<input id="quantity" name="quantity" type="text" placeholder="quantity" value="<?= $item["quantity"] ?>" class="quantity <?= $item['id'] ?> form-control"/>
+															<div class='input-group'>
+																<span class='input-group-addon'>$</span>
+																<input id="quantity" name="quantity" type="text" placeholder="quantity" value="<?= $item["quantity"] ?>" class="quantity <?= $item['id'] ?> form-control"/>
+															</div>
 														</div>
 													</div>
 												</div>
@@ -318,6 +323,8 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 										</div>
 									</div>
 
+									<p>Total supplies and facilities fee: <span id='suppliesAndFacilities'></span></p>
+
 									<h3 class="text-center">Fees</h3>
 									<p>EXCO requires instructors to keep their fees for their courses under the below maximum fees. When setting your fee, consider supply and demand: the more expensive a course, the less people will take it.</p>
 									<div class="form-group">
@@ -329,7 +336,7 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 										<div class="col-md-4 col-xs-12">
 											<div class='input-group'>
 												<span class='input-group-addon'>$</span>
-												<input id="fee_uw" name="fee_uw" type="text" placeholder="Hourly rate in full dollars" value="<?= $c["fee_uw"] ?>" class="form-control"/>
+												<input id="fee_uw" name="fee_uw" type="text" placeholder="Total in full dollars" value="<?= $c["fee_uw"] ?>" class="form-control"/>
 											</div>
 										</div>
 									</div>
@@ -343,7 +350,7 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 										<div class="col-md-4 col-xs-12">
 											<div class='input-group'>
 												<span class='input-group-addon'>$</span>
-												<input id="fee_gen" name="fee_gen" type="text" placeholder="Hourly rate in full dollars" value="<?= $c["fee_gen"] ?>" class="form-control"/>
+												<input id="fee_gen" name="fee_gen" type="text" placeholder="Total in full dollars" value="<?= $c["fee_gen"] ?>" class="form-control"/>
 											</div>
 										</div>
 									</div>
@@ -467,3 +474,4 @@ head('<link href="/asuwxpcl/.assets/css/rif.css" rel="stylesheet">' .
 		</form>
 	</div>
 </div>
+<?php tail() ?>

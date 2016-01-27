@@ -56,6 +56,7 @@ head('<link href="/asuwxpcl/.assets/css/instructors.css" rel="stylesheet" />');
 					</ul>
 				</div>
 				<p>Welcome to the instructor portal! All of the important administrative tasks you may need to take for new courses, galleys, and returning instructor forms are available here. If you're looking for a way to access your class rosters, please use the drop down menu at the top right and select "my courses"</p>
+				<p><a href='/asuwxpcl/.assets/docs/spotRegistrationForm.doc'>On the spot registration form</a></p>
 			</div>
 			<div class='col-md-4'>
 				<div class='dates'>

@@ -212,7 +212,7 @@
 									<li><a href="/asuwxpcl/teach/">Teach</a></li>
 									<li><a href="/asuwxpcl/help.php">Help</a></li>
 									<li><a href="/asuwxpcl/about.php">About</a></li>
-									<li><a href="/asuwxpcl/feedback.php">Feedback</a></li>
+									<!-- <li><a href="/asuwxpcl/feedback.php">Feedback</a></li> -->
 								</ul>
 								<ul class="nav navbar-nav navbar-right">
 									
@@ -247,6 +247,11 @@
 							</div><!--/.nav-collapse -->
 						</div>
 					</nav>
+					<div class='alert'>
+						<div class='container'>		
+							<p><spam class='glyphicon glyphicon-alert'></spam> Credit card registration is disabled for scheduled maintenance. We expect this to take several hours. No new registrations may be taken at this time. All other site functions will remain online.</p>
+						</div>
+					</div>
 					<div class='body'>
 
 	<?php }
@@ -256,8 +261,21 @@
 	function tail() { ?>
 					</div>
 					<div class="credits">
-						<p class='text-center'>&copy; Experimental College</p>
+						<p class='text-center'>&copy; Experimental College | 
+						<!-- <a href='/asuwxpcl/about.php'>About</a> |  -->
+						<a href='/asuwxpcl/feedback.php'>Feedback</a>
+						</p>
 					</div>
+					<script>
+					  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+					  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+					  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+					  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+					  ga('create', 'UA-10905115-1', 'auto');
+					  ga('send', 'pageview');
+
+					</script>
 				</div> <!-- close full-wrapper -->
 			</body>
 		</html>

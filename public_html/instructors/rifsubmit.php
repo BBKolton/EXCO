@@ -211,7 +211,10 @@ function printItems() {
 						<div class="form-group">
 							<label for="cost" class="col-md-4 control-label hidden-md hidden-lg">Cost</label>
 							<div class="col-xs-12">
-								<input id="cost" name="cost" type="text" placeholder="cost" value="<?= $item["cost"] ?>" class="cost <?= $item['id'] ?> form-control"/>
+								<div class='input-group'>
+									<span class='input-group-addon'>$</span>
+									<input id="cost" name="cost" type="text" placeholder="cost" value="<?= $item["cost"] ?>" class="cost <?= $item['id'] ?> form-control"/>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -220,7 +223,10 @@ function printItems() {
 						<div class="form-group">
 							<label for="quantity" class="col-md-4 control-label hidden-md hidden-lg">Quantity</label>
 							<div class="col-xs-12">
-								<input id="quantity" name="quantity" type="text" placeholder="quantity" value="<?= $item["quantity"] ?>" class="quantity <?= $item['id'] ?> form-control"/>
+								<div class='input-group'>
+									<span class='input-group-addon'>$</span>
+									<input id="quantity" name="quantity" type="text" placeholder="quantity" value="<?= $item["quantity"] ?>" class="quantity <?= $item['id'] ?> form-control"/>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -233,7 +239,7 @@ function printItems() {
 
 
 //update rif items
-if (isset($_POST['items'])) {
+if (isset($_POST['items']) || isset($_POST['serialized'])) {
 	$parsed = array();
 	parse_str($_POST['serialized'], $parsed);
 	$_POST = array_merge($parsed, $_POST);

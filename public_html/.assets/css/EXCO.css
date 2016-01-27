@@ -12,6 +12,21 @@ body, html {
 	height: 100%;
 }
 
+.alert {
+	display: none;
+	margin-bottom: 0px;
+	background-color: #e69420;
+	color: white;
+}
+
+.alert p {
+	margin-bottom: 0px;
+}
+
+.alert img {
+	width: 100%;
+}
+
 .jumbotron {
 	background-size: cover;
 	background-repeat: no-repeat;

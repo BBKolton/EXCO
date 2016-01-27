@@ -88,7 +88,7 @@
 										<td>$<?= $costExCo ?></td>
 									</tr>
 								<?php } ?>
-						</table>
+						</table class='table'>
 						<p><a href="/asuwxpcl/courses/courses.php">Add another class</a></p> 
 						<h1>Total Due</h1>
 						<p>The Experimental College collects a fee per class. Other fees noted above <strong>are due to instructors on the first day of class</strong>, and are noted here for your convenience. You will only pay the total Experimental College fee when you click continue</p>
@@ -127,8 +127,8 @@
 									} ?>
 								</select>
 							</div>
-							<div class='form-group'><i>This information is used only for this transaction. It is not saved by the Experimental College</i></div>
-<!-- 							<p><b>Registration is on hold due to technical difficulties, please come back in an hour</b></p>-->
+ 							<div class='form-group'><i>This information is used only for this transaction. It is not saved by the Experimental College</i></div>
+ 							<!-- <p><b>Registration is on hold due to scheduled maintenance</b></p> -->
 							<button action="submit" class='btn btn-success'>Register Now!</button>
 						</form>
 					</div>

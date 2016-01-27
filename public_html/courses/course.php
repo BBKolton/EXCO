@@ -191,17 +191,17 @@
 					?>
 				</div>
 
-				<?php if (!empty($sections[0]['about'])) { ?>
 
 				<div class="col-md-3 col-xs-12">
 					<h3>About the Instructor</h3>
 					<p>Email: <?= $sections[0]['email'] ?></p>
-<!-- 					<p>Phone: <?= $sections[0]['phone'] ?></p>
- -->					<p><?= $sections[0]['about'] ?></p>
+					<p><?= $sections[0]['about'] ?></p>
 					
+					<?php if ($_SESSION['permissions'] > 2) { ?>
+						<p>Phone: <?= $sections[0]['phone'] ?></p>
+					<?php } ?>
 				</div>
 					
-				<?php } ?>
 
 			</div>
 		</div>

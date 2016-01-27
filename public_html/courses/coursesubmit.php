@@ -25,6 +25,7 @@ if (isset($_GET['id']) && $_GET['moveselect']) {
 					<p>Section Number</p>
 					<input type='text' class='form-control' name='section' placeholder='i.e. 1' />
 				</div>
+
 				<button type='submit' class='btn btn-primary'>Move Registration</button>
 			</form>
 		</div>
@@ -76,8 +77,9 @@ if (isset($_GET['id']) && $_GET['outsideSignup'] && isset($_GET['section'])) {
 						<?php }
 						} ?>
 					</select>
-				</div>
+				</div>   
 				<p>When you submit, the user will be charged, and an account created. If the account already exists, the class will be added to the account. Charge is automatically computed based on email address. If the address ends in @uw.edu or @u.washington.edu, the charge will be $5. Otherwise, the charge will be $12.</p>
+				<!-- <p><b>Credit card registration is on hold due to scheduled maintenance. Do not charge to credit card!</b></p> -->
 				<button action="submit" class='btn btn-success'>Register User</button>
 			</form>
 		</div>

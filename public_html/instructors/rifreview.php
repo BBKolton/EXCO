@@ -26,11 +26,11 @@ if (isset($_GET['id'])) {
 			<li><b>Size</b>: <?= $c['size']?></li>
 			<li><b>General Location</b>: <?= $c['loc_gen']?></li>
 			<li><b>Specific Location</b>: <?= $c['loc_spec']?></li>
-			<li><b>Will you accept students after the first day?</b>: <?= $c['overload'] ? 'Yes' : 'No' ?></li>
+			<li><b>Will you accept students after the first day?</b>: <?= $c['firstday'] ? 'Yes' : 'No' ?></li>
 			<li><b>Will you accept students under 18?</b>: <?= $c['underage'] > 0 ? $c['underage'] > 1 ? 'Yes, with adult' : 'Yes' : 'No' ?></li>
 			<h4>Fee Information</h4>
-			<li><b>General Fee</b>: <?= $c['fee_gen']?></li>
-			<li><b>UW Reduced Fee</b>: <?= $c['fee_uw']?></li>
+			<li><b>General Fee</b>: $<?= $c['fee_gen']?></li>
+			<li><b>UW Reduced Fee</b>: $<?= $c['fee_uw']?></li>
 			<h4>Sections</h4>
 			<?php for ($i = 0; $i < count($s); $i++) { 
 				$sec = $s[$i]; ?>
